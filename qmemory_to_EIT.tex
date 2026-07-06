@@ -1,0 +1,41 @@
+\section{From Quantum Memories to EIT Storage}
+\label{sec:from_quantum_memories_to_eit}
+
+Photons are the natural carriers of quantum information over long distances. They propagate rapidly, interact only weakly with their environment, and can be guided through optical fibres or free-space links with comparatively low noise. These same properties, however, also make photons difficult to hold in place. A photon that is not absorbed, delayed, or converted into another degree of freedom simply continues to propagate. In this sense, light is well suited for transmission, but poorly suited for waiting. Quantum networks therefore require a device that can temporarily convert a travelling optical state into a stationary physical excitation and later release it again as light~\cite{AWAVQMitCoSR_Rodriguez_,Oqmboeit_MaEtAl_2017}.
+
+Such a device is called an optical quantum memory. Its basic operation can be described as a reversible interface between a flying photonic state and a stationary matter state. Ideally, an input optical state is written into the memory, preserved for a chosen storage time, and then retrieved on demand into a well-defined optical mode. A schematic way to write this process is
+\begin{equation}
+    \ket{\psi}_{\mathrm{light}}
+    \ket{G}_{\mathrm{atoms}}
+    \longrightarrow
+    \ket{0}_{\mathrm{light}}
+    \ket{\psi}_{\mathrm{atoms}}
+    \longrightarrow
+    \ket{\psi}_{\mathrm{light}},
+    \label{eq:quantum_memory_mapping}
+\end{equation}
+where $\ket{\psi}_{\mathrm{light}}$ is the incoming optical state, $\ket{G}_{\mathrm{atoms}}$ is the initial atomic state, and $\ket{\psi}_{\mathrm{atoms}}$ is the stored matter excitation~\cite{AWAVQMitCoSR_Rodriguez_,Oqmboeit_MaEtAl_2017}. In practice, the quality of this process is not described by storage time alone. Efficiency, fidelity, bandwidth, noise, and multimode capacity all matter, and different physical platforms optimize different subsets of these quantities~\cite{AWAVQMitCoSR_Rodriguez_,Oqmboeit_MaEtAl_2017}.
+
+A single isolated atom already contains internal states that could, in principle, store quantum information. However, a single atom in free space interacts only weakly with an incoming optical mode. If it is excited optically, the excitation generally decays by spontaneous emission into many possible modes rather than returning coherently into the desired one. Without a cavity or another enhancement mechanism, this makes efficient absorption and re-emission of a prescribed photon mode very unlikely~\cite{AWAVQMitCoSR_Rodriguez_}. Atomic ensembles overcome this limitation by using many atoms at once. The excitation is not assigned to a known atom, but is shared coherently across the ensemble. This collective enhancement increases the coupling between light and matter and allows the optical field to be mapped onto a many-atom coherence~\cite{AWAVQMitCoSR_Rodriguez_,Oqmboeit_MaEtAl_2017}.
+
+The collective character of the stored excitation is central. If all atoms are initially in a ground state $\ket{g}$, the absorption of a single photon can create a coherent superposition in which one atom has been transferred to another long-lived state $\ket{s}$, but no measurement reveals which atom was changed. The resulting state has the form
+\begin{equation}
+    \ket{1_S}
+    =
+    \frac{1}{\sqrt{N}}
+    \sum_{j=1}^{N}
+    e^{i\Delta\mathbf{k}\cdot\mathbf{r}_j}
+    \ket{g_1,\ldots,s_j,\ldots,g_N},
+    \label{eq:intro_spin_wave}
+\end{equation}
+where $N$ is the number of atoms, $\mathbf{r}_j$ is the position of atom $j$, and $\Delta\mathbf{k}$ is the wave vector transferred from the optical fields to the atomic coherence~\cite{AWAVQMitCoSR_Rodriguez_,Oqmboeit_MaEtAl_2017}. This state is usually called a spin wave. Its phase pattern determines how the ensemble will later radiate during retrieval. For this reason, a quantum memory is not only a device that preserves population in a long-lived state; it must preserve the collective phase structure that allows the excitation to be converted back into the desired optical mode~\cite{AWAVQMitCoSR_Rodriguez_,Oqmboeit_MaEtAl_2017}.
+
+A two-level atom is not sufficient for this task. If the optical field couples only a ground state $\ket{g}$ to an excited state $\ket{e}$, the stored excitation remains tied to the optically excited state. Since $\ket{e}$ decays rapidly by spontaneous emission, the information is lost before it can serve as a useful memory. A third state is therefore required. This additional state, denoted by $\ket{s}$, should be long-lived and weakly coupled to the electromagnetic vacuum. The optical field can then be converted into a coherence between $\ket{g}$ and $\ket{s}$ rather than into population of the short-lived excited state $\ket{e}$~\cite{AWAVQMitCoSR_Rodriguez_,Oqmboeit_MaEtAl_2017}.
+
+This requirement naturally leads to three-level light--matter protocols. Depending on the ordering of the three levels, one obtains $\Lambda$-, ladder-, or V-type systems. For atomic quantum memories based on ground-state coherences, the $\Lambda$-configuration is especially important. In this configuration, two long-lived lower states, $\ket{g}$ and $\ket{s}$, are both optically coupled to a common excited state $\ket{e}$. One optical field, the signal field, couples $\ket{g}\leftrightarrow\ket{e}$, while a second, usually stronger, control field couples $\ket{s}\leftrightarrow\ket{e}$. The control field provides the external handle that allows the optical excitation to be transferred into the ground-state coherence and later retrieved~\cite{Oqmboeit_MaEtAl_2017,Apgteitiav_FinkelsteinEtAl_2023}.
+
+Electromagnetically induced transparency is one of the most widely used protocols based on this $\Lambda$-system. In EIT, the control field changes the optical response of an otherwise absorbing medium. A resonant signal field that would normally be absorbed can propagate through the ensemble within a narrow transparency window created by quantum interference. More importantly for memory operation, this transparency is accompanied by steep dispersion. The signal pulse is slowed and spatially compressed inside the ensemble. If the control field is then reduced adiabatically, the optical part of the excitation is converted into an atomic ground-state coherence. Reapplying the control field reverses the process and retrieves the light~\cite{Oqmboeit_MaEtAl_2017,Apgteitiav_FinkelsteinEtAl_2023,C:Tampsiae_Lukin_2003}.
+
+Warm alkali vapours are a particularly relevant platform for this type of memory. They do not require laser cooling or cryogenic operation, and their optical depth can be tuned through the vapour temperature. Caesium and rubidium are widely used because their D-line transitions are accessible with near-infrared lasers and because their hyperfine ground states provide long-lived storage states. The standalone mobile quantum memory demonstrated by Jutisz \emph{et al.}, for example, uses a caesium vapour cell and a D$_1$-line $\Lambda$-configuration to implement EIT storage in a compact system~\cite{Smqms_JutiszEtAl_2025}. This type of experiment motivates the use of warm-vapour ensembles as scalable quantum-memory platforms, while also making clear that atomic motion, wall collisions, magnetic dephasing, and finite mode overlap must be considered when modelling realistic retrieval~\cite{Smqms_JutiszEtAl_2025,Apgteitiav_FinkelsteinEtAl_2023}.
+
+The rest of this chapter therefore proceeds by narrowing the description. The next section identifies the alkali-metal level structure that realizes the effective $\Lambda$-system. The following section then explains how EIT uses this structure to map an optical excitation into a ground-state coherence. After that, the focus shifts from the writing mechanism itself to the object left behind by the storage process: the collective spin wave. This spin wave, together with its spatial phase and subsequent evolution, is the central quantity for the retrieval model developed in this thesis.

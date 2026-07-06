@@ -1,0 +1,89 @@
+\section{Atomic Structure of Alkali-Metal Memories}
+\label{sec:atomic_structure}
+
+The EIT memory protocol introduced in the next section requires an atomic system with two long-lived states that can store coherence, and an optically excited state that allows light to couple to this coherence. Alkali-metal atoms provide this structure in a particularly natural way. Caesium and rubidium each have a single valence electron outside closed inner shells, so their low-energy optical spectrum is much simpler than that of many-electron atoms. This does not make the atom truly hydrogen-like, but it does mean that the optical transitions relevant for quantum memories can often be described using a small number of electronic, hyperfine, and Zeeman levels~\cite{Apgteitiav_FinkelsteinEtAl_2023,Oqmboeit_MaEtAl_2017}.
+
+This simplicity is one of the main reasons why alkali atoms are widely used in warm-vapour quantum optics. Their strongest optical transitions lie in the near-infrared, where narrow-linewidth diode lasers, optical modulators, detectors, and standard optical components are readily available. In practical warm-vapour memories, this is important because the experiment must not only address the correct atomic transition, but also stabilize laser frequencies, shape signal and control pulses, and separate weak retrieved light from strong classical fields~\cite{Apgteitiav_FinkelsteinEtAl_2023,Smqms_JutiszEtAl_2025}.
+
+The optical transitions most relevant here are the alkali D-lines. They correspond to electric-dipole transitions from the ground electronic state \(n^2S_{1/2}\) to the first excited \(n^2P_J\) states. The D\(_1\) line corresponds to
+\begin{equation}
+    n^2S_{1/2} \rightarrow n^2P_{1/2},
+    \label{eq:d1_transition}
+\end{equation}
+while the D\(_2\) line corresponds to
+\begin{equation}
+    n^2S_{1/2} \rightarrow n^2P_{3/2}.
+    \label{eq:d2_transition}
+\end{equation}
+In this thesis, the simulated optical transition is taken to be the D\(_1\) transition for both caesium and rubidium. For \({}^{133}\mathrm{Cs}\), this is the \(6^2S_{1/2}\rightarrow6^2P_{1/2}\) transition near \(\SI{894.6}{\nano\metre}\). For \({}^{87}\mathrm{Rb}\), it is the \(5^2S_{1/2}\rightarrow5^2P_{1/2}\) transition near \(\SI{795}{\nano\metre}\)~\cite{Steck_CsDLine,Steck_Rb87DLine,Oqmboeit_MaEtAl_2017}. The use of the Cs D\(_1\) line is also the basis of the standalone warm-vapour quantum memory demonstrated by Jutisz \emph{et al.}, where long-lived hyperfine ground states of \({}^{133}\mathrm{Cs}\) are coupled to an excited state through the D\(_1\) line in a \(\Lambda\)-configuration~\cite{Smqms_JutiszEtAl_2025}.
+
+The memory itself is not stored in the optical excited state. The excited state \(\ket{e}\) has a short lifetime and decays by spontaneous emission. A photon mapped into such a state would therefore be rapidly lost into uncontrolled optical modes. Instead, the useful storage states are two hyperfine levels of the electronic ground state. Hyperfine splitting arises from the coupling between the nuclear angular momentum \(\hat{\mathbf I}\) and the electronic angular momentum \(\hat{\mathbf J}\). Their sum defines the total atomic angular momentum,
+\begin{equation}
+    \hat{\mathbf F} = \hat{\mathbf I} + \hat{\mathbf J},
+    \label{eq:total_angular_momentum}
+\end{equation}
+with eigenstates denoted by \(\ket{F,m_F}\). These states satisfy
+\begin{equation}
+    \hat{F}^2\ket{F,m_F}
+    =
+    \hbar^2 F(F+1)\ket{F,m_F},
+    \label{eq:F_squared}
+\end{equation}
+and
+\begin{equation}
+    \hat{F}_z\ket{F,m_F}
+    =
+    \hbar m_F\ket{F,m_F},
+    \label{eq:Fz_projection}
+\end{equation}
+where \(F\) is the total hyperfine angular momentum quantum number and \(m_F\) is its projection along the chosen quantization axis~\cite{Steck_CsDLine,Steck_Rb87DLine}.
+
+For \({}^{133}\mathrm{Cs}\), the ground state \(6^2S_{1/2}\) is split into the two hyperfine levels \(F=3\) and \(F=4\), separated by approximately \(\SI{9.192631770}{\giga\hertz}\). These two levels define the natural memory pair,
+\begin{equation}
+    \ket{g} \equiv \ket{6^2S_{1/2},F=3},
+    \qquad
+    \ket{s} \equiv \ket{6^2S_{1/2},F=4}.
+    \label{eq:cs_memory_states}
+\end{equation}
+For \({}^{87}\mathrm{Rb}\), the ground state \(5^2S_{1/2}\) is split into \(F=1\) and \(F=2\), separated by approximately \(\SI{6.834682611}{\giga\hertz}\), so that the corresponding idealized memory states may be written as
+\begin{equation}
+    \ket{g} \equiv \ket{5^2S_{1/2},F=1},
+    \qquad
+    \ket{s} \equiv \ket{5^2S_{1/2},F=2}.
+    \label{eq:rb_memory_states}
+\end{equation}
+These assignments are the idealized level choices used to define the \(\Lambda\)-systems in the simulations. The important feature is that \(\ket{g}\) and \(\ket{s}\) are both ground-state hyperfine levels. Their long lifetime allows them to carry atomic coherence on timescales much longer than the optical excited state~\cite{Steck_CsDLine,Steck_Rb87DLine,Apgteitiav_FinkelsteinEtAl_2023}.
+
+The excited state \(\ket{e}\) is chosen from the corresponding D\(_1\) excited manifold. For caesium, \(\ket{e}\) belongs to the \(6^2P_{1/2}\) hyperfine manifold, while for rubidium it belongs to the \(5^2P_{1/2}\) hyperfine manifold. The signal field couples \(\ket{g}\) to \(\ket{e}\), and the control field couples \(\ket{s}\) to the same excited state. The resulting three-level structure is therefore
+\begin{equation}
+    \ket{g} \leftrightarrow \ket{e},
+    \qquad
+    \ket{s} \leftrightarrow \ket{e},
+    \label{eq:lambda_transitions}
+\end{equation}
+which is the \(\Lambda\)-type system required for EIT storage~\cite{Apgteitiav_FinkelsteinEtAl_2023,Oqmboeit_MaEtAl_2017,Smqms_JutiszEtAl_2025}.
+
+The two optical fields must also satisfy the electric-dipole selection rules. For alkali D-line transitions, the electronic orbital angular momentum changes from \(S\) to \(P\), so that \(\Delta L=\pm1\). At the hyperfine level, the allowed transitions satisfy
+\begin{equation}
+    \Delta F = 0,\pm1,
+    \qquad
+    F=0 \not\rightarrow F'=0,
+    \label{eq:selection_rule_F}
+\end{equation}
+and
+\begin{equation}
+    \Delta m_F = 0,\pm1.
+    \label{eq:selection_rule_mF}
+\end{equation}
+The value of \(\Delta m_F\) is selected by the light polarization. A \(\pi\)-polarized field drives \(\Delta m_F=0\), while \(\sigma^+\) and \(\sigma^-\) fields drive \(\Delta m_F=+1\) and \(\Delta m_F=-1\), respectively. In practice, these rules determine which Zeeman sublevels participate in the memory and how cleanly the ideal three-level model can be realized~\cite{Steck_CsDLine,Steck_Rb87DLine,Apgteitiav_FinkelsteinEtAl_2023}.
+
+The Zeeman substructure is especially important because the ground-state coherence is the quantity that stores the optical information. In the absence of magnetic fields, the magnetic sublevels \(m_F\) within a given hyperfine manifold are degenerate. An applied magnetic field lifts this degeneracy through the Zeeman effect. If the field is homogeneous, it can define a useful quantization axis. If it varies across the ensemble, however, the energy splitting between \(\ket{g}\) and \(\ket{s}\) becomes position dependent. This can be written schematically as
+\begin{equation}
+    \omega_{sg} \rightarrow \omega_{sg}(\mathbf r),
+    \label{eq:position_dependent_splitting}
+\end{equation}
+where \(\omega_{sg}\) is the angular frequency splitting between the two storage states. A position-dependent \(\omega_{sg}(\mathbf r)\) causes different atoms to accumulate different phases during storage, which dephases the collective spin wave and reduces the field that can later be retrieved into the desired optical mode~\cite{Apgteitiav_FinkelsteinEtAl_2023,Smqms_JutiszEtAl_2025}.
+
+The real atom is therefore richer than the ideal \(\Lambda\)-system. Caesium and rubidium contain several hyperfine and Zeeman sublevels, and the optical fields can weakly couple to nearby off-resonant transitions. These additional levels can cause optical pumping into unwanted states, imperfect preparation of the dark state, reduced EIT contrast, or nonlinear noise processes such as four-wave mixing. For the purposes of the present model, these effects are not simulated at the level of the full multilevel optical Bloch equations. Instead, the atomic structure is used to define the relevant D\(_1\) wavelength, the ground-state splitting, and the existence of a long-lived \(\ket{g}\leftrightarrow\ket{s}\) coherence~\cite{Apgteitiav_FinkelsteinEtAl_2023,Oqmboeit_MaEtAl_2017,Smqms_JutiszEtAl_2025}.
+
+This reduction is the bridge to the EIT description. The detailed alkali structure provides the physical states, but the memory protocol can now be discussed in terms of the effective three-level system \(\{\ket{g},\ket{s},\ket{e}\}\). The next section explains how the signal and control fields use this \(\Lambda\)-system to suppress resonant absorption, slow the signal pulse, and map optical information into a collective ground-state coherence.
