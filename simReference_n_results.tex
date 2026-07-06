@@ -1,7 +1,7 @@
 \chapter{Simulation Results}
 \label{chap:simulation_results}
 
-\section{Validation Strategy and Reference Geometry}
+\section{Reference Geometry and Physical Consistency Checks}
 \label{sec:results_validation_strategy}
 
 The simulations are used to test whether the numerical model reproduces the expected behaviour of a retrievable collective spin-wave mode. The central observable is the normalized fibre-coupled retrieval,
@@ -12,9 +12,11 @@ The simulations are used to test whether the numerical model reproduces the expe
     {P_{\mathrm{tot}}(0)},
     \label{eq:results_normalized_retrieval}
 \end{equation}
-where $P_{\mathrm{fib}}(t)$ is the power coupled into the target fibre mode after storage time $t$, and $P_{\mathrm{tot}}(0)$ is the total emitted power at zero storage time. This normalization removes the arbitrary absolute scale of the emitted field and isolates the decay of the mode that remains retrievable into the selected optical channel.
+where \(P_{\mathrm{fib}}(t)\) is the power coupled into the target fibre mode after storage time \(t\), and \(P_{\mathrm{tot}}(0)\) is the total emitted power at zero storage time. This normalization removes the arbitrary absolute scale of the emitted field and isolates the decay of the mode that remains retrievable into the selected optical channel.
 
-The reference geometry is based on the standalone \({}^{133}\mathrm{Cs}\) warm-vapour memory reported by Jutisz \emph{et al.}~\cite{Smqms_JutiszEtAl_2025}. The simulated cell is a cylindrical vapour cell with length \(\SI{75}{\milli\metre}\) and diameter \(\SI{4}{\milli\metre}\), operated near \(\SI{75}{\celsius}\) with nitrogen buffer gas. The signal and control fields are represented as Gaussian beams with FWHM of $\SI{300}{\micro\meter}$ and $\SI{120}{\micro\meter}$ for the control and signal beams. Since the optical mode occupies only a small fraction of the full transverse cell area, the relevant simulated atoms are those with appreciable overlap with the signal and control modes.
+The quantity \(\mathcal{R}_{\mathrm{fib}}(t)\) is not an absolute memory efficiency. It does not include the full storage process, optical-depth dependence, propagation through the medium, EIT bandwidth, input-output energy conversion, or detection losses. It should instead be interpreted as a normalized mode-matched retrieval proxy: it quantifies how much of the initially retrievable collective mode remains coupled to the selected fibre mode after a storage time \(t\).
+
+The reference geometry is based on the standalone \({}^{133}\mathrm{Cs}\) warm-vapour memory reported by Jutisz \emph{et al.}~\cite{Smqms_JutiszEtAl_2025}. The simulated cell is a cylindrical vapour cell with length \(\SI{75}{\milli\metre}\) and diameter \(\SI{4}{\milli\metre}\), operated near \(\SI{75}{\celsius}\) with nitrogen buffer gas. The signal and control fields are represented as Gaussian beams with FWHM diameters of \(\SI{300}{\micro\metre}\) and \(\SI{120}{\micro\metre}\), respectively. Since the optical mode occupies only a small fraction of the full transverse cell area, the relevant simulated atoms are those with appreciable overlap with the signal and control modes.
 
 \begin{figure}[htbp]
     \centering
@@ -23,7 +25,7 @@ The reference geometry is based on the standalone \({}^{133}\mathrm{Cs}\) warm-v
     \label{fig:ensemble_schematic}
 \end{figure}
 
-This geometry provides a benchmark for the model because the expected physical trends are known. Buffer gas should slow motional escape from the optical mode, larger beams should extend the overlap time, magnetic-field gradients should cause dephasing of the ground-state coherence, and phase mismatch should reduce directional retrieval. The behaviour of \(\mathcal{R}_{\mathrm{fib}}(t)\) is therefore used to check whether the simulation follows the collective spin-wave mode rather than only the survival of individual atoms.
+This geometry provides a useful reference case because the expected physical trends are well established. Buffer gas is expected to slow motional escape from the optical mode, larger beams should extend the overlap time, magnetic-field gradients should dephase the ground-state coherence, and phase mismatch should reduce directional retrieval. The simulations are therefore used as physical consistency checks of the implemented retrieval-overlap model, rather than as a quantitative validation of the complete experimental memory.
 
 \section{Directional Collective Emission}
 \label{sec:results_directional_collective_emission}
@@ -41,6 +43,21 @@ During retrieval, the read control field converts the stored spin wave into an o
 \end{equation}
 where \(\mathbf{k}_{\mathrm{out}}\) is the retrieved optical wave vector, \(\mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}\) is the signal wave vector during storage, and \(\mathbf{k}_{\mathrm{c}}^{\mathrm{write}}\) and \(\mathbf{k}_{\mathrm{c}}^{\mathrm{read}}\) are the write and read control-field wave vectors.
 
+In the simulation, the far-field amplitude in a trial emission direction \(\mathbf{k}\) is represented by a coherent weighted dipole sum,
+\begin{equation}
+    E(\mathbf{k},t)
+    \propto
+    \sum_{j}
+    w_j(t)
+    \exp\!\left[
+        i\Phi_j(t)
+        -
+        i\mathbf{k}\cdot\mathbf{r}_j(t)
+    \right],
+    \label{eq:results_coherent_dipole_sum}
+\end{equation}
+where \(\mathbf{r}_j(t)\) is the position of atom \(j\), \(w_j(t)\) contains the spatial mode weight and possible wall-survival factor, and \(\Phi_j(t)\) contains the stored spin-wave phase together with any additional phase accumulated during storage. The directional structure of the emitted field is therefore determined by whether the phase factors in Eq.~\eqref{eq:results_coherent_dipole_sum} add constructively in the selected optical mode.
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.70\textwidth]{Figures/far_field_angular_emission_profile.jpeg}
@@ -48,7 +65,7 @@ where \(\mathbf{k}_{\mathrm{out}}\) is the retrieved optical wave vector, \(\mat
     \label{fig:far_field_angular_emission_profile}
 \end{figure}
 
-The simulated far-field distribution in Fig.~\ref{fig:far_field_angular_emission_profile} is peaked around the forward phase-matched direction. The angular structure confirms that the retrieved signal is governed by collective interference. Away from the central lobe, residual emission arises from imperfect cancellation into other angular modes, but the dominant contribution remains aligned with Eq.~\eqref{eq:results_phase_matching}. If the spin-wave phases are randomized, the atoms may still emit, but the fields no longer add coherently into the selected mode. Directional emission is therefore a direct test of the phase structure carried by the stored spin wave.
+The simulated far-field distribution in Fig.~\ref{fig:far_field_angular_emission_profile} is peaked around the forward phase-matched direction. This angular concentration supports the interpretation that the retrieved signal is governed by collective interference. Away from the central lobe, residual emission arises from imperfect cancellation into other angular modes, while the dominant contribution remains aligned with Eq.~\eqref{eq:results_phase_matching}. If the spin-wave phases are randomized, the atoms may still emit, but the fields no longer add coherently into the selected mode. Directional emission is therefore a useful diagnostic of the phase structure carried by the stored spin wave.
 
 \section{Monte Carlo Convergence}
 \label{sec:results_monte_carlo_convergence}
@@ -62,7 +79,7 @@ The retrieval amplitude is estimated from a finite number of sampled atoms and s
     \label{fig:monte_carlo_convergence}
 \end{figure}
 
-Figure~\ref{fig:monte_carlo_convergence} shows that individual realizations follow the same decay envelope, with fluctuations caused by different random trajectories. The ensemble mean is stable, indicating that the observed decay is not dominated by rare trajectories. For independent sampling, the uncertainty of a Monte Carlo average decreases with the standard scaling \(N_{\mathrm{MC}}^{-1/2}\)~\cite{MonteCarloNotes}. Increasing the number of simulated atoms therefore improves the smoothness of the curve without changing the converged physical trend.
+In Fig.~\ref{fig:monte_carlo_convergence}, the individual realizations follow the same decay envelope, with fluctuations caused by different random trajectories. The ensemble mean is stable, indicating that the observed decay is not dominated by rare trajectories. For independent sampling, the uncertainty of a Monte Carlo average decreases with the standard scaling \(N_{\mathrm{MC}}^{-1/2}\)~\cite{MonteCarloNotes}. Increasing the number of simulated atoms therefore improves the smoothness of the curve without changing the converged physical trend.
 
 \section{Gas-Phase Transport and Buffer-Gas Pressure}
 \label{sec:results_buffer_gas_pressure}
@@ -78,7 +95,7 @@ The diffusion model represents this transport through the diffusion coefficient 
     \label{fig:pressure_scan_coupling_decay}
 \end{figure}
 
-Figure~\ref{fig:pressure_scan_coupling_decay} shows this trend. At lower pressure, the retrieval decreases more rapidly because atoms diffuse away from the region that overlaps efficiently with the signal, control, and fibre modes. At higher pressure, the motion is slowed and the retrievable collective mode survives for a longer time. The decay should be interpreted as a loss of mode overlap rather than as the immediate destruction of the atoms. Atoms outside the beam can still carry local coherence, but they no longer contribute efficiently to the phase-matched fibre mode.
+The pressure scan in Fig.~\ref{fig:pressure_scan_coupling_decay} follows this expected trend. At lower pressure, the retrieval decreases more rapidly because atoms diffuse away from the region that overlaps efficiently with the signal, control, and fibre modes. At higher pressure, the motion is slowed and the retrievable collective mode survives for a longer time. The decay should be interpreted as a loss of mode overlap rather than as the immediate destruction of the atoms. Atoms outside the beam can still carry local coherence, but they no longer contribute efficiently to the phase-matched fibre mode.
 
 \section{Beam-Size Dependence}
 \label{sec:results_beam_size}
@@ -89,10 +106,10 @@ The spatial-overlap mechanism can be isolated by changing the optical beam sizes
     \centering
     \includegraphics[width=0.72\textwidth]{Figures/beam_size_scan_coupling_decay.jpeg}
     \caption{Beam-size dependence of the normalized retrieval. Larger optical beams increase the spatial region over which atoms remain coupled to the readout mode, producing a slower decay of \(P_{\mathrm{fib}}(t)/P_{\mathrm{tot}}(0)\).}
-    \label{fig:beam_size_scan_coupling_decay}
+    \label{fig:beam_size_scan}
 \end{figure}
 
-The behaviour shown in Fig.~\ref{fig:beam_size_scan_coupling_decay} is consistent with transit-time intuition in warm-vapour EIT systems~\cite{Apgteitiav_FinkelsteinEtAl_2023}. Enlarging the optical mode reduces the sensitivity of the stored spin wave to short diffusive displacements, and the fibre-coupled retrieval decays more slowly. The result reflects the survival of spatial mode overlap. In an experiment, increasing the beam size may also reduce optical intensity for fixed power, modify the EIT bandwidth, and change the effective optical depth sampled by the mode. These additional optical effects are not included in the present retrieval-only model.
+The behaviour in Fig.~\ref{fig:beam_size_scan} is consistent with transit-time intuition in warm-vapour EIT systems~\cite{Apgteitiav_FinkelsteinEtAl_2023}. Enlarging the optical mode reduces the sensitivity of the stored spin wave to short diffusive displacements, and the fibre-coupled retrieval decays more slowly. The result reflects the survival of spatial mode overlap. In an experiment, increasing the beam size may also reduce optical intensity for fixed power, modify the EIT bandwidth, and change the effective optical depth sampled by the mode. These additional optical effects are not included in the present retrieval-only model.
 
 \section{Comparison with a Cold Gaussian Ensemble}
 \label{sec:results_bec_comparison}
@@ -106,7 +123,7 @@ The same retrieval-overlap formalism was applied to a cold Gaussian ensemble. Th
     \label{fig:bec_beam_size_scan}
 \end{figure}
 
-Figure~\ref{fig:bec_beam_size_scan} shows that larger beams also increase the coupling time in the cold ensemble. The dependence is weaker than in the warm-vapour reference geometry because rapid thermal diffusion is no longer the dominant limitation. In the warm vapour, transverse beam size directly controls how quickly atoms leave the optical mode. In the cold cloud, the atoms move more slowly, and the decay is less strongly governed by diffusive transit through the beam. The same coherent-overlap model can therefore describe different platforms, while the dominant loss mechanism depends on the motional regime.
+In Fig.~\ref{fig:bec_beam_size_scan}, larger beams also increase the coupling time in the cold ensemble. The dependence is weaker than in the warm-vapour reference geometry because rapid thermal diffusion is no longer the dominant limitation. In the warm vapour, transverse beam size directly controls how quickly atoms leave the optical mode. In the cold cloud, the atoms move more slowly, and the decay is less strongly governed by diffusive transit through the beam. The same coherent-overlap model can therefore describe different platforms, while the dominant loss mechanism depends on the motional regime.
 
 \section{Geometric Phase Mismatch from Control-Beam Angle}
 \label{sec:results_control_beam_angle}
@@ -129,7 +146,7 @@ where \(\mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}\) and \(\mathbf{k}_{\mathrm{c
     \label{fig:control_beam_angle_scan}
 \end{figure}
 
-Figure~\ref{fig:control_beam_angle_scan} shows faster decay when the spin-wave phase varies more rapidly across the ensemble. The mechanism is loss of relative phase rather than loss of atomic coherence. Atoms may still carry ground-state coherence, but the spatial phase pattern no longer overlaps efficiently with the phase-matched readout mode. This behaviour is consistent with the use of nearly co-propagating signal and control fields in warm-vapour EIT, where a small two-photon wave vector reduces motional dephasing~\cite{Apgteitiav_FinkelsteinEtAl_2023}.
+The angle scan in Fig.~\ref{fig:control_beam_angle_scan} indicates faster decay when the spin-wave phase varies more rapidly across the ensemble. The mechanism is loss of relative phase rather than loss of atomic coherence. Atoms may still carry ground-state coherence, but the spatial phase pattern no longer overlaps efficiently with the phase-matched readout mode. This behaviour is consistent with the use of nearly co-propagating signal and control fields in warm-vapour EIT, where a small two-photon wave vector reduces motional dephasing~\cite{Apgteitiav_FinkelsteinEtAl_2023}.
 
 \section{Magnetic-Gradient Dephasing}
 \label{sec:results_magnetic_gradient}
@@ -152,12 +169,14 @@ where \(t'\) is the integration variable and \(\mathbf{r}_j(t')\) is the traject
     \label{fig:magnetic_gradient_scan}
 \end{figure}
 
-The decay in Fig.~\ref{fig:magnetic_gradient_scan} becomes faster as the magnetic gradient is increased. This loss channel is distinct from beam-overlap decay. Atoms can remain inside the optical mode and still stop contributing constructively if their internal phases become spatially scrambled. Spatial escape can be mitigated by buffer gas or larger beams, whereas magnetic dephasing requires field homogeneity and magnetic shielding.
+The magnetic-gradient scan in Fig.~\ref{fig:magnetic_gradient_scan} gives a faster decay as the gradient is increased. This loss channel is distinct from beam-overlap decay. Atoms can remain inside the optical mode and still stop contributing constructively if their internal phases become spatially scrambled. Spatial escape can be mitigated by buffer gas or larger beams, whereas magnetic dephasing requires field homogeneity and magnetic shielding.
 
 \section{Compact-Cell Geometry}
 \label{sec:results_compact_cell_geometry}
 
 The reference cell is much larger than the optical mode in the transverse direction. In that regime, atoms can diffuse out of the beam before wall collisions dominate the retrieval decay. A compact cell changes this balance because the optical mode occupies a substantial fraction of the cell cross-section. The simulated compact geometry has diameter \(\SI{1}{\milli\metre}\) and length \(\SI{10}{\milli\metre}\), with control and signal FWHM diameters of approximately \(\SI{0.8}{\milli\metre}\) and \(\SI{0.3}{\milli\metre}\), respectively.
+
+The compact cell is not simply a scaled-down version of the reference vapour cell. Because the optical mode occupies a substantial fraction of the transverse cross-section, atoms that leave the high-overlap region encounter the wall on comparable timescales. The dominant question therefore changes from how long atoms remain inside the beam to whether they remain coherent after boundary encounters.
 
 In the compact geometry, the wall becomes part of the storage dynamics. An atom carrying spin-wave coherence can reach the boundary on the same timescale over which the retrieval signal decays. The boundary condition must therefore specify both the mechanical trajectory after a wall encounter and the survival of the internal coherence. This distinction becomes central when anti-relaxation coatings are represented as effective wall-survival parameters.
 
@@ -184,7 +203,7 @@ Anti-relaxation coatings reduce the probability that a wall collision destroys t
     \label{fig:coating_bounce_scan}
 \end{figure}
 
-Figure~\ref{fig:coating_bounce_scan} shows that increasing \(N_{\mathrm{b}}\) improves the retrieval lifetime when the wall is strongly depolarizing. In this regime, each wall collision has a significant probability of removing the atom from the coherent spin wave, so the wall behaves almost like an absorbing boundary for the retrievable mode. Larger \(N_{\mathrm{b}}\) allows atoms to return to the vapour while retaining coherence, and the fibre-coupled signal decays more slowly.
+The compact-cell coating scan in Fig.~\ref{fig:coating_bounce_scan} indicates that increasing \(N_{\mathrm{b}}\) improves the retrieval lifetime when the wall is strongly depolarizing. In this regime, each wall collision has a significant probability of removing the atom from the coherent spin wave, so the wall behaves almost like an absorbing boundary for the retrievable mode. Larger \(N_{\mathrm{b}}\) allows atoms to return to the vapour while retaining coherence, and the fibre-coupled signal decays more slowly.
 
 The improvement saturates once wall-induced depolarization is no longer the dominant limitation. At large \(N_{\mathrm{b}}\), the curves begin to converge because the remaining decay is set mainly by diffusion through the optical mode, finite cell geometry, and imperfect overlap with the readout mode. Beyond that regime, improving the coating alone produces only a limited increase in \(P_{\mathrm{fib}}(t)/P_{\mathrm{tot}}(0)\).
 
@@ -202,7 +221,7 @@ The temperature scan considered here isolates the transport and wall-relaxation 
     \label{fig:compact_temperature_scan}
 \end{figure}
 
-Figure~\ref{fig:compact_temperature_scan} shows that the temperature dependence is strongest when wall survival is low. In that regime, the decay is governed by how rapidly atoms reach the boundary and lose coherence. For high wall survival, the curves become less sensitive to \(N_{\mathrm{b}}\). Atoms may survive wall encounters, but retrieval can still decrease because the atoms return with reduced spatial overlap or with a phase pattern that no longer matches the fibre-coupled mode.
+The temperature scan in Fig.~\ref{fig:compact_temperature_scan} indicates that the temperature dependence is strongest when wall survival is low. In that regime, the decay is governed by how rapidly atoms reach the boundary and lose coherence. For high wall survival, the curves become less sensitive to \(N_{\mathrm{b}}\). Atoms may survive wall encounters, but retrieval can still decrease because the atoms return with reduced spatial overlap or with a phase pattern that no longer matches the fibre-coupled mode.
 
 \section{Cell Length and Spin-Wave Phase}
 \label{sec:results_cell_length_spin_wave}
@@ -221,7 +240,6 @@ where \(\Delta\mathbf{k}\) is set by the signal-control geometry. If the cell le
     \label{fig:cell_length_spin_wave_scan}
 \end{figure}
 
-Figure~\ref{fig:cell_length_spin_wave_scan} shows that the long-time plateau depends on the relation between cell length and spin-wave phase period. This is not only a volume effect. A longer cell contains more atoms, but it also samples a larger portion of the spin-wave phase grating. When the phase varies significantly over the cell, different regions interfere less constructively in the target mode, and the coherent retrieval can decrease.
+The cell-length scan in Fig.~\ref{fig:cell_length_spin_wave_scan} indicates that the long-time plateau depends on the relation between cell length and spin-wave phase period. This is not only a volume effect. A longer cell contains more atoms, but it also samples a larger portion of the spin-wave phase grating. When the phase varies significantly over the cell, different regions interfere less constructively in the target mode, and the coherent retrieval can decrease.
 
 This effect matters when compact and elongated geometries are compared. Miniaturization changes the wall-collision rate, but it also changes the sampled spin-wave phase structure and its overlap with the readout mode. The cell dimensions therefore affect retrieval through both boundary interactions and collective phase matching.
-
