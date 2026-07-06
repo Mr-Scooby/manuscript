@@ -1,11 +1,9 @@
 \section{Simulation Model}
 \label{sec:simulation_model}
 
-The purpose of the simulation model is to describe how an initially stored spin wave is converted into an optical field during retrieval, and how this conversion is degraded when atoms move, acquire different phases, or leave the optical mode. The model does not attempt to solve the full Maxwell--Bloch storage dynamics. Instead, the stored coherence is taken as the initial condition, and the readout field is calculated from the coherent sum of the radiation emitted by the atoms that still contribute to the retrievable collective modedt.
+The  purpuse of the simulation model is to describe how a stored spin wave is converted into an optical field during retrieval and how this conversion is degraded when atoms move, acquire different phases, or leave the interaction region. The full Maxwell--Bloch writing dynamics are not solved. The stored ground-state coherence is used as the initial condition, and the retrieved field is calculated from the coherent radiation of the atoms that remain coupled to the retrievable collective mode.
 
-The central approximation is that each atom contributing to the readout can be treated as an ideal radiating dipole with the same internal orientation. In this approximation, the directional structure of the emitted field is dominated by the relative phases of the emitters rather than by differences between individual atoms. This is the same separation used in antenna theory, where the total radiation pattern can be decomposed into an element factor and an array factor~\cite{AntenaCourseNotes}. The element factor describes the radiation pattern of one emitter, while the array factor describes the interference between emitters at different positions~\cite{AntenaCourseNotes}.
-
-For an observation direction represented by the unit vector $\hat{\mathbf n}$, the emitted field amplitude is therefore written in the form~\cite{AntenaCourseNotes}
+Each atom contributing to readout is approximated as an ideal radiating dipole with a common internal orientation. Under this approximation, differences between atoms enter through their positions, phases, and weights, while the single-atom radiation pattern is treated as a common factor. Following the standard element-factor and array-factor decomposition used in antenna theory~\cite{AntenaCourseNotes}, the far-field amplitude in the observation direction $\hat{\mathbf n}$ may be written as
 \begin{equation}
     \mathcal{E}_{\mathrm{out}}(\hat{\mathbf n},t)
     \propto
@@ -14,7 +12,9 @@ For an observation direction represented by the unit vector $\hat{\mathbf n}$, t
     \mathcal{A}(\hat{\mathbf n},t),
     \label{eq:field_element_array_factor}
 \end{equation}
-where $\mathcal{E}_{\mathrm{out}}(\hat{\mathbf n},t)$ is the far-field amplitude in the direction $\hat{\mathbf n}$, $\mathcal{E}_{\mathrm{dip}}(\hat{\mathbf n})$ is the single-dipole radiation factor, and $\mathcal{A}(\hat{\mathbf n},t)$ is the collective array factor. Since the present model is concerned with relative retrieval into a selected optical mode, the single-dipole factor is treated as common to all atoms. The relevant object is then the array factor,
+where $\mathcal{E}_{\mathrm{out}}(\hat{\mathbf n},t)$ is the emitted field amplitude, $\mathcal{E}_{\mathrm{dip}}(\hat{\mathbf n})$ is the single-dipole radiation factor, and $\mathcal{A}(\hat{\mathbf n},t)$ is the collective array factor. Since the relevant quantity is the relative retrieval into a selected optical mode, $\mathcal{E}_{\mathrm{dip}}(\hat{\mathbf n})$ is taken to be identical for all atoms and is not used to distinguish different trajectories.
+
+The collective part of the field is represented by the weighted coherent sum
 \begin{equation}
     \mathcal{A}(\hat{\mathbf n},t)
     =
@@ -25,7 +25,7 @@ where $\mathcal{E}_{\mathrm{out}}(\hat{\mathbf n},t)$ is the far-field amplitude
     \right],
     \label{eq:array_factor_general}
 \end{equation}
-where $N$ is the number of simulated atoms, $W_j(t)$ is the complex weight assigned to atom $j$, and $\Phi_j(\hat{\mathbf n},t)$ is the phase with which atom $j$ contributes to the field observed in direction $\hat{\mathbf n}$~\cite{AntenaCourseNotes}. The intensity associated with this mode is proportional to
+where $N$ is the number of simulated atoms, $W_j(t)$ is the complex amplitude weight assigned to atom $j$, and $\Phi_j(\hat{\mathbf n},t)$ is the phase with which that atom contributes to the field observed along $\hat{\mathbf n}$. The optical power associated with the selected direction is proportional to the squared modulus of the coherent amplitude,
 \begin{equation}
     P(\hat{\mathbf n},t)
     \propto
@@ -34,9 +34,9 @@ where $N$ is the number of simulated atoms, $W_j(t)$ is the complex weight assig
     \right|^2 .
     \label{eq:array_factor_power}
 \end{equation}
-Equation~\eqref{eq:array_factor_power} is the basic reason why retrieval is sensitive to phase. If all terms in Eq.~\eqref{eq:array_factor_general} have nearly the same phase, the field amplitudes add before the modulus square is taken, and the emission is collectively enhanced. If the phases become random, the same atoms can still radiate individually, but their fields no longer add efficiently into the selected direction~\cite{AntenaCourseNotes,PsiL-odamIFm_GorshkovEtAl_2007}.
+Constructive collective emission is obtained when the phases in Eq.~\eqref{eq:array_factor_general} remain aligned. Random phases reduce the coherent sum even if individual atoms still radiate, because the field amplitudes no longer add efficiently before the modulus square is taken~\cite{AntenaCourseNotes,PsiL-odamIFm_GorshkovEtAl_2007}.
 
-For a spin-wave memory, the phase of atom $j$ is set by the stored spin-wave phase, the read control field, and the phase accumulated by propagation to the observation direction. A convenient expression is
+For spin-wave retrieval, the phase of each atomic contribution is set by the stored spin-wave grating, the read control field, the emitted optical mode, and any internal phase accumulated during storage. Using $\mathbf{k}_{\mathrm{out}}(\hat{\mathbf n})=k_{\mathrm{out}}\hat{\mathbf n}$, the phase is written as
 \begin{equation}
     \Phi_j(\hat{\mathbf n},t)
     =
@@ -45,7 +45,7 @@ For a spin-wave memory, the phase of atom $j$ is set by the stored spin-wave pha
         +
         \mathbf{k}_{\mathrm{c}}^{\mathrm{read}}
         -
-        k_{\mathrm{out}}\hat{\mathbf n}
+        \mathbf{k}_{\mathrm{out}}(\hat{\mathbf n})
     \right)
     \cdot
     \mathbf{r}_j(t)
@@ -53,20 +53,20 @@ For a spin-wave memory, the phase of atom $j$ is set by the stored spin-wave pha
     \phi_j(t),
     \label{eq:atom_retrieval_phase}
 \end{equation}
-where $\Delta\mathbf{k}$ is the spin-wave wave vector written during storage, $\mathbf{k}_{\mathrm{c}}^{\mathrm{read}}$ is the wave vector of the read control field, $k_{\mathrm{out}}$ is the magnitude of the retrieved optical wave vector, $\mathbf{r}_j(t)$ is the position of atom $j$ at storage time $t$, and $\phi_j(t)$ is any additional internal phase accumulated by the ground-state coherence~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. Constructive retrieval occurs when the phase factor multiplying $\mathbf{r}_j(t)$ is close to zero across the ensemble. This gives the phase-matching condition
+where $\Delta\mathbf{k}$ is the spin-wave wave vector written during storage, $\mathbf{k}_{\mathrm{c}}^{\mathrm{read}}$ is the read-control wave vector, $\mathbf{k}_{\mathrm{out}}(\hat{\mathbf n})$ is the retrieved optical wave vector in the observation direction, $\mathbf{r}_j(t)$ is the position of atom $j$ after storage time $t$, and $\phi_j(t)$ is the additional phase accumulated by the ground-state coherence. Constructive retrieval is obtained when the position-dependent phase in Eq.~\eqref{eq:atom_retrieval_phase} is stationary across the ensemble. Following the usual spin-wave phase-matching condition~\cite{PsiL-odamIFm_GorshkovEtAl_2007}, this gives
 \begin{equation}
-    k_{\mathrm{out}}\hat{\mathbf n}
+    \mathbf{k}_{\mathrm{out}}
     =
     \Delta\mathbf{k}
     +
     \mathbf{k}_{\mathrm{c}}^{\mathrm{read}}.
     \label{eq:simulation_phase_matching}
 \end{equation}
-Here, Eq.~\eqref{eq:simulation_phase_matching} defines the preferred retrieval direction. It shows that the emitted field is not determined only by the location of the atoms, but also by the spatial phase written into the atomic coherence~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+The preferred retrieval direction is therefore fixed by the spatial phase stored in the atomic coherence and by the geometry of the read control field.
 
-The weights $W_j(t)$ contain the information about how strongly each atom contributes to the selected mode. In an ideal uniformly illuminated ensemble, all atoms would carry equal weight. In a real optical memory, however, atoms near the centre of the signal and control beams interact more strongly than atoms in the wings of the beams. The stored spin wave therefore has an amplitude envelope. This envelope must be included because the coherent sum in Eq.~\eqref{eq:array_factor_general} is not a sum over identical contributions; it is a weighted sum over atoms that couple with different strengths to the optical fields~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+The weights $W_j(t)$ describe the amplitude with which each atom contributes to the selected mode. Uniform weights would be obtained for an ideal ensemble illuminated homogeneously by the relevant optical fields. In a finite memory system with nonuniform optical mode profiles, atoms near the centre of the signal and control beams couple more strongly than atoms in the wings. The stored spin wave therefore carries an amplitude envelope, and the coherent sum in Eq.~\eqref{eq:array_factor_general} must be evaluated as a weighted sum.
 
-For a Gaussian optical mode, the transverse field envelope is written as
+For a Gaussian optical mode, the transverse field envelope is taken as
 \begin{equation}
     u_{\ell}(\mathbf{r})
     =
@@ -75,7 +75,7 @@ For a Gaussian optical mode, the transverse field envelope is written as
     \right],
     \label{eq:gaussian_field_envelope}
 \end{equation}
-where the subscript $\ell$ labels the optical field, $\rho_{\ell}(\mathbf{r})$ is the transverse distance of position $\mathbf{r}$ from the propagation axis of that field, and $w_{\ell}$ is the Gaussian field radius. The corresponding intensity profile is proportional to
+where the subscript $\ell$ labels the optical field, $\rho_{\ell}(\mathbf{r})$ is the transverse distance from the propagation axis of that field, and $w_{\ell}$ is the Gaussian field radius. The corresponding intensity profile is
 \begin{equation}
     I_{\ell}(\mathbf{r})
     \propto
@@ -88,16 +88,15 @@ where the subscript $\ell$ labels the optical field, $\rho_{\ell}(\mathbf{r})$ i
     \right].
     \label{eq:gaussian_intensity_profile}
 \end{equation}
-If a beam is specified by its full width at half maximum, denoted by $\mathrm{FWHM}_{\ell}$, the relation to the field radius used in Eq.~\eqref{eq:gaussian_field_envelope} is
+If the beam diameter is specified by the full width at half maximum of the intensity, the field radius in Eq.~\eqref{eq:gaussian_field_envelope} is related to $\mathrm{FWHM}_{\ell}$ by
 \begin{equation}
     \mathrm{FWHM}_{\ell}
     =
     w_{\ell}\sqrt{2\ln 2}.
     \label{eq:fwhm_to_waist}
 \end{equation}
-Here, $\mathrm{FWHM}_{\ell}$ refers to the diameter at which the intensity has fallen to one half of its peak value.
 
-The initial spin-wave profile is constructed from the spatial overlap of the signal and control fields. In the weak-signal limit, the stored coherence is proportional to the signal field envelope and to the phase difference between the signal and control fields~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. A useful initial form is therefore
+The initial spin-wave profile is determined by the overlap of the signal and write-control fields. Following the spin-wave description of ensemble memories~\cite{PsiL-odamIFm_GorshkovEtAl_2007}, the stored coherence may be written as
 \begin{equation}
     S(\mathbf{r},0)
     =
@@ -117,9 +116,9 @@ The initial spin-wave profile is constructed from the spatial overlap of the sig
     \right],
     \label{eq:initial_spin_wave_profile}
 \end{equation}
-where $S(\mathbf{r},0)$ is the initial spin-wave amplitude, $\mathcal{N}$ is a normalization constant, $u_{\mathrm{sig}}(\mathbf{r})$ is the signal-mode envelope, $u_{\mathrm{c}}(\mathbf{r})$ is the write-control envelope, $\mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}$ is the signal wave vector, and $\mathbf{k}_{\mathrm{c}}^{\mathrm{write}}$ is the write-control wave vector~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. The complex conjugate on $u_{\mathrm{c}}^{*}(\mathbf{r})$ expresses that the spin-wave phase is set by the signal field relative to the control field~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+where $S(\mathbf{r},0)$ is the initial ground-state coherence, $\mathcal{N}$ is a normalization constant, $u_{\mathrm{sig}}(\mathbf{r})$ is the signal-mode envelope, $u_{\mathrm{c}}(\mathbf{r})$ is the write-control envelope, $\mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}$ is the signal wave vector, and $\mathbf{k}_{\mathrm{c}}^{\mathrm{write}}$ is the write-control wave vector. The conjugation of $u_{\mathrm{c}}(\mathbf{r})$ reflects that the stored coherence is written by the signal field relative to the control field.
 
-In the particle representation used for the simulation, Eq.~\eqref{eq:initial_spin_wave_profile} becomes an atomic weight. At the initial time,
+In the particle representation, the continuous spin wave is sampled by atoms at positions $\mathbf{r}_j(0)$. The initial amplitude weight is
 \begin{equation}
     W_j(0)
     =
@@ -129,11 +128,11 @@ In the particle representation used for the simulation, Eq.~\eqref{eq:initial_sp
     u_{\mathrm{c}}^{*}\!\left(\mathbf{r}_j(0)\right),
     \label{eq:initial_atomic_weight}
 \end{equation}
-where $W_j(0)$ is the initial amplitude weight of atom $j$, and $\mathbf{r}_j(0)$ is its initial position. The phase factor is not included in $W_j(0)$ here because it is carried explicitly in Eq.~\eqref{eq:atom_retrieval_phase}. This separation is useful numerically: the weight describes how much an atom participates in the stored mode, while the phase describes how that atom interferes during retrieval.
+where $W_j(0)$ is the initial contribution of atom $j$ to the stored mode. The spin-wave phase is kept outside the weight and is included explicitly in Eq.~\eqref{eq:atom_retrieval_phase}. This separation assigns the mode amplitude to $W_j(t)$ and the retrieval interference to $\Phi_j(\hat{\mathbf n},t)$.
 
-Atomic motion is introduced by allowing each position $\mathbf{r}_j(t)$ to evolve during storage. In a warm vapour, atoms do not remain fixed at the positions where the spin wave was written. They move through the beam profile, collide with buffer gas atoms, and may reach the cell walls. Even when the internal coherence of an atom survives, its contribution to the collective readout changes because the phase factor in Eq.~\eqref{eq:atom_retrieval_phase} is evaluated at the later position $\mathbf{r}_j(t)$. Motion therefore converts a well phased spin wave into a partially dephased one.
+Atomic motion is included by evolving the positions $\mathbf{r}_j(t)$ during storage. In a warm vapour, atoms move through the optical mode, collide with buffer-gas atoms, and may encounter the cell walls. Even when the internal coherence survives, the atom contributes from a different position at readout. Since the phase in Eq.~\eqref{eq:atom_retrieval_phase} is evaluated at $\mathbf{r}_j(t)$, motion changes the collective interference pattern and can reduce the phase-matched retrieved field.
 
-For diffusive motion, a time step $\Delta t$ can be represented by the stochastic update~\cite{MonteCarloNotes}
+For diffusive motion, the stochastic displacement during a time step $\Delta t$ is sampled as~\cite{MonteCarloNotes}
 \begin{equation}
     \mathbf{r}_j(t+\Delta t)
     =
@@ -143,7 +142,7 @@ For diffusive motion, a time step $\Delta t$ can be represented by the stochasti
     \boldsymbol{\xi}_j,
     \label{eq:diffusive_position_update}
 \end{equation}
-where $D$ is the diffusion coefficient and $\boldsymbol{\xi}_j$ is a three-dimensional random vector whose components are independent normal random variables with zero mean and unit variance. This expression gives the correct mean-square displacement for diffusion,
+where $D$ is the diffusion coefficient and $\boldsymbol{\xi}_j$ is a three-dimensional random vector with independent normally distributed components of zero mean and unit variance. This update gives the three-dimensional diffusion result~\cite{MonteCarloNotes}
 \begin{equation}
     \left\langle
     \left|
@@ -154,20 +153,20 @@ where $D$ is the diffusion coefficient and $\boldsymbol{\xi}_j$ is a three-dimen
     6D\Delta t,
     \label{eq:diffusion_msd}
 \end{equation}
-where the angle brackets denote an ensemble average over random trajectories~\cite{MonteCarloNotes}. Other transport models may be inserted into the same framework by changing the update rule for $\mathbf{r}_j(t)$.
+where the angle brackets denote an average over trajectories. Other transport models can be incorporated by replacing the update rule for $\mathbf{r}_j(t)$.
 
-The internal phase accumulated by atom $j$ is included through
+A position-dependent ground-state splitting produces an additional phase. The spatially uniform part of the splitting produces only a common phase and is removed from the retrieval amplitude. The relevant contribution is the differential shift $\Delta\omega_{sg}(\mathbf{r})$, which gives
 \begin{equation}
     \phi_j(t)
     =
     \int_0^t
-    \omega_{sg}\!\left(\mathbf{r}_j(t')\right)
+    \Delta\omega_{sg}\!\left(\mathbf{r}_j(t')\right)
     \,dt',
     \label{eq:internal_phase_integral}
 \end{equation}
-where $\omega_{sg}(\mathbf{r})$ is the local angular frequency splitting between $\ket{g}$ and $\ket{s}$, and $t'$ is the integration variable. If the magnetic field is spatially uniform, this phase is common to all atoms and does not reduce the collective interference. If the splitting varies across the cell, different trajectories accumulate different phases, and the relative phase pattern of the spin wave is degraded.
+where $t'$ is the integration variable. A homogeneous shift gives the same $\phi_j(t)$ for every atom and leaves the collective interference unchanged. Spatially varying shifts give trajectory-dependent phases and reduce the phase-matched spin-wave component.
 
-Loss of coherence at the wall or by other relaxation processes can be included as an additional survival factor. The time-dependent weight may be written as
+Wall relaxation and other loss mechanisms are included through a survival factor. The time-dependent atomic weight is written as
 \begin{equation}
     W_j(t)
     =
@@ -178,16 +177,19 @@ Loss of coherence at the wall or by other relaxation processes can be included a
     u_{\mathrm{read}}\!\left(\mathbf{r}_j(t)\right),
     \label{eq:time_dependent_weight}
 \end{equation}
-where $\eta_j(t)$ is the survival factor of the ground-state coherence of atom $j$, and $u_{\mathrm{read}}(\mathbf{r}_j(t))$ is the spatial envelope of the read process at the atom's position. The factor $\eta_j(t)$ may be set to unity for ideal coherent motion, or reduced when an atom undergoes a depolarizing event. In a coating model based on a mean number of allowed wall collisions, denoted by $N_{\mathrm{b}}$, a simple survival probability after $n_j(t)$ wall collisions is
+
+where $\eta_j(t)$ is the survival factor of the ground-state coherence of atom $j$, and $u_{\mathrm{read}}(\mathbf{r}_j(t))$ is the spatial envelope associated with the readout mode at the atom position. Ideal coherent motion is recovered by setting $\eta_j(t)=1$. Depolarizing events reduce $\eta_j(t)$ and therefore remove part of the atomic contribution from the coherent sum.
+
+Wall-induced relaxation is represented phenomenologically through the mean number of wall collisions that an atom can undergo before losing its ground-state coherence. This parameter, denoted by $N_{\mathrm{b}}$, does not describe the microscopic atom--surface interaction of a specific coating. It provides an effective way to compare uncoated cells with anti-relaxation coatings by changing the probability that coherence survives repeated wall encounters. If atom $j$ has experienced $n_j(t)$ wall collisions by time $t$, the survival factor is taken to be
 \begin{equation}
     \eta_j(t)
     =
     \left(
         1-\frac{1}{N_{\mathrm{b}}}
-    \right)^{n_j(t)},
+    \right)^{n_j(t)}.
     \label{eq:wall_survival_factor}
 \end{equation}
-where $n_j(t)$ is the number of wall collisions experienced by atom $j$ up to time $t$. This expression is a phenomenological model of wall-induced relaxation. It does not describe the microscopic chemistry of the coating; it only assigns a probability that the atomic ground-state coherence survives repeated wall encounters.
+This expression assigns the same survival probability to each wall collision and assumes independent relaxation events. The physical interpretation of $N_{\mathrm{b}}$ and its relation to coated warm-vapour cells will be discuss in section~\ref{sec:coatings}
 
 The simulated retrieval amplitude in a target direction $\hat{\mathbf n}_{\mathrm{tar}}$ is then
 \begin{equation}
@@ -200,7 +202,7 @@ The simulated retrieval amplitude in a target direction $\hat{\mathbf n}_{\mathr
     \right],
     \label{eq:target_mode_amplitude}
 \end{equation}
-where $\mathcal{A}_{\mathrm{tar}}(t)$ is the complex amplitude emitted into the target optical direction. The corresponding target-mode power is proportional to
+where $\mathcal{A}_{\mathrm{tar}}(t)$ is the complex field amplitude emitted into the target optical direction. The corresponding target-mode power is
 \begin{equation}
     P_{\mathrm{tar}}(t)
     \propto
@@ -209,7 +211,8 @@ where $\mathcal{A}_{\mathrm{tar}}(t)$ is the complex amplitude emitted into the 
     \right|^2 .
     \label{eq:target_mode_power}
 \end{equation}
-If the target mode is a fibre mode rather than a single far-field direction, the coherent amplitude is written as an overlap with the fibre mode,
+
+As the detected mode is a fibre mode rather than a single far-field direction, the retrieved amplitude is projected onto the angular fibre mode. The fibre-coupled amplitude is
 \begin{equation}
     \mathcal{A}_{\mathrm{fib}}(t)
     =
@@ -218,7 +221,7 @@ If the target mode is a fibre mode rather than a single far-field direction, the
     \mathcal{E}_{\mathrm{out}}(\hat{\mathbf n},t),
     \label{eq:fibre_overlap_integral}
 \end{equation}
-where $u_{\mathrm{fib}}(\hat{\mathbf n})$ is the normalized angular mode of the fibre and $d\Omega$ is the differential solid angle. The fibre-coupled power is then
+where $u_{\mathrm{fib}}(\hat{\mathbf n})$ is the normalized angular mode of the fibre and $d\Omega$ is the differential solid angle. The fibre-coupled power is
 \begin{equation}
     P_{\mathrm{fib}}(t)
     \propto
@@ -227,9 +230,11 @@ where $u_{\mathrm{fib}}(\hat{\mathbf n})$ is the normalized angular mode of the 
     \right|^2 .
     \label{eq:fibre_power}
 \end{equation}
-This form emphasizes that the useful retrieved signal is a coherent mode overlap, not merely the total light emitted by the atoms.
+The useful retrieved signal is therefore determined by a coherent mode overlap, rather than by the total optical power emitted into all directions.
 
-The Monte Carlo simulation evaluates these sums by sampling many atoms and many trajectories. Each atom is assigned an initial position, an initial optical weight, and a stochastic trajectory. At each storage time, the array factor is evaluated from the current positions, phases, and survival weights. In this sense, the numerical model estimates an ensemble average over possible atomic configurations and histories~\cite{MonteCarloNotes}. A generic estimator for the target amplitude is
+The Monte Carlo calculation evaluates the coherent sums by sampling atoms and trajectories. Each sampled atom is assigned an initial position, an optical weight, a stochastic trajectory, a survival factor, and an accumulated internal phase. At each timestep, the retrieval amplitude is evaluated from the current positions, phases, and weights. The numerical result therefore estimates an ensemble average over possible atomic configurations and histories~\cite{MonteCarloNotes}.
+
+For the target direction, the Monte Carlo estimator of the amplitude is
 \begin{equation}
     \widehat{\mathcal{A}}_{\mathrm{tar}}(t)
     =
@@ -241,7 +246,7 @@ The Monte Carlo simulation evaluates these sums by sampling many atoms and many 
     \right],
     \label{eq:monte_carlo_amplitude_estimator}
 \end{equation}
-where $N_{\mathrm{MC}}$ is the number of Monte Carlo samples and the hat indicates a numerical estimator. The corresponding estimator for the target-mode power is
+where $N_{\mathrm{MC}}$ is the number of Monte Carlo samples and the hat denotes a numerical estimator. The associated power estimator is
 \begin{equation}
     \widehat{P}_{\mathrm{tar}}(t)
     \propto
@@ -250,14 +255,14 @@ where $N_{\mathrm{MC}}$ is the number of Monte Carlo samples and the hat indicat
     \right|^2 .
     \label{eq:monte_carlo_power_estimator}
 \end{equation}
-The statistical error of a Monte Carlo average decreases with the number of independent samples, with the standard scaling proportional to \(N_{\mathrm{MC}}^{-1/2}\) under ordinary independent sampling assumptions~\cite{MonteCarloNotes}.
+Under independent sampling, the statistical error of the amplitude estimator scales as $N_{\mathrm{MC}}^{-1/2}$~\cite{MonteCarloNotes}.
 
-The normalized retrieval observable used in the simulations is written as
+The normalized retrieval observable is defined as
 \begin{equation}
     \mathcal{R}_{\mathrm{fib}}(t)
     =
     \frac{P_{\mathrm{fib}}(t)}
-    {P_{\text{tot}}(0)},
+    {P_{\mathrm{tot}}(0)},
     \label{eq:normalized_fibre_retrieval}
 \end{equation}
-where \(P_{\mathrm{fib}}(t)\) is the fibre-coupled retrieved power at storage time \(t\), and \(P_{\text{tot}}(0)\) is the total emitted power at zero storage time. This normalization separates the decay of the retrievable mode from the absolute scale of the emitted field. The quantity in Eq.~\eqref{eq:normalized_fibre_retrieval} is therefore sensitive to the loss of phase matching, beam overlap, and coherence survival, which are the main mechanisms represented in the simulation.
+where $P_{\mathrm{fib}}(t)$ is the fibre-coupled retrieved power after storage time $t$, and $P_{\mathrm{tot}}(0)$ is the total emitted power at zero storage time. This normalization removes the arbitrary absolute scale of the emitted field while retaining the decay of the retrievable mode. The observable is therefore sensitive to phase mismatch, loss of beam overlap, and survival of the ground-state coherence.

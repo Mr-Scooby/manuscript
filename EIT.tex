@@ -1,44 +1,47 @@
 \section{Electromagnetically Induced Transparency Memory}
 \label{sec:eit_memory}
 
-The previous section introduced the atomic level structure used in alkali-metal ensemble memories. In the idealized description, two long-lived ground states, denoted by $\ket{g}$ and $\ket{s}$, are optically connected to a common excited state $\ket{e}$. This three-level structure forms a $\Lambda$-type system. The weak signal field couples the transition $\ket{g}\leftrightarrow\ket{e}$, while a stronger classical control field couples the transition $\ket{s}\leftrightarrow\ket{e}$. Electromagnetically induced transparency (EIT) is the mechanism by which this level structure is used to transform resonant absorption into coherent and reversible light storage~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a,Oqmboeit_MaEtAl_2017}.
+EIT storage is enabled by a $\Lambda$-type atomic system in which two long-lived ground states, denoted by $\ket{g}$ and $\ket{s}$, are optically coupled to a common excited state $\ket{e}$. The weak signal field couples the transition $\ket{g}\leftrightarrow\ket{e}$, while a stronger classical control field couples $\ket{s}\leftrightarrow\ket{e}$. Under suitable resonance conditions, the control field modifies the optical response of the ensemble so that resonant absorption is suppressed and the optical excitation can be mapped coherently onto a ground-state spin coherence~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a,Oqmboeit_MaEtAl_2017}.
 
-If the control field is absent, the signal field interacts with the ensemble as with an ordinary resonant optical transition. Atoms initially prepared in $\ket{g}$ can absorb signal photons and be excited to $\ket{e}$. Since $\ket{e}$ is short-lived, this excitation is not a useful memory state: it can decay by spontaneous emission, thereby removing the photon from the desired optical mode and converting a coherent input field into loss and fluorescence. In this situation, an optically dense ensemble is therefore opaque to a resonant signal field rather than useful for storage~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a}.
+In the absence of the control field, the signal field addresses an ordinary resonant optical transition. Atoms initially prepared in $\ket{g}$ may absorb signal photons and be excited to $\ket{e}$. Since the excited state is short-lived, this excitation decays by spontaneous emission and removes the photon in a random optical mode. An optically dense ensemble is therefore opaque to a resonant signal field unless the optical response is modified by the control field~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a}.
 
-The role of the control field is to change this response. When the signal and control fields are applied simultaneously under two-photon resonance, the atom can be driven into a coherent superposition of the two ground states that does not contain the excited state. This state is called the dark state because it is decoupled from the optically excited state and therefore does not scatter light through spontaneous emission. For signal and control Rabi frequencies $\Omega_{\mathrm{sig}}$ and $\Omega_{\mathrm{c}}$, respectively, the dark state can be written as
+When the signal and control fields satisfy two-photon resonance, the atom can be prepared in a coherent superposition of the two ground states with no excited-state component. In the standard $\Lambda$-system description, the dark state is written as~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a}
 \begin{equation}
     \ket{D}
     =
     \frac{
-    \Omega_{\mathrm{sig}}\ket{s}
-    -
     \Omega_{\mathrm{c}}\ket{g}
+    -
+    \Omega_{\mathrm{sig}}\ket{s}
     }{
-    \sqrt{|\Omega_{\mathrm{sig}}|^2+|\Omega_{\mathrm{c}}|^2}
-    }
+    \sqrt{|\Omega_{\mathrm{c}}|^2+|\Omega_{\mathrm{sig}}|^2}
+    },
     \label{eq:eit_dark_state}
 \end{equation}
-where $\Omega_{\mathrm{sig}}$ is the Rabi frequency of the weak signal field on $\ket{g}\leftrightarrow\ket{e}$, and $\Omega_{\mathrm{c}}$ is the Rabi frequency of the control field on $\ket{s}\leftrightarrow\ket{e}$~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a}. The important point is not simply that absorption is suppressed, but why it is suppressed: the two excitation pathways interfere destructively at the excited state. As a result, the ensemble can remain nearly transparent to a resonant signal field even though most of the atomic population is still in the ground state that would normally absorb it~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a}.
+where $\Omega_{\mathrm{sig}}$ and $\Omega_{\mathrm{c}}$ are the Rabi frequencies of the weak signal field on $\ket{g}\leftrightarrow\ket{e}$  and the control field on $\ket{s}\leftrightarrow\ket{e}$ respectively. Absorption is suppressed because the two optical excitation pathways interfere destructively at $\ket{e}$. The ensemble can therefore remain transparent to a resonant signal field even though the atoms occupy a ground state that would absorb in the absence of the control field~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a}.
 
-The same interference that removes absorption also modifies the optical susceptibility of the medium. In the weak-signal limit, the signal field can be treated as a probe of the atomic response, while the control field sets the strength and width of the EIT resonance. A convenient expression for the linear susceptibility of the signal field is
+The destructive interference also reshapes the optical susceptibility. In the weak-signal limit, the signal field probes the linear response of the atomic medium, while the control field sets the width and strength of the EIT resonance. A commonly used expression for the signal susceptibility is~\cite{Apgteitiav_FinkelsteinEtAl_2023,Oqmboeit_MaEtAl_2017}
 \begin{equation}
     \chi_{\mathrm{sig}}(\Delta,\delta)
     =
-    i\frac{N|\mu_{ge}|^2}{\hbar\epsilon_0}
+        i\frac{\mathcal{N}|\mu_{ge}|^2}{\hbar\epsilon_0}
     \frac{\Gamma_{gs}}
     {\Gamma_{gs}\Gamma_{ge}+|\Omega_{\mathrm{c}}|^2},
     \label{eq:eit_susceptibility}
 \end{equation}
-where $N$ is the atomic number density, $\mu_{ge}$ is the dipole matrix element of the signal transition, $\epsilon_0$ is the vacuum permittivity, $\Delta$ is the one-photon detuning from $\ket{g}\leftrightarrow\ket{e}$, and $\delta$ is the two-photon detuning between the signal-control frequency difference and the $\ket{g}\leftrightarrow\ket{s}$ splitting. The complex decay factors are defined as $\Gamma_{ge}=\gamma_{ge}-i\Delta$ and $\Gamma_{gs}=\gamma_{gs}-i\delta$, where $\gamma_{ge}$ is the optical coherence decay rate and $\gamma_{gs}$ is the ground-state coherence decay rate~\cite{Apgteitiav_FinkelsteinEtAl_2023,Oqmboeit_MaEtAl_2017}. In the ideal case of exact two-photon resonance and negligible ground-state decoherence, $\Gamma_{gs}\rightarrow0$, so the susceptibility vanishes. The imaginary part, which describes absorption, is suppressed, while the real part, which determines the refractive index, varies rapidly across the narrow transparency window~\cite{Apgteitiav_FinkelsteinEtAl_2023,Oqmboeit_MaEtAl_2017}.
 
-This rapid variation of refractive index is essential for slow light. The dispersion relation of the signal field in the medium may be written as
+where $\mathcal{N}$ is the atomic number density, $\mu_{ge}$ is the electric-dipole matrix element of the signal transition, and $\epsilon_0$ is the vacuum permittivity. The optical detuning, defined as $\Delta=\omega_{\mathrm{sig}}-\omega_{eg}$, where $\omega_{\mathrm{sig}}$ is the signal-field angular frequency and $\omega_{eg}$ is the resonance frequency of the $\ket{g}\leftrightarrow\ket{e}$ transition. The two-photon detuning $\delta=(\omega_{\mathrm{sig}}-\omega_{\mathrm{c}})-\omega_{sg}$, where $\omega_{\mathrm{c}}$ is the control-field angular frequency and $\omega_{sg}$ is the ground-state splitting between $\ket{g}$ and $\ket{s}$. The complex response factors $\Gamma_{ge}=\gamma_{ge}-i\Delta$ and $\Gamma_{gs}=\gamma_{gs}-i\delta$ combine coherent detuning with irreversible loss of coherence. Here, $\gamma_{ge}$ is the decay rate of the optical coherence associated with $\ket{g}\leftrightarrow\ket{e}$, while $\gamma_{gs}$ is the decoherence rate of the stored ground-state coherence between $\ket{g}$ and $\ket{s}$.
+
+At exact two-photon resonance, \(\delta=0\). If the ground-state coherence is long lived, so that \(\gamma_{gs}\) is negligible, then \(\Gamma_{gs}\rightarrow0\). In Eq.~\eqref{eq:eit_susceptibility}, the numerator therefore tends to zero, and the signal susceptibility vanishes at the centre of the EIT resonance. Physically, the medium no longer absorbs the resonant signal field because the excitation pathway through \(\ket{e}\) is cancelled by destructive interference. Away from the exact resonance, however, the cancellation is incomplete. The imaginary part of \(\chi_{\mathrm{sig}}\), which describes absorption, remains strongly suppressed inside the transparency window, while the real part changes rapidly with detuning. This steep variation of the real part is the origin of the large group index and the slow propagation of the signal pulse~\cite{Apgteitiav_FinkelsteinEtAl_2023,Oqmboeit_MaEtAl_2017}.
+
+This steep dispersion inside the EIT window reduces the group velocity of the signal pulse. For a dispersive medium, the scalar wavenumber of the signal field is~\cite{Apgteitiav_FinkelsteinEtAl_2023,Oqmboeit_MaEtAl_2017}
 \begin{equation}
     k(\omega)
     =
     \frac{n(\omega)\omega}{c},
     \label{eq:eit_dispersion_relation}
 \end{equation}
-where $k(\omega)$ is the wave number, $\omega$ is the optical angular frequency, $n(\omega)$ is the refractive index, and $c$ is the speed of light in vacuum~\cite{Apgteitiav_FinkelsteinEtAl_2023,Oqmboeit_MaEtAl_2017}. The group velocity of a signal pulse is then
+where $\omega$ is the optical angular frequency, $n(\omega)$ is the refractive index, and $c$ is the speed of light in vacuum. The group velocity is then~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a}
 \begin{equation}
     v_{\mathrm{g}}
     =
@@ -48,11 +51,11 @@ where $k(\omega)$ is the wave number, $\omega$ is the optical angular frequency,
     {n+\omega\,\frac{\partial n}{\partial\omega}},
     \label{eq:eit_group_velocity}
 \end{equation}
-where $v_{\mathrm{g}}$ is the velocity of the pulse envelope~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a}. Inside the EIT window, absorption is small, but the slope $\partial n/\partial\omega$ can be large. The denominator in Eq.~\eqref{eq:eit_group_velocity} can therefore become much larger than unity, and the signal pulse propagates through the ensemble with a velocity far below $c$~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a,Oqmboeit_MaEtAl_2017}.
+where $v_{\mathrm{g}}$ is the velocity of the pulse envelope. Inside the EIT window, absorption is small and $\partial n/\partial\omega$ can be large, so the denominator in Eq.~\eqref{eq:eit_group_velocity} may greatly exceed unity. The pulse then propagates through the ensemble with a group velocity far below $c$~\cite{Apgteitiav_FinkelsteinEtAl_2023,Psliwavueit_DeRoseEtAl_2023a,Oqmboeit_MaEtAl_2017}.
 
-Slow light is not merely a striking optical effect; it is the step that makes storage possible. When the front edge of the pulse enters the EIT medium, it is slowed down by the steep dispersion. The back edge, which may still be outside the cell, continues to propagate at approximately $c$. The spatial length of the pulse is therefore compressed as it enters the ensemble. If the optical depth and control-field strength are chosen appropriately, the entire signal pulse can be contained inside the medium before the control field is switched off. This condition is necessary because only the part of the pulse inside the ensemble can be mapped onto the atomic degrees of freedom~\cite{C:Tampsiae_Lukin_2003,Psliwavueit_DeRoseEtAl_2023a,SoLiAV_PhillipsEtAl_2001,Oqmboeit_MaEtAl_2017}.
+The reduced group velocity compresses the signal pulse inside the ensemble, which allows the optical mode to be spatially contained before the control field is extinguished. The front of the pulse is slowed after entering the EIT medium, while the remaining part of the pulse continues to enter the cell. For sufficient optical depth and an appropriate control-field strength, the full pulse can be placed inside the ensemble. Only the optical excitation inside the medium can be converted into atomic coherence during storage~\cite{C:Tampsiae_Lukin_2003,Psliwavueit_DeRoseEtAl_2023a,SoLiAV_PhillipsEtAl_2001,Oqmboeit_MaEtAl_2017}.
 
-The most useful description of this process is the dark-state polariton picture. Instead of treating the signal field and the atomic coherence as separate objects, one introduces a joint light--matter excitation,
+In the dark-state polariton treatment of Fleischhauer and Lukin, storage is described as the adiabatic rotation of a joint light--matter excitation rather than as ordinary resonant absorption~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003}. The polariton field is written as
 \begin{equation}
     \hat{\Psi}(z,t)
     =
@@ -61,34 +64,37 @@ The most useful description of this process is the dark-state polariton picture.
     \sin\theta(t)\,\hat{S}(z,t),
     \label{eq:dark_state_polariton}
 \end{equation}
-where $\hat{\Psi}(z,t)$ is the dark-state polariton field, $\hat{\mathcal{E}}(z,t)$ is the slowly varying quantum field operator of the signal light, and $\hat{S}(z,t)$ is the collective ground-state spin coherence of the ensemble~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003,Oqmboeit_MaEtAl_2017}. The mixing angle $\theta(t)$ determines how much of the excitation is photonic and how much is atomic. For an ensemble with single-atom coupling strength $g$, atom number $N$, and control Rabi frequency $\Omega_{\mathrm{c}}(t)$, the mixing angle is commonly written as
+
+where $\hat{\Psi}(z,t)$ is the dark-state polariton field, $\hat{\mathcal{E}}(z,t)$ is the slowly varying quantum field operator of the signal light, and $\hat{S}(z,t)$ is the collective ground-state spin coherence of the ensemble. The polariton is a coherent superposition of a propagating optical excitation and a stationary atomic coherence. Its photonic weight is $\cos^2\theta(t)$, while its atomic weight is $\sin^2\theta(t)$. The mixing angle $\theta(t)$ is therefore the parameter that determines where the quantum excitation is stored at a given time.
+
+Following the dark-state polariton treatment of Fleischhauer and Lukin~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003}, the mixing angle is set by the ratio between the collective atom--light coupling and the control-field Rabi frequency,
 \begin{equation}
     \tan^2\theta(t)
     =
-    \frac{g^2N}{|\Omega_{\mathrm{c}}(t)|^2},
+    \frac{g^2N}{|\Omega_{\mathrm{c}}(t)|^2}.
     \label{eq:eit_mixing_angle}
 \end{equation}
-where $g$ describes the coupling between a single atom and the signal mode, and $N$ is the effective number of atoms coupled to the optical field~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003}. A strong control field gives $\theta\approx0$, so the polariton is mostly photonic and propagates through the medium. As the control field is reduced, $\theta$ increases and the atomic component becomes larger. In the limit $\Omega_{\mathrm{c}}\rightarrow0$, the mixing angle approaches $\pi/2$, and the polariton becomes almost entirely a collective atomic spin coherence~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003,Oqmboeit_MaEtAl_2017}.
+Here, $g$ is the single-atom coupling strength to the signal mode, $N$ is the effective number of atoms coupled to that mode, and $g\sqrt{N}$ is the collectively enhanced coupling between the ensemble and the signal field. The control Rabi frequency $\Omega_{\mathrm{c}}(t)$ controls the coupling between the optical polarization and the spin coherence. A large $|\Omega_{\mathrm{c}}|$ makes $g^2N/|\Omega_{\mathrm{c}}|^2$ small, so $\theta\approx0$ and $\hat{\Psi}$ is predominantly optical. As the control field is reduced, $\theta$ increases and the same excitation acquires a larger spin-wave component. In the limit $|\Omega_{\mathrm{c}}|\rightarrow0$, $\theta\rightarrow\pi/2$, the photonic weight $\cos^2\theta$ vanishes, and the excitation is mapped onto the collective ground-state coherence $\hat{S}(z,t)$~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003,Oqmboeit_MaEtAl_2017}.
 
-The storage process is therefore not ordinary absorption of a photon by a single atom. It is an adiabatic rotation of a collective light--matter excitation. If the control field is turned off slowly enough for the system to remain in the dark state, the optical part of the polariton disappears while the quantum state is preserved in the atomic part. In this way, the signal field is mapped onto the ground-state coherence between $\ket{g}$ and $\ket{s}$. Because these are long-lived states, the stored excitation can survive much longer than an optical polarization involving $\ket{e}$~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003,SoLiAV_PhillipsEtAl_2001,Oqmboeit_MaEtAl_2017}.
+Storage is obtained when the control field is reduced adiabatically while the system remains in the dark state. The optical part of the polariton is then converted into the ground-state coherence between $\ket{g}$ and $\ket{s}$, while population of $\ket{e}$ remains suppressed. The stored excitation can survive longer than an optical polarization because it is carried by long-lived ground states rather than by the short-lived excited state~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003,SoLiAV_PhillipsEtAl_2001,Oqmboeit_MaEtAl_2017}.
 
-Retrieval is the reverse process. When the control field is turned back on, the mixing angle is rotated back toward its photonic limit. The stored spin coherence is converted into an optical polarization, and the signal field is regenerated. Ideally, if decoherence has not disturbed the atomic coherence during storage, the retrieved pulse preserves the quantum state, phase, and temporal mode of the input field. In practice, the quality of retrieval is limited by the lifetime and spatial structure of the stored ground-state coherence, as well as by optical-depth, bandwidth, and noise constraints~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003,Oqmboeit_MaEtAl_2017,Apgteitiav_FinkelsteinEtAl_2023}.
+Retrieval is produced by applying the control field again. The mixing angle is rotated back toward the photonic limit, the stored spin coherence is converted into an optical polarization, and the signal field is regenerated. If decoherence and mode distortion during storage are negligible, the retrieved pulse preserves the quantum state, phase, and temporal mode of the input. In practice, retrieval is limited by the lifetime and spatial structure of the stored coherence, as well as by optical depth, bandwidth, and noise~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003,Oqmboeit_MaEtAl_2017,Apgteitiav_FinkelsteinEtAl_2023}.
 
-For the purposes of this thesis, the full time-dependent EIT writing dynamics are not simulated explicitly. Instead, EIT provides the physical justification for the initial condition used in the retrieval model: after storage, the optical excitation has been converted into a collective ground-state coherence. The following sections therefore start from this stored atomic excitation and ask how its spatial phase and mode structure determine the field that can later be retrieved. The central object is no longer the transparency window itself, but the collective spin wave left behind by the EIT storage process~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003,Oqmboeit_MaEtAl_2017}.
+The full time-dependent EIT writing dynamics are not solved explicitly in the retrieval model presented later. EIT is used to justify the initial condition after storage, where the travelling optical excitation has been converted into a collective ground-state coherence. The relevant object is then the spin wave left by the storage process, whose spatial envelope and phase determine the optical field that can be retrieved~\cite{QmfpDp_FleischhauerEtAl_2002,C:Tampsiae_Lukin_2003,Oqmboeit_MaEtAl_2017}.
 
 \section{Collective Spin-Wave Storage}
 \label{sec:collective_spin_wave_storage}
 
-The state stored by an EIT memory is a coherence between two long-lived ground states, denoted here by $\ket{g}$ and $\ket{s}$. For a single atom, this coherence may be represented by the spin-flip operator
+The state stored by an EIT memory is a coherence between the two long-lived ground states $\ket{g}$ and $\ket{s}$. For a single atom, the local spin-flip operator is defined as~\cite{PsiL-odamIFm_GorshkovEtAl_2007}
 \begin{equation}
     \hat{\sigma}_{sg}^{(j)}
     =
     \ket{s_j}\bra{g_j},
     \label{eq:single_atom_spin_flip}
 \end{equation}
-where the superscript \(j\) labels the atom in the ensemble. This operator transfers atom \(j\) from the initial ground state \(\ket{g}\) to the storage state \(\ket{s}\). Such a single-atom picture is useful for defining the local memory degree of freedom, but it does not yet describe an ensemble memory. In an optically thick ensemble, the absorbed photon is not assigned to one known atom. Instead, the excitation is shared coherently by all atoms that couple to the optical mode~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+where the superscript \(j\) labels the atom in the ensemble. This operator transfers atom \(j\) from $\ket{g}$ to $\ket{s}$. In an optically thick ensemble, however, the absorbed photon is not assigned to a known atom. The excitation is shared coherently by all atoms coupled to the optical mode~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-For \(N\) atoms initially prepared in \(\ket{g}\), a single stored excitation can be written as
+For \(N\) atoms initially prepared in $\ket{g}$, the single-excitation spin-wave state is written as~\cite{PsiL-odamIFm_GorshkovEtAl_2007}
 \begin{equation}
     \ket{1_S}
     =
@@ -98,9 +104,9 @@ For \(N\) atoms initially prepared in \(\ket{g}\), a single stored excitation ca
     \ket{g_1,\ldots,s_j,\ldots,g_N},
     \label{eq:single_spin_wave_state}
 \end{equation}
-where \(N\) is the number of atoms participating in the memory, \(\mathbf{r}_j\) is the position of atom \(j\), and \(\Delta\mathbf{k}\) is the spin-wave wave vector written by the optical fields~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. The factor \(1/\sqrt{N}\) normalizes the state. Equation~\eqref{eq:single_spin_wave_state} shows the main physical point: one atom has been transferred to \(\ket{s}\), but the ensemble contains no information about which atom it is. The stored photon is therefore converted into a delocalized collective excitation rather than into a localized atomic excitation~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+where \(N\) is the number of participating atoms, \(\mathbf{r}_j\) is the position of atom \(j\), and \(\Delta\mathbf{k}\) is the spin-wave wave vector written by the optical fields. The factor \(1/\sqrt{N}\) normalizes the state. The absence of which-atom information makes the excitation collective, and the phase factor fixes how the ensemble will interfere during retrieval~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-The phase factor in Eq.~\eqref{eq:single_spin_wave_state} is essential. During storage, the phase difference between the signal and control fields is transferred to the ground-state coherence. For a write process with signal wave vector \(\mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}\) and control wave vector \(\mathbf{k}_{\mathrm{c}}^{\mathrm{write}}\), the spin-wave wave vector is
+During storage, the phase difference between the signal and control fields is transferred to the ground-state coherence. For a write process with signal wave vector \(\mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}\) and control wave vector \(\mathbf{k}_{\mathrm{c}}^{\mathrm{write}}\), the spin-wave wave vector is~\cite{PsiL-odamIFm_GorshkovEtAl_2007}
 \begin{equation}
     \Delta\mathbf{k}
     =
@@ -109,9 +115,9 @@ The phase factor in Eq.~\eqref{eq:single_spin_wave_state} is essential. During s
     \mathbf{k}_{\mathrm{c}}^{\mathrm{write}}.
     \label{eq:spin_wave_wavevector}
 \end{equation}
-Here, \(\mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}\) is the wave vector of the incoming signal field during storage, and \(\mathbf{k}_{\mathrm{c}}^{\mathrm{write}}\) is the wave vector of the write control field~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. The spin wave is therefore a spatial grating of ground-state coherence. Atoms at different positions carry different phases, and these phases later determine whether their emitted fields interfere constructively or destructively during retrieval~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+The spin wave is therefore a spatial grating of ground-state coherence. Atoms at different positions carry different phases, and these phases determine whether the fields emitted during retrieval add constructively into the selected optical mode~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-The same idea can be written in operator form as
+The same collective excitation may be represented by the spin-wave creation operator~\cite{PsiL-odamIFm_GorshkovEtAl_2007}
 \begin{equation}
     \hat{S}_{\Delta\mathbf{k}}^\dagger
     =
@@ -121,23 +127,23 @@ The same idea can be written in operator form as
     \hat{\sigma}_{sg}^{(j)}.
     \label{eq:spin_wave_operator_discrete}
 \end{equation}
-The operator \(\hat{S}_{\Delta\mathbf{k}}^\dagger\) creates one collective spin-wave excitation with wave vector \(\Delta\mathbf{k}\). Acting on the collective ground state
+Acting on the collective ground state
 \begin{equation}
     \ket{G}
     =
     \ket{g_1,\ldots,g_N},
     \label{eq:collective_ground_state}
 \end{equation}
-it gives
+it creates the state
 \begin{equation}
     \ket{1_S}
     =
     \hat{S}_{\Delta\mathbf{k}}^\dagger\ket{G}.
     \label{eq:spin_wave_state_operator}
 \end{equation}
-In the weak-excitation limit, where the number of stored excitations is much smaller than \(N\), the ensemble is only weakly perturbed and the collective spin-wave mode can be treated approximately as a bosonic excitation~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+In the weak-excitation limit, where the number of stored excitations is much smaller than \(N\), the collective spin-wave mode can be treated approximately as bosonic~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-For a spatially extended ensemble, the stored excitation is better described as a continuous mode. The spin wave then includes both a phase and an envelope,
+For an extended ensemble, the stored excitation can be more naturally described as a continuous spatial coherence. The spin wave contains both an amplitude envelope and a spatial phase grating. Following the standard spin-wave description used in ensemble memories~\cite{PsiL-odamIFm_GorshkovEtAl_2007}, it may be written as
 \begin{equation}
     S(\mathbf{r},0)
     =
@@ -145,9 +151,9 @@ For a spatially extended ensemble, the stored excitation is better described as 
     e^{i\Delta\mathbf{k}\cdot\mathbf{r}},
     \label{eq:continuous_spin_wave_initial}
 \end{equation}
-where \(S(\mathbf{r},0)\) is the initial ground-state coherence at position \(\mathbf{r}\), \(f(\mathbf{r})\) is the slowly varying spatial envelope determined by the optical mode and atomic density, and \(e^{i\Delta\mathbf{k}\cdot\mathbf{r}}\) is the rapidly varying spin-wave phase~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. This distinction is useful because the memory can fail in two different ways. The envelope may be degraded if atoms move out of the region addressed by the optical beams. The phase may be degraded if atoms move relative to the spin-wave period or if a position-dependent energy shift causes different atoms to accumulate different phases~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+where $S(\mathbf{r},0)$ is the initial ground-state coherence, $f(\mathbf{r})$ is the slowly varying spatial envelope of the stored mode, and $e^{i\Delta\mathbf{k}\cdot\mathbf{r}}$ the phase spatial period written by the signal and control fields. The envelope is set by the optical mode profiles, the atomic density distribution, and the local storage efficiency. During storage, atomic motion can reduce the mode overlap by moving atoms out of the region addressed by the optical fields. It can also reduce the phase-matched collective coherence when atoms move relative to the spin-wave period or when position-dependent energy shifts produce differential phase accumulation~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-Gorshkov \emph{et al.} formulate storage and retrieval in a \(\Lambda\)-type medium using three slowly varying collective variables: the quantum field \(\mathcal{E}\), the optical polarization \(P\), and the spin wave \(S\)~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. The optical polarization and spin wave are defined as
+Following Gorshkov \emph{et al.}, storage and retrieval in a one-dimensional $\Lambda$ medium can be described using the slowly varying quantum field \(\mathcal{E}\), optical polarization \(P\), and spin wave \(S\)~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. The optical polarization and spin wave are defined as
 \begin{equation}
     P(z,t)
     =
@@ -158,9 +164,9 @@ Gorshkov \emph{et al.} formulate storage and retrieval in a \(\Lambda\)-type med
     \sqrt{N}\,\sigma_{gs}(z,t),
     \label{eq:gorshkov_collective_variables}
 \end{equation}
-where \(\sigma_{ge}(z,t)\) is the slowly varying optical coherence between \(\ket{g}\) and \(\ket{e}\), and \(\sigma_{gs}(z,t)\) is the slowly varying ground-state coherence between \(\ket{g}\) and \(\ket{s}\) at position \(z\)~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. The one-dimensional approximation is appropriate when the quantum field is restricted to a single optical mode and the control beam is broad compared with that mode~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+where \(\sigma_{ge}(z,t)\) is the slowly varying optical coherence between $\ket{g}$ and $\ket{e}$, and \(\sigma_{gs}(z,t)\) is the slowly varying ground-state coherence between $\ket{g}$ and $\ket{s}$. The one-dimensional approximation is appropriate when the quantum field is restricted to a single optical mode and the control beam is broad compared with it~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-In dimensionless coordinates and in a frame moving with the signal field, the equations of motion are written as~\cite{PsiL-odamIFm_GorshkovEtAl_2007}
+In dimensionless coordinates and in a frame moving with the signal field, the coupled Maxwell--Bloch equations are written by Gorshkov \emph{et al.} as~\cite{PsiL-odamIFm_GorshkovEtAl_2007}
 \begin{equation}
     \partial_{\tilde{z}}\mathcal{E}
     =
@@ -184,17 +190,17 @@ and
     i\tilde{\Omega}^{*}(\tilde{t})P.
     \label{eq:gorshkov_spin_wave}
 \end{equation}
-Here, \(\tilde{z}\) is the dimensionless propagation coordinate, \(\tilde{t}\) is the dimensionless time, \(d\) is the resonant optical depth, \(\tilde{\Delta}=\Delta/\gamma\) is the dimensionless one-photon detuning, and \(\tilde{\Omega}=\Omega/\gamma\) is the dimensionless control Rabi frequency. The parameter \(\gamma\) is the optical polarization decay rate, while \(\Delta\) and \(\Omega\) are the physical one-photon detuning and control Rabi frequency, respectively~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+Here, \(\tilde{z}\) is the dimensionless propagation coordinate, \(\tilde{t}\) is the dimensionless time, \(d\) is the resonant optical depth, \(\tilde{\Delta}=\Delta/\gamma\) is the dimensionless one-photon detuning, and \(\tilde{\Omega}=\Omega/\gamma\) is the dimensionless control Rabi frequency. The parameter \(\gamma\) is the optical polarization decay rate, while \(\Delta\) and \(\Omega\) are the physical detuning and control Rabi frequency~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-These equations separate the roles of the three relevant excitations. The field \(\mathcal{E}\) carries the optical input and output. The polarization \(P\) is the short-lived optical coherence involving the excited state \(\ket{e}\). The spin wave \(S\) is the long-lived ground-state coherence that stores the information. The control field \(\tilde{\Omega}(\tilde{t})\) couples \(P\) and \(S\), and therefore controls the transfer between optical and atomic degrees of freedom~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+The field \(\mathcal{E}\) carries the optical input and output. The polarization \(P\) is the short-lived optical coherence involving $\ket{e}$. The spin wave \(S\) is the long-lived ground-state coherence. The control field \(\tilde{\Omega}(\tilde{t})\) couples \(P\) and \(S\), thereby controlling the transfer between optical and atomic degrees of freedom~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-The optical depth \(d\) plays a central role in this description. It measures the strength with which the ensemble couples to the selected optical mode. For a fixed transition, it is determined by the atomic density and the length of the ensemble. A larger optical depth increases the probability that the excitation is emitted into the desired collective mode rather than lost into uncontrolled spontaneous-emission modes~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+The optical depth \(d\) sets the collective coupling strength between the ensemble and the selected optical mode. For a fixed transition, it is determined by the atomic density and the length of the ensemble. Larger optical depth increases emission into the desired collective mode relative to loss into uncontrolled spontaneous-emission modes~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-An important result of the Gorshkov analysis is that, once a spin wave has been prepared, the retrieval efficiency is determined by the optical depth and the spin-wave mode. Provided that the retrieval process is completed and no excitation remains in the atoms, the final retrieval efficiency is independent of the detailed temporal shape of the control pulse and of the detuning~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. The control pulse determines how the excitation is read out in time, but the amount that can be emitted into the desired optical mode is fixed by the collective mode stored in the atoms~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+A central result of the Gorshkov analysis is that, once a spin wave has been prepared, the final retrieval efficiency is determined by the optical depth and the stored spin-wave mode. Provided that retrieval is completed and no excitation remains in the atoms, the efficiency is independent of the detailed temporal shape of the control pulse and of the detuning~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. The control pulse fixes the temporal shape of the emitted field, while the total retrievable energy is fixed by the collective atomic mode~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-This result has a simple physical interpretation. During retrieval, each atom behaves as a small emitter driven by the read control field. The field emitted into a given direction is the coherent sum of the contributions from all atoms. If the phases match, the emitted fields add constructively and the emission is collectively enhanced. If the phases do not match, the contributions cancel partially or radiate into undesired directions. Retrieval is therefore not determined only by how much atomic coherence remains. It is determined by whether that coherence still has the correct spatial phase and envelope to radiate into the selected optical mode~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+During retrieval, each atom contributes a field amplitude driven by the read control field. The field emitted into a given output direction is the coherent sum of all atomic contributions. Phase-matched contributions add constructively, whereas phase mismatch redirects or suppresses the emission. Retrieval is therefore governed by the spatial phase and envelope of the remaining spin coherence, not only by the amount of microscopic coherence that survives~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-The phase-matching condition follows directly from this coherent sum. During readout, the control field with wave vector \(\mathbf{k}_{\mathrm{c}}^{\mathrm{read}}\) converts the spin wave into an optical field. The emission amplitude into an output mode with wave vector \(\mathbf{k}_{\mathrm{out}}\) contains the phase factor
+The phase-matching condition follows from the coherent emission amplitude. During readout, a control field with wave vector \(\mathbf{k}_{\mathrm{c}}^{\mathrm{read}}\) converts the spin wave into an optical field. The emission amplitude into an output mode with wave vector \(\mathbf{k}_{\mathrm{out}}\) contains the factor~\cite{PsiL-odamIFm_GorshkovEtAl_2007}
 \begin{equation}
     \mathcal{A}(\mathbf{k}_{\mathrm{out}})
     \propto
@@ -212,7 +218,7 @@ The phase-matching condition follows directly from this coherent sum. During rea
     \right],
     \label{eq:spin_wave_readout_amplitude}
 \end{equation}
-where \(\mathcal{A}(\mathbf{k}_{\mathrm{out}})\) is the retrieval amplitude into the output wave vector \(\mathbf{k}_{\mathrm{out}}\)~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. Constructive interference is obtained when the phase is stationary across the ensemble, giving
+where \(\mathcal{A}(\mathbf{k}_{\mathrm{out}})\) is the retrieval amplitude into the output mode. Constructive interference is obtained when the phase is stationary across the ensemble, which gives
 \begin{equation}
     \mathbf{k}_{\mathrm{out}}
     =
@@ -221,7 +227,7 @@ where \(\mathcal{A}(\mathbf{k}_{\mathrm{out}})\) is the retrieval amplitude into
     \mathbf{k}_{\mathrm{c}}^{\mathrm{read}}.
     \label{eq:phase_matching_spin_wave}
 \end{equation}
-Substituting Eq.~\eqref{eq:spin_wave_wavevector} gives
+Using Eq.~\eqref{eq:spin_wave_wavevector}, the output wave vector is
 \begin{equation}
     \mathbf{k}_{\mathrm{out}}
     =
@@ -232,9 +238,9 @@ Substituting Eq.~\eqref{eq:spin_wave_wavevector} gives
     \mathbf{k}_{\mathrm{c}}^{\mathrm{read}}.
     \label{eq:phase_matching_write_read}
 \end{equation}
-Thus, the direction of the retrieved field is fixed by the wave vector written during storage and by the geometry of the read control field~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+The retrieved direction is therefore fixed by the spin-wave wave vector written during storage and by the geometry of the read control field~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-The spin wave is sensitive to atomic motion because its phase is tied to the atomic positions. If atom \(j\) moves from \(\mathbf{r}_j(0)\) to \(\mathbf{r}_j(t)\), the phase factor \(e^{i\Delta\mathbf{k}\cdot\mathbf{r}_j}\) changes. A common displacement of all atoms would produce only a global phase, but random thermal motion changes the relative phases between atoms. The time-dependent spin wave may therefore be written schematically as
+The spin wave is sensitive to atomic motion because its phase is evaluated at the atomic positions. If atom \(j\) moves from \(\mathbf{r}_j(0)\) to \(\mathbf{r}_j(t)\), the factor \(e^{i\Delta\mathbf{k}\cdot\mathbf{r}_j}\) changes. A common displacement of all atoms gives only a global phase, while random thermal motion changes the relative phases across the ensemble. The time-dependent spin-wave state may be written schematically as~\cite{PsiL-odamIFm_GorshkovEtAl_2007}
 \begin{equation}
     \ket{1_S(t)}
     =
@@ -245,27 +251,29 @@ The spin wave is sensitive to atomic motion because its phase is tied to the ato
     \ket{g_1,\ldots,s_j,\ldots,g_N},
     \label{eq:time_dependent_spin_wave}
 \end{equation}
-where \(\phi_j(t)\) is any additional phase accumulated by atom \(j\) during storage, for example from magnetic-field-induced shifts of the \(\ket{g}\leftrightarrow\ket{s}\) transition~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. If the relative phases are randomized, the ensemble may still contain local ground-state coherence, but the collective mode that emits into the desired optical field is reduced~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+where \(\phi_j(t)\) denotes any additional phase accumulated by atom \(j\) during storage. Randomization of the relative phases reduces the collective mode that emits into the desired optical field, even if local ground-state coherence remains~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
 
-A magnetic-field gradient gives a particularly direct example of this effect. If the ground-state splitting becomes position dependent, it may be written as
+Magnetic-field gradients provide a direct source of such dephasing. A spatially varying field changes the local ground-state splitting according to
 \begin{equation}
-    \omega_{sg}
-    \rightarrow
-    \omega_{sg}(\mathbf{r}),
+    \omega_{sg}(\mathbf{r})
+    =
+    \omega_{sg}^{(0)}
+    +
+    \delta\omega_{sg}(\mathbf{r}),
     \label{eq:position_dependent_ground_state_splitting}
 \end{equation}
-where \(\omega_{sg}(\mathbf{r})\) is the local angular frequency splitting between \(\ket{g}\) and \(\ket{s}\). An atom at position \(\mathbf{r}_j\) then accumulates the phase
+where \(\omega_{sg}^{(0)}\) is the spatially uniform splitting and \(\delta\omega_{sg}(\mathbf{r})\) is the position-dependent Zeeman shift. The relative phase accumulated by atom \(j\) is then
 \begin{equation}
     \phi_j(t)
     =
     \int_{0}^{t}
-    \omega_{sg}\!\left(\mathbf{r}_j(t')\right)
+    \delta\omega_{sg}\!\left(\mathbf{r}_j(t')\right)
     \,dt',
     \label{eq:magnetic_phase_accumulation}
 \end{equation}
-where \(t'\) is the integration time variable~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. Spatial variation in this phase changes the relative phase pattern of the spin wave and therefore modifies the direction and efficiency of retrieval~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+where \(t'\) is the integration variable. Spatial variation of \(\phi_j(t)\) changes the spin-wave phase pattern and reduces retrieval into the phase-matched optical mode~\cite{PsiL-odamIFm_GorshkovEtAl_2007,Apgteitiav_FinkelsteinEtAl_2023}.
 
-The relevant stored object is therefore not only the total number of atoms that remain coherent. It is the collective mode
+The stored mode may therefore be represented as
 \begin{equation}
     S(\mathbf{r},t)
     =
@@ -274,4 +282,4 @@ The relevant stored object is therefore not only the total number of atoms that 
     e^{-i\phi(\mathbf{r},t)},
     \label{eq:general_spin_wave_mode}
 \end{equation}
-where \(f(\mathbf{r},t)\) is the time-dependent amplitude envelope of the stored coherence and \(\phi(\mathbf{r},t)\) is the accumulated spatially dependent phase~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. A memory can therefore lose useful retrieval even when some microscopic coherence remains. What matters for optical readout is the overlap between the evolved spin wave and the collective mode that satisfies the retrieval phase-matching condition~\cite{PsiL-odamIFm_GorshkovEtAl_2007}.
+where \(f(\mathbf{r},t)\) is the time-dependent amplitude envelope and \(\phi(\mathbf{r},t)\) is the accumulated position-dependent phase~\cite{PsiL-odamIFm_GorshkovEtAl_2007}. Optical readout is controlled by the overlap between this evolved spin wave and the collective mode satisfying the retrieval phase-matching condition.
