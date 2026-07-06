@@ -6,7 +6,7 @@
 
 The simulations are used to test whether the numerical model reproduces the expected behaviour of a retrievable collective spin-wave mode. The central observable is the normalized fibre-coupled retrieval,
 \begin{equation}
-    \mathcal{R}_{\mathrm{fib}}(t)
+    \eta_{\mathrm{fib}}(t)
     =
     \frac{P_{\mathrm{fib}}(t)}
     {P_{\mathrm{tot}}(0)},
@@ -14,7 +14,7 @@ The simulations are used to test whether the numerical model reproduces the expe
 \end{equation}
 where \(P_{\mathrm{fib}}(t)\) is the power coupled into the target fibre mode after storage time \(t\), and \(P_{\mathrm{tot}}(0)\) is the total emitted power at zero storage time. This normalization removes the arbitrary absolute scale of the emitted field and isolates the decay of the mode that remains retrievable into the selected optical channel.
 
-The quantity \(\mathcal{R}_{\mathrm{fib}}(t)\) is not an absolute memory efficiency. It does not include the full storage process, optical-depth dependence, propagation through the medium, EIT bandwidth, input-output energy conversion, or detection losses. It should instead be interpreted as a normalized mode-matched retrieval proxy: it quantifies how much of the initially retrievable collective mode remains coupled to the selected fibre mode after a storage time \(t\).
+The quantity \(\eta_{\mathrm{fib}}(t)\) is not an absolute memory efficiency. It does not include the full storage process, optical-depth dependence or  propagation through the medium. It instead is interpreted as a normalized mode-matched retrieval proxy where it quantifies how much of the initially retrievable collective mode remains coupled to the selected fibre mode after a storage time \(t\).
 
 The reference geometry is based on the standalone \({}^{133}\mathrm{Cs}\) warm-vapour memory reported by Jutisz \emph{et al.}~\cite{Smqms_JutiszEtAl_2025}. The simulated cell is a cylindrical vapour cell with length \(\SI{75}{\milli\metre}\) and diameter \(\SI{4}{\milli\metre}\), operated near \(\SI{75}{\celsius}\) with nitrogen buffer gas. The signal and control fields are represented as Gaussian beams with FWHM diameters of \(\SI{300}{\micro\metre}\) and \(\SI{120}{\micro\metre}\), respectively. Since the optical mode occupies only a small fraction of the full transverse cell area, the relevant simulated atoms are those with appreciable overlap with the signal and control modes.
 
@@ -79,14 +79,14 @@ The retrieval amplitude is estimated from a finite number of sampled atoms and s
     \label{fig:monte_carlo_convergence}
 \end{figure}
 
-In Fig.~\ref{fig:monte_carlo_convergence}, the individual realizations follow the same decay envelope, with fluctuations caused by different random trajectories. The ensemble mean is stable, indicating that the observed decay is not dominated by rare trajectories. For independent sampling, the uncertainty of a Monte Carlo average decreases with the standard scaling \(N_{\mathrm{MC}}^{-1/2}\)~\cite{MonteCarloNotes}. Increasing the number of simulated atoms therefore improves the smoothness of the curve without changing the converged physical trend.
+In Fig.~\ref{fig:monte_carlo_convergence}, the individual realizations follow the same decay envelope, with fluctuations caused by different random trajectories. The ensemble mean is stable, indicating that the observed decay is not dominated by rare trajectories.. Increasing the number of simulated atoms therefore improves the smoothness of the curve without changing the converged physical trend.
 
 \section{Gas-Phase Transport and Buffer-Gas Pressure}
 \label{sec:results_buffer_gas_pressure}
 
 Buffer gas modifies the motion of alkali atoms through velocity-changing collisions. In a warm vapour, atoms carrying the stored coherence can leave the high-overlap region defined by the signal and control beams. Once this happens, their contribution to \(P_{\mathrm{fib}}(t)\) is reduced, even if the internal ground-state coherence has not been destroyed.
 
-The diffusion model represents this transport through the diffusion coefficient \(D\). Higher buffer-gas pressure reduces \(D\), slows spatial escape from the optical mode, and increases the time over which atoms remain mode matched to the readout field. A slower decay of \(\mathcal{R}_{\mathrm{fib}}(t)\) is therefore expected when the pressure is increased.
+The diffusion model represents this transport through the diffusion coefficient \(D\). Higher buffer-gas pressure reduces \(D\), slows spatial escape from the optical mode, and increases the time over which atoms remain mode matched to the readout field. A slower decay of \(\eta(t)\) is therefore expected when the pressure is increased.
 
 \begin{figure}[htbp]
     \centering
@@ -114,7 +114,7 @@ The behaviour in Fig.~\ref{fig:beam_size_scan} is consistent with transit-time i
 \section{Comparison with a Cold Gaussian Ensemble}
 \label{sec:results_bec_comparison}
 
-The same retrieval-overlap formalism was applied to a cold Gaussian ensemble. The simulated cloud contains \(10^8\) atoms with a Gaussian spatial distribution of width approximately \(\SI{1}{\milli\metre}\). The signal and control beams are smaller than the cloud, so the stored mode is still selected by the optical overlap rather than by the full atomic density distribution.
+The same retrieval-overlap formalism was applied to a cold Gaussian ensemble. The simulated cloud contains \(10^8\) atoms with a Gaussian spatial distribution of width approximately \(\SI{1}{\milli\metre}\). The signal and control beams are smaller than the cloud, with dimensions of waist of  $\SI{500}{\micro\meter}$ and $\SI{150}{\micro\meter}$ , so the stored mode is still selected by the optical overlap rather than by the full atomic density distribution.
 
 \begin{figure}[htbp]
     \centering
