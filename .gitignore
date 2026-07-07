@@ -11,4 +11,5 @@ main.fdb_latexmk
 main.aux
 main.fls
 main.toc
+*.pdf
 
