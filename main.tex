@@ -1,21 +1,25 @@
-\documentclass[11pt, oneside, draft ]{book}   	% use "amsart" instead of "article" for AMSLaTeX format
+\documentclass[11pt, oneside  ]{book}   	% use "amsart" instead of "article" for AMSLaTeX format
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
 \geometry{a4paper}                   		% ... or a4paper or a5paper or ... 
 \usepackage{siunitx}
 \DeclareSIUnit{\torr}{Torr}
+\DeclareSIUnit{\Torr}{Torr}
 \usepackage{physics}
 %\geometry{landscape}                		% Activate for rotated page geometry
 %\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
 								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{subcaption}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage[english]{babel}
 
-\usepackage[backend=biber ,sorting=none]{biblatex}
+\usepackage[backend=biber ,sorting=none,sortcites=false ]{biblatex}
 \addbibresource{biblio.bib}
+
+\usepackage{lineno}
 
 
 %SetFonts
@@ -29,21 +33,27 @@
 \begin{document}
 \maketitle
 \tableofcontents
+\modulolinenumbers[5]
+\linenumbers
 
 
 %\input{introduction.tex}
-%\chapter{Theoretical framework}
-%\input{qmemory_to_EIT.tex}
-%\input{Atomic_structure_with_hyperfine_figures.tex}
-%\input{EIT.tex}
+\chapter{Theoretical framework}
+\input{qmemory_to_EIT.tex}
+\input{EIT.tex}
+\input{Atomic_structure_with_hyperfine_figures.tex}
 \input{Model.tex}
-%\chapter{Results}
-%\input{simReference_n_results.tex}
+\chapter{Results}
+\input{simReference_n_results.tex}
+%\input{cell_dimension.tex}
 %\input{coatings.tex}
 %
 %\input{compact_newSystem.tex}
 
-\addcontentsline{toc}{section}{References}
+\addcontentsline{toc}{chapter}{References}
 \printbibliography
+\appendix 
+\input{coating_appendix.tex}
+
 
 \end{document}
