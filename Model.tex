@@ -1,9 +1,40 @@
 \section{Simulation Model}
 \label{sec:simulation_model}
 
-The  purpuse of the simulation model is to describe how a stored spin wave is converted into an optical field during retrieval and how this conversion is degraded when atoms move, acquire different phases, or leave the interaction region. The full Maxwell--Bloch writing dynamics are not solved. The stored ground-state coherence is used as the initial condition, and the retrieved field is calculated from the coherent radiation of the atoms that remain coupled to the retrievable collective mode.
+The simulation model computes the optical field retrieved from a stored collective spin-wave after an arbitrary storage time. Its primary objective is to determine how atomic motion, dephasing, and finite optical overlap reduce the fraction of the collective excitation that remains coupled to the desired output mode. The full Maxwell--Bloch dynamics responsible for writing the spin wave are not simulated. Instead, the stored collective coherence constitutes the initial condition, and the retrieved field is calculated from the coherent radiation emitted by the atoms after a given storage time.
 
-Each atom contributing to readout is approximated as an ideal radiating dipole with a common internal orientation. Under this approximation, differences between atoms enter through their positions, phases, and weights, while the single-atom radiation pattern is treated as a common factor. Following the standard element-factor and array-factor decomposition used in antenna theory~\cite{AntenaCourseNotes}, the far-field amplitude in the observation direction $\hat{\mathbf n}$ may be written as
+The framework is designed to describe both warm-vapour and cold-atom quantum memories. The two platforms differ only in the geometry of the atomic ensemble and in the transport model governing the atomic motion.
+
+Warm vapour memories are represented by a cylindrical $^{133}$Cs vapour cell uniformly filled with atoms. The signal and control beams propagate collinearly through the cell and define the optical interaction region. Atomic motion is described by diffusion resulting from collisions with the buffer gas and interactions with the cell walls.
+
+Cold atomic ensembles are represented by a three-dimensional Gaussian cloud with a characteristic radius of approximately $\sigma=\SI{1}{\milli\metre}$. The optical fields intersect the cloud in the same manner, but the atomic trajectories are treated as ballistic owing to the negligible collision rate. Both systems are simulated using the same retrieval formalism besides the differences in geometry and transport dynamics. This common description allows differences in the retrieval dynamics to be attributed directly to the underlying transport mechanisms rather than to changes in the retrieval algorithm itself.
+
+Figure~\ref{fig:model_geometries} illustrates the two physical configurations considered throughout this work. Although their experimental implementations differ significantly, both are described using the same computational framework, allowing the influence of the atomic transport mechanism to be isolated from the retrieval algorithm itself.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Figures/ensemble_schematic.jpeg}
+        \subcaption{Warm-vapour memory represented by a cylindrical Cs vapour cell traversed by collinear Gaussian signal and control beams.}
+        \label{fig:warm_vapour_geometry}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Figures/ColdAtomEnsemble.png}
+        \subcaption{Cold-atom ensemble represented by a Gaussian atomic cloud confined within a magneto-optical trap. Traversed by collinear Gaussian signal and control beam.
+}
+        \label{fig:cold_atom_geometry}
+    \end{minipage}
+
+    \caption{Physical systems considered in the numerical model. The same retrieval algorithm is applied to both systems, while the atomic distribution and transport model differ according to the experimental platform.}
+    \label{fig:model_geometries}
+\end{figure}
+
+
+Although the experimental implementations differ, the retrieval process is treated identically in both cases. During readout, the stored spin wave is converted into an optical polarization that radiates collectively into free space. The retrieved optical field is therefore obtained by coherently summing the radiation emitted by all participating atoms. Each atom contributing to readout is approximated as an ideal radiating dipole with a common internal orientation. Under this approximation, differences between atoms airise only from their positions, phases, and interaction strength with the field, while the single-atom radiation pattern is treated as a common factor. Following the standard element-factor and array-factor decomposition used in antenna theory~\cite{AntenaCourseNotes}, the far-field amplitude in the observation direction $\hat{\mathbf n}$ may be written as
+
 \begin{equation}
     \mathcal{E}_{\mathrm{out}}(\hat{\mathbf n},t)
     \propto
@@ -25,7 +56,7 @@ The collective part of the field is represented by the weighted coherent sum
     \right],
     \label{eq:array_factor_general}
 \end{equation}
-where $N$ is the number of simulated atoms, $W_j(t)$ is the complex amplitude weight assigned to atom $j$, and $\Phi_j(\hat{\mathbf n},t)$ is the phase with which that atom contributes to the field observed along $\hat{\mathbf n}$. The optical power associated with the selected direction is proportional to the squared modulus of the coherent amplitude,
+where $N$ is the number of simulated atoms, $W_j(t)$ is the complex amplitude weight assigned to atom $j$, which describes the phase and amplitude stregth given by the optical fields;  and $\Phi_j(\hat{\mathbf n},t)$ is the phase with which that atom contributes to the field observed along $\hat{\mathbf n}$. The optical power associated with the selected direction is proportional to the squared modulus of the coherent amplitude,
 \begin{equation}
     P(\hat{\mathbf n},t)
     \propto
@@ -63,6 +94,17 @@ where $\Delta\mathbf{k}$ is the spin-wave wave vector written during storage, $\
     \label{eq:simulation_phase_matching}
 \end{equation}
 The preferred retrieval direction is therefore fixed by the spatial phase stored in the atomic coherence and by the geometry of the read control field.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.70\textwidth]{Figures/far_field_angular_emission_profile.jpeg}
+        \caption{Far-field angular emission profile obtained from the coherent dipole sum. The strongest emission is concentrated around the forward phase-matched direction. Simulated an optical ensemble in a cylindrical conficugraion of dimension $1~mm\varnothing \times 75~mm$ line wave beams in the $ \hat z$ direction.} 
+    \label{fig:far_field_angular_emission_profile}
+\end{figure}
+
+The simulated far-field distribution in Fig.~\ref{fig:far_field_angular_emission_profile} is peaked around the forward phase-matched direction. This angular concentration supports the interpretation that the retrieved signal is governed by collective interference. Away from the central lobe, residual emission arises from imperfect cancellation into other angular modes, while the dominant contribution remains aligned with Eq.~\eqref{eq:results_phase_matching}. If the spin-wave phases are randomized, the atoms may still emit, but the fields no longer add coherently into the selected mode. Directional emission is therefore a useful diagnostic of the phase structure carried by the stored spin wave.
+
+
 
 The weights $W_j(t)$ describe the amplitude with which each atom contributes to the selected mode. Uniform weights would be obtained for an ideal ensemble illuminated homogeneously by the relevant optical fields. In a finite memory system with nonuniform optical mode profiles, atoms near the centre of the signal and control beams couple more strongly than atoms in the wings. The stored spin wave therefore carries an amplitude envelope, and the coherent sum in Eq.~\eqref{eq:array_factor_general} must be evaluated as a weighted sum.
 
@@ -130,9 +172,12 @@ In the particle representation, the continuous spin wave is sampled by atoms at 
 \end{equation}
 where $W_j(0)$ is the initial contribution of atom $j$ to the stored mode. The spin-wave phase is kept outside the weight and is included explicitly in Eq.~\eqref{eq:atom_retrieval_phase}. This separation assigns the mode amplitude to $W_j(t)$ and the retrieval interference to $\Phi_j(\hat{\mathbf n},t)$.
 
-Atomic motion is included by evolving the positions $\mathbf{r}_j(t)$ during storage. In a warm vapour, atoms move through the optical mode, collide with buffer-gas atoms, and may encounter the cell walls. Even when the internal coherence survives, the atom contributes from a different position at readout. Since the phase in Eq.~\eqref{eq:atom_retrieval_phase} is evaluated at $\mathbf{r}_j(t)$, motion changes the collective interference pattern and can reduce the phase-matched retrieved field.
+Atomic motion is one of the principal mechanisms limiting the lifetime of a collective spin-wave excitation. During the storage interval, atoms continue to move within the ensemble, causing the spatial distribution of the stored coherence to evolve. Although the internal quantum state of an individual atom may remain unchanged, its contribution to the collective emission depends on its position at the time of retrieval. As atoms move, the relative phases between different emitters are modified, altering the constructive interference responsible for directional collective emission. Consequently, the overlap between the retrieved optical field and the desired output mode gradually decreases with increasing time.
 
-For diffusive motion, the stochastic displacement during a time step $\Delta t$ is sampled as~\cite{MonteCarloNotes}
+The treatment of atomic motion depends on the physical platform under consideration. In warm atomic vapours, atoms undergo frequent collisions with the surrounding buffer gas, resulting in a random walk that is well described by diffusion over the timescales relevant for quantum memories. In contrast, laser-cooled atomic ensembles experience negligible interatomic collisions, and the atomic trajectories are accurately described by ballistic motion, with only weak perturbations arising from photon scattering during the storage interval. The simulation framework therefore employs different transport models while retaining an identical retrieval algorithm, allowing both systems to be investigated within the same numerical implementation.
+
+For warm vapours, the atomic positions are updated according to the diffusion equation. During a time step $\Delta t$, the displacement of atom $j$ is sampled as~\cite{MonteCarloNotes}
+
 \begin{equation}
     \mathbf{r}_j(t+\Delta t)
     =
@@ -142,7 +187,9 @@ For diffusive motion, the stochastic displacement during a time step $\Delta t$ 
     \boldsymbol{\xi}_j,
     \label{eq:diffusive_position_update}
 \end{equation}
-where $D$ is the diffusion coefficient and $\boldsymbol{\xi}_j$ is a three-dimensional random vector with independent normally distributed components of zero mean and unit variance. This update gives the three-dimensional diffusion result~\cite{MonteCarloNotes}
+
+where $D$ is the diffusion coefficient and $\boldsymbol{\xi}_j$ is a three-dimensional random vector whose components are independent normally distributed variables with zero mean and unit variance. This stochastic update reproduces Brownian motion and yields the expected mean-square displacement
+
 \begin{equation}
     \left\langle
     \left|
@@ -153,7 +200,36 @@ where $D$ is the diffusion coefficient and $\boldsymbol{\xi}_j$ is a three-dimen
     6D\Delta t,
     \label{eq:diffusion_msd}
 \end{equation}
-where the angle brackets denote an average over trajectories. Other transport models can be incorporated by replacing the update rule for $\mathbf{r}_j(t)$.
+
+which is the characteristic relation for three-dimensional diffusion.
+
+The diffusion coefficient is temperature and pressure dependent. Throughout this work it is calculated using the empirical scaling relation~\cite{DiffusionScaling2013}
+
+\begin{equation}
+    D
+    =
+    D_0
+    \left(\frac{760~\mathrm{Torr}}{P}\right)
+    \sqrt{\frac{T}{T_0}},
+    \label{eq:diffusion_coefficient}
+\end{equation}
+
+where $P$ is the buffer-gas pressure, $T$ is the cell temperature, and $T_0=\SI{273.15}{\kelvin}$ is the reference temperature. Unless otherwise stated, the reference diffusion coefficient is taken as $D_0=\SI{0.24}{\centi\metre\squared\per\second}$, measured for cesium vapour with nitrogen buffer gas by Ji \emph{et al.}~\cite{Ji2017} using the method developed by Franzen \emph{et al.}~\cite{Franzen2013}. Alternative measurements reported in the literature give values close to $\SI{0.12}{\centi\metre\squared\per\second}$ under comparable conditions~\cite{AlternativeDiffusionMeasurement}. The chosen value therefore lies within the experimentally reported range and provides a realistic description of atomic transport in warm-vapour memories.
+
+For cold atomic ensembles, diffusion is replaced by ballistic motion. Each atom is assigned an initial velocity sampled from the thermal velocity Boltzmann-distribution, and its position evolves according to
+
+\begin{equation}
+    \mathbf{r}_j(t+\Delta t)
+    =
+    \mathbf{r}_j(t)
+    +
+    \mathbf{v}_j\Delta t,
+    \label{eq:ballistic_position_update}
+\end{equation}
+
+where $\mathbf{v}_j$ remains constant in the absence of external forces. The model also accounts for momentum diffusion arising from spontaneous photon scattering. Scattering events occur at a rate determined by the local optical parameters, and each event imparts a random recoil momentum to the atom, leading to a gradual broadening of the velocity distribution during storage. This treatment captures the dominant motional effects in cold-atom quantum memories.
+
+Regardless of the transport model employed, the updated atomic positions are subsequently used to evaluate the retrieval phase in Eq.~\eqref{eq:atom_retrieval_phase}. The evolution of $\mathbf{r}_j(t)$ therefore directly determines the collective interference pattern and ultimately the fraction of the emitted field that remains coupled to the desired output mode.
 
 A position-dependent ground-state splitting produces an additional phase. The spatially uniform part of the splitting produces only a common phase and is removed from the retrieval amplitude. The relevant contribution is the differential shift $\Delta\omega_{sg}(\mathbf{r})$, which gives
 \begin{equation}
@@ -232,37 +308,55 @@ where $u_{\mathrm{fib}}(\hat{\mathbf n})$ is the normalized angular mode of the 
 \end{equation}
 The useful retrieved signal is therefore determined by a coherent mode overlap, rather than by the total optical power emitted into all directions.
 
-The Monte Carlo calculation evaluates the coherent sums by sampling atoms and trajectories. Each sampled atom is assigned an initial position, an optical weight, a stochastic trajectory, a survival factor, and an accumulated internal phase. At each timestep, the retrieval amplitude is evaluated from the current positions, phases, and weights. The numerical result therefore estimates an ensemble average over possible atomic configurations and histories~\cite{MonteCarloNotes}.
+\subsection{Monte Carlo sampling and numerical resolution}
+\label{sec:model_monte_carlo}
 
-For the target direction, the Monte Carlo estimator of the amplitude is
+The physical atomic ensembles contain a large number of particles than can not be individually simulated. Each numerical realization therefore uses a reduced ensemble that preserves the prescribed spatial and velocity distributions. In the warm-vapour simulations, the ensemble size is controlled by a simulated density \(\rho_{\mathrm{sim}}\) while in the cold-atom simulations, a reduced atom number \(N_{\mathrm{sim}}\) is used instead.
+
+Within each realization, the contributions of the simulated atoms are summed coherently according to Eq~\ref{eq:array_factor_general}. The power associated with realization \(m\) is therefore evaluated as
+
 \begin{equation}
-    \widehat{\mathcal{A}}_{\mathrm{tar}}(t)
-    =
-    \frac{1}{N_{\mathrm{MC}}}
-    \sum_{j=1}^{N_{\mathrm{MC}}}
-    W_j(t)
-    \exp\left[
-        i\Phi_j(\hat{\mathbf n}_{\mathrm{tar}},t)
-    \right],
-    \label{eq:monte_carlo_amplitude_estimator}
-\end{equation}
-where $N_{\mathrm{MC}}$ is the number of Monte Carlo samples and the hat denotes a numerical estimator. The associated power estimator is
-\begin{equation}
-    \widehat{P}_{\mathrm{tar}}(t)
+    P^{(m)}_{\mathrm{fib}}(t)
     \propto
     \left|
-    \widehat{\mathcal{A}}_{\mathrm{tar}}(t)
-    \right|^2 .
-    \label{eq:monte_carlo_power_estimator}
+        \mathcal{A}^{(m)}_{\mathrm{fib}}(t)
+    \right|^2,
+    \label{eq:single_realization_fibre_power}
 \end{equation}
-Under independent sampling, the statistical error of the amplitude estimator scales as $N_{\mathrm{MC}}^{-1/2}$~\cite{MonteCarloNotes}.
 
-The normalized retrieval observable is defined as
+where \(\mathcal{A}^{(m)}_{\mathrm{fib}}(t)\) is the fibre-mode amplitude obtained from the complete simulated ensemble in that realization. The coherent atomic sum is performed before taking the modulus square, thereby retaining the interference terms responsible for directional collective emission.
+
+A Monte Carlo calculation consists of \(N_{\mathrm{MC}}\) independent realizations. Each realization uses a different random sample of initial atomic positions, velocities, trajectories and, where applicable, wall-survival events. Since independent realizations may carry different overall phases, they are compared or averaged at the power level,
+
 \begin{equation}
-    \mathcal{R}_{\mathrm{fib}}(t)
+    \overline{P}_{\mathrm{fib}}(t)
     =
-    \frac{P_{\mathrm{fib}}(t)}
-    {P_{\mathrm{tot}}(0)},
-    \label{eq:normalized_fibre_retrieval}
+    \frac{1}{N_{\mathrm{MC}}}
+    \sum_{m=1}^{N_{\mathrm{MC}}}
+    P^{(m)}_{\mathrm{fib}}(t).
+    \label{eq:monte_carlo_power_average}
 \end{equation}
-where $P_{\mathrm{fib}}(t)$ is the fibre-coupled retrieved power after storage time $t$, and $P_{\mathrm{tot}}(0)$ is the total emitted power at zero storage time. This normalization removes the arbitrary absolute scale of the emitted field while retaining the decay of the retrievable mode. The observable is therefore sensitive to phase mismatch, loss of beam overlap, and survival of the ground-state coherence.
+
+This procedure preserves coherent interference within each simulated ensemble while reducing fluctuations associated with the finite numerical sampling.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.78\textwidth]
+    {Figures/monte_carlo_convergence.jpeg}
+    \caption{
+        Monte Carlo convergence of the normalized fibre-coupled retrieval.
+        The curves correspond to independent realizations obtained with
+        identical physical and numerical parameters. Averaging an increasing
+        number of realizations reduces the statistical fluctuations while
+        preserving the underlying decay profile.
+    }
+    \label{fig:monte_carlo_convergence}
+\end{figure}
+
+Figure~\ref{fig:monte_carlo_convergence} shows that independent realizations follow the same overall decay, with small differences arising from the randomly sampled atomic configurations and trajectories. Increasing \(N_{\mathrm{MC}}\) reduces this statistical spread and produces a smoother average curve. A value of \(N_{\mathrm{MC}}=30\) was found to provide stable retrieval curves without an excessive increase in computational time.
+
+The far-field emission is evaluated on a two-dimensional angular grid in the spherical coordinates \((\theta,\phi)\). Because the collective radiation is concentrated around the forward phase-matched direction, the full far-field sphere is not sampled. Instead, the calculation is restricted to a window centred on the forward emission lobe. The angular extent of this window is chosen to be ten times the characteristic angular width of the emitted pattern.The characteristic angular width is set by diffraction from the transverse extent of the optical interaction region. Since the far-field pattern is the angular Fourier transform of the emitting distribution, a larger interaction region produces a narrower forward lobe, whereas a smaller interaction region produces a broader one.
+
+The angular window is discretized using \(273\times543\) points in \((\theta,\phi)\). This domain contains the forward lobe and the surrounding region in which the emitted intensity and fibre-mode overlap are appreciable, while avoiding the computational cost of evaluating directions where the collective emission is negligible.
+
+The temporal discretization is selected according to the motion of the atoms through the interaction region defined previously. The characteristic displacement during one internal propagation step is restricted to less than \(10\%\) of the characteristic size of this region. For diffusive motion, the restriction is applied to the stochastic displacement determined by the diffusion coefficient, whereas for ballistic motion it is applied to the displacement produced by the atomic velocity. When the interval between two requested output times exceeds this limit, the atomic trajectories are propagated using additional internal sub-steps. This ensures that motion across the optical modes and encounters with the cell boundaries are resolved without requiring an unnecessarily fine output-time grid.
