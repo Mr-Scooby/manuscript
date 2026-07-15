@@ -1,245 +1,508 @@
-\chapter{Simulation Results}
+\chapter{Platform Characterisation}
 \label{chap:simulation_results}
 
-\section{Reference Geometry and Physical Consistency Checks}
-\label{sec:results_validation_strategy}
+This chapter characterizes the principal platform parameters that determine the retrieval performance of the simulated quantum memories. Their influence is analysed independently to identify the dominant transport and dephasing mechanisms and establish the relevant design trade-offs
 
-The simulations are used to test whether the numerical model reproduces the expected behaviour of a retrievable collective spin-wave mode. The central observable is the normalized fibre-coupled retrieval,
-\begin{equation}
-    \eta_{\mathrm{fib}}(t)
-    =
-    \frac{P_{\mathrm{fib}}(t)}
-    {P_{\mathrm{tot}}(0)},
-    \label{eq:results_normalized_retrieval}
-\end{equation}
-where \(P_{\mathrm{fib}}(t)\) is the power coupled into the target fibre mode after storage time \(t\), and \(P_{\mathrm{tot}}(0)\) is the total emitted power at zero storage time. This normalization removes the arbitrary absolute scale of the emitted field and isolates the decay of the mode that remains retrievable into the selected optical channel.
+\section{Transport-Induced Decoherence}
+\label{sec:transport_dynamics}
+\newcommand{\nitrogen}{\ensuremath{\mathrm{N_2}} }
 
-The quantity \(\eta_{\mathrm{fib}}(t)\) is not an absolute memory efficiency. It does not include the full storage process, optical-depth dependence or  propagation through the medium. It instead is interpreted as a normalized mode-matched retrieval proxy where it quantifies how much of the initially retrievable collective mode remains coupled to the selected fibre mode after a storage time \(t\).
+Atomic transport changes the spatial distribution of the stored collective excitation and therefore its overlap with the optical mode selected during retrieval. The transport mechanisms have already been introduced as part of the model; the purpose of this section is to determine how the relevant experimental parameters affect the normalized fibre-coupled retrieval. In the warm-vapour system, the motion of Cs atoms is controlled primarily through the buffer-gas pressure, whereas in the cold-atom system it is determined by the ensemble temperature. These parameters also have different experimental roles. The buffer-gas pressure is fixed during cell fabrication, while the temperature of a cold ensemble can be adjusted through the cooling and trapping sequence.
 
-The reference geometry is based on the standalone \({}^{133}\mathrm{Cs}\) warm-vapour memory reported by Jutisz \emph{et al.}~\cite{Smqms_JutiszEtAl_2025}. The simulated cell is a cylindrical vapour cell with length \(\SI{75}{\milli\metre}\) and diameter \(\SI{4}{\milli\metre}\), operated near \(\SI{75}{\celsius}\) with nitrogen buffer gas. The signal and control fields are represented as Gaussian beams with FWHM diameters of \(\SI{300}{\micro\metre}\) and \(\SI{120}{\micro\metre}\), respectively. Since the optical mode occupies only a small fraction of the full transverse cell area, the relevant simulated atoms are those with appreciable overlap with the signal and control modes.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.72\textwidth]{Figures/ensemble_schematic.jpeg}
-    \caption{Reference warm-vapour geometry. The signal and control beams define a localized optical interaction region inside the cylindrical vapour cell.}
-    \label{fig:ensemble_schematic}
-\end{figure}
-
-This geometry provides a useful reference case because the expected physical trends are well established. Buffer gas is expected to slow motional escape from the optical mode, larger beams should extend the overlap time, magnetic-field gradients should dephase the ground-state coherence, and phase mismatch should reduce directional retrieval. The simulations are therefore used as physical consistency checks of the implemented retrieval-overlap model, rather than as a quantitative validation of the complete experimental memory.
-
-\section{Directional Collective Emission}
-\label{sec:results_directional_collective_emission}
-
-During retrieval, the read control field converts the stored spin wave into an optical polarization. Each atom contributes a field amplitude, and the useful retrieved field is obtained from the coherent sum of these amplitudes. Following the spin-wave phase-matching condition~\cite{PsiL-odamIFm_GorshkovEtAl_2007}, the retrieved optical wave vector is
-\begin{equation}
-    \mathbf{k}_{\mathrm{out}}
-    =
-    \mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}
-    -
-    \mathbf{k}_{\mathrm{c}}^{\mathrm{write}}
-    +
-    \mathbf{k}_{\mathrm{c}}^{\mathrm{read}},
-    \label{eq:results_phase_matching}
-\end{equation}
-where \(\mathbf{k}_{\mathrm{out}}\) is the retrieved optical wave vector, \(\mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}\) is the signal wave vector during storage, and \(\mathbf{k}_{\mathrm{c}}^{\mathrm{write}}\) and \(\mathbf{k}_{\mathrm{c}}^{\mathrm{read}}\) are the write and read control-field wave vectors.
-
-In the simulation, the far-field amplitude in a trial emission direction \(\mathbf{k}\) is represented by a coherent weighted dipole sum,
-\begin{equation}
-    E(\mathbf{k},t)
-    \propto
-    \sum_{j}
-    w_j(t)
-    \exp\!\left[
-        i\Phi_j(t)
-        -
-        i\mathbf{k}\cdot\mathbf{r}_j(t)
-    \right],
-    \label{eq:results_coherent_dipole_sum}
-\end{equation}
-where \(\mathbf{r}_j(t)\) is the position of atom \(j\), \(w_j(t)\) contains the spatial mode weight and possible wall-survival factor, and \(\Phi_j(t)\) contains the stored spin-wave phase together with any additional phase accumulated during storage. The directional structure of the emitted field is therefore determined by whether the phase factors in Eq.~\eqref{eq:results_coherent_dipole_sum} add constructively in the selected optical mode.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.70\textwidth]{Figures/far_field_angular_emission_profile.jpeg}
-    \caption{Far-field angular emission profile obtained from the coherent dipole sum. The strongest emission is concentrated around the forward phase-matched direction.}
-    \label{fig:far_field_angular_emission_profile}
-\end{figure}
-
-The simulated far-field distribution in Fig.~\ref{fig:far_field_angular_emission_profile} is peaked around the forward phase-matched direction. This angular concentration supports the interpretation that the retrieved signal is governed by collective interference. Away from the central lobe, residual emission arises from imperfect cancellation into other angular modes, while the dominant contribution remains aligned with Eq.~\eqref{eq:results_phase_matching}. If the spin-wave phases are randomized, the atoms may still emit, but the fields no longer add coherently into the selected mode. Directional emission is therefore a useful diagnostic of the phase structure carried by the stored spin wave.
-
-\section{Monte Carlo Convergence}
-\label{sec:results_monte_carlo_convergence}
-
-The retrieval amplitude is estimated from a finite number of sampled atoms and stochastic trajectories. Numerical convergence must therefore be checked before physical trends are interpreted. Independent Monte Carlo realizations are expected to fluctuate around a stable ensemble mean, while the global decay should remain unchanged once a sufficient number of samples has been used.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.72\textwidth]{Figures/monte_carlo_convergence.jpeg}
-    \caption{Monte Carlo convergence of the normalized retrieved signal. Individual stochastic realizations fluctuate around the same global decay trend as the ensemble mean.}
-    \label{fig:monte_carlo_convergence}
-\end{figure}
-
-In Fig.~\ref{fig:monte_carlo_convergence}, the individual realizations follow the same decay envelope, with fluctuations caused by different random trajectories. The ensemble mean is stable, indicating that the observed decay is not dominated by rare trajectories.. Increasing the number of simulated atoms therefore improves the smoothness of the curve without changing the converged physical trend.
-
-\section{Gas-Phase Transport and Buffer-Gas Pressure}
+\subsection{Buffer-Gas Pressure}
 \label{sec:results_buffer_gas_pressure}
 
-Buffer gas modifies the motion of alkali atoms through velocity-changing collisions. In a warm vapour, atoms carrying the stored coherence can leave the high-overlap region defined by the signal and control beams. Once this happens, their contribution to \(P_{\mathrm{fib}}(t)\) is reduced, even if the internal ground-state coherence has not been destroyed.
+A large optical depth strengthens the collective light--matter interaction, but it also complicates the preparation of a highly spin-polarised ensemble. In a warm vapour, the optical depth is commonly increased by raising the cell temperature, which increases the Cs number density. During optical pumping, atoms undergo repeated cycles of excitation and spontaneous decay. Some of the emitted photons remain resonant with transitions from the ground-state manifold and can be reabsorbed by other atoms before escaping the cell. Their repeated absorption and re-emission redistribute the atomic population and oppose accumulation in the desired ground state. This process, known as radiation trapping, becomes increasingly important as the optical depth, and therefore the vapour temperature, is increased \cite{HeRmbsrt_ThomasEtAl_2017}.
 
-The diffusion model represents this transport through the diffusion coefficient \(D\). Higher buffer-gas pressure reduces \(D\), slows spatial escape from the optical mode, and increases the time over which atoms remain mode matched to the readout field. A slower decay of \(\eta(t)\) is therefore expected when the pressure is increased.
+A buffer gas addresses both this optical-pumping limitation and the transport of Cs atoms. Velocity-changing collisions reduce the diffusion coefficient and slow the escape of atoms from the optical interaction region. Molecular \nitrogen can additionally suppress radiation trapping through collisional quenching, which reduces the production of resonant fluorescent photons. The buffer-gas species and pressure must therefore be selected by considering both the required diffusion time and the optical-pumping conditions of the vapour cell.
+
+The buffer-gas collisions must preserve the ground-state spin coherence sufficiently well for this approach to remain useful. Spin-relaxation measurements show that collisions of ground-state alkali atoms with noble gases and molecular \nitrogen produce comparatively low rates of population transfer between the ground states, although the associated spin-relaxation rate is not strictly zero \cite{HeRmbsrt_ThomasEtAl_2017}. Molecular \nitrogen offers an additional advantage over noble-gas buffers because it provides a channel for collisional quenching. During a collision, an excited Cs atom can transfer its energy to the vibrational degrees of freedom of the \nitrogen molecule and return to the ground state without emitting a resonant photon. The resulting reduction in resonant fluorescence suppresses radiation trapping and allows high spin polarisation to be maintained at temperatures for which the vapour would otherwise become difficult to pump efficiently \cite{HeRmbsrt_ThomasEtAl_2017}.
+
+The pressure dependence considered in the simulation arises from the diffusion coefficient introduced in Eq.~\eqref{eq:diffusion_coefficient}. At fixed temperature, the adopted scaling gives $D\propto 1/ {P}$. Thus, increasing the \nitrogen pressure therefore reduces the distance over which Cs atoms diffuse during a given storage interval. From Eq.~\eqref{eq:diffusion_msd}, the characteristic diffusion length is $ \ell_{\mathrm{D}}(t)=\sqrt{6Dt}$ so that the time required to diffuse across a characteristic transverse mode size \(w_{\mathrm{eff}}\) scales approximately as
+%
+\[
+    \tau_{\mathrm{D}}
+    \sim
+    \frac{w_{\mathrm{eff}}^{2}}{6D}
+    \propto P.
+\]
+%
+A higher pressure consequently delays the redistribution of the stored excitation away from the region in which the signal, control, and collected retrieval modes overlap. The atomic contributions remain weighted towards the initially prepared optical mode for longer, and the fibre-coupled retrieval decreases on a longer timescale.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.72\textwidth]{Figures/pressure_scan_coupling_decay.jpeg}
-    \caption{Pressure scan of the normalized fibre-coupled retrieval. Increasing the buffer-gas pressure reduces diffusion and extends the time over which atoms remain inside the high-overlap optical mode.}
+    \includegraphics[width=0.72\textwidth]
+        {Figures/pressure_scan_coupling_decay.jpeg}
+    \caption{
+        Dependence of the normalized fibre-coupled retrieval on the
+        \nitrogen buffer-gas pressure, with all other simulation parameters
+        held fixed. Increasing the pressure reduces the diffusion coefficient
+        and extends the time over which the stored excitation remains
+        spatially matched to the retrieval mode. Pressure broadening,
+        pressure-dependent optical pumping, control-field requirements, and
+        optical noise are not included in the simulated curves.
+    }
     \label{fig:pressure_scan_coupling_decay}
 \end{figure}
 
-The pressure scan in Fig.~\ref{fig:pressure_scan_coupling_decay} follows this expected trend. At lower pressure, the retrieval decreases more rapidly because atoms diffuse away from the region that overlaps efficiently with the signal, control, and fibre modes. At higher pressure, the motion is slowed and the retrievable collective mode survives for a longer time. The decay should be interpreted as a loss of mode overlap rather than as the immediate destruction of the atoms. Atoms outside the beam can still carry local coherence, but they no longer contribute efficiently to the phase-matched fibre mode.
+The pressure scan in Fig.~\ref{fig:pressure_scan_coupling_decay} follows the dependence expected from the diffusion model. At low pressure, the larger diffusion coefficient allows Cs atoms to leave the high-overlap region rapidly, producing a comparatively fast reduction of \( \eta\). Increasing the pressure reduces the diffusion length reached at each storage time and shifts the decay towards longer times. The curves therefore show that, when only motional transport is considered, a larger buffer-gas pressure improves the persistence of the fibre-coupled retrieval mode.
 
-\section{Beam-Size Dependence}
-\label{sec:results_beam_size}
+This monotonic improvement does not imply that the highest available \nitrogen pressure is the best experimental choice. Collisions with the buffer gas also broaden and shift the optical transitions. Thomas \emph{et al.} report a pressure-broadening coefficient for Cs in \nitrogen that is approximately twice that obtained with Ne, illustrating the trade-off between diffusion suppression and optical broadening \cite{HeRmbsrt_ThomasEtAl_2017}. As the optical coherence linewidth increases, the resonant absorption profile and the EIT response are modified. Maintaining a comparable transparency, efficiency, and acceptance bandwidth generally requires a larger control-field Rabi frequency and therefore greater control power \cite{DeRoseEtAl_2023,EsguerraEtAl_2023}.
 
-The spatial-overlap mechanism can be isolated by changing the optical beam sizes. A wider beam defines a larger interaction region, so a diffusing atom must travel farther before its coupling to the stored and retrieved modes becomes small. For fixed optical preparation and transport parameters, larger beams should therefore increase the decay time of the retrieved mode.
+Pressure broadening also increases the spectral range over which the strong control field can excite the vapour. This can enhance fluorescence and other control-induced background processes and places more demanding requirements on the spectral and polarisation filtering used to separate the retrieved signal from the control field \cite{EsguerraEtAl_2023}. These restrictions are particularly relevant when the memory operates close to the single-photon level, where even a weak increase in optical background can reduce the signal-to-noise ratio.
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.72\textwidth]{Figures/beam_size_scan_coupling_decay.jpeg}
-    \caption{Beam-size dependence of the normalized retrieval. Larger optical beams increase the spatial region over which atoms remain coupled to the readout mode, producing a slower decay of \(P_{\mathrm{fib}}(t)/P_{\mathrm{tot}}(0)\).}
-    \label{fig:beam_size_scan}
-\end{figure}
+Figure~\ref{fig:pressure_scan_coupling_decay} thus quantifies the transport-side benefit of increasing the buffer-gas pressure under otherwise fixed optical conditions. The experimental pressure must balance this improvement against the accompanying pressure broadening, control-power requirement, and optical background. Because the pressure is fixed when the cell is fabricated, a practical choice is the lowest pressure that provides the required transport-limited retrieval time while remaining compatible with the available control power, optical bandwidth, and noise requirements.
 
-The behaviour in Fig.~\ref{fig:beam_size_scan} is consistent with transit-time intuition in warm-vapour EIT systems~\cite{Apgteitiav_FinkelsteinEtAl_2023}. Enlarging the optical mode reduces the sensitivity of the stored spin wave to short diffusive displacements, and the fibre-coupled retrieval decays more slowly. The result reflects the survival of spatial mode overlap. In an experiment, increasing the beam size may also reduce optical intensity for fixed power, modify the EIT bandwidth, and change the effective optical depth sampled by the mode. These additional optical effects are not included in the present retrieval-only model.
+\subsection{Cold-Atom Temperature}
+\label{sec:results_cold_atom_temperature}
 
-\section{Comparison with a Cold Gaussian Ensemble}
-\label{sec:results_bec_comparison}
+The role played by buffer-gas collisions in the warm vapour is replaced by the thermal velocity distribution in the cold ensemble. After the cooling and trapping stage, the atoms are assumed to evolve freely during storage according to the ballistic model introduced in Eq.~\eqref{eq:ballistic_position_update}. The ensemble temperature therefore determines how rapidly the stored excitation expands away from the optical mode and loses its spatial and phase overlap with the retrieved field.
 
-The same retrieval-overlap formalism was applied to a cold Gaussian ensemble. The simulated cloud contains \(10^8\) atoms with a Gaussian spatial distribution of width approximately \(\SI{1}{\milli\metre}\). The signal and control beams are smaller than the cloud, with dimensions of waist of  $\SI{500}{\micro\meter}$ and $\SI{150}{\micro\meter}$ , so the stored mode is still selected by the optical overlap rather than by the full atomic density distribution.
+For a thermal ensemble, each Cartesian component of the atomic velocity has a standard deviation
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.72\textwidth]{Figures/bec_beam_size_scan.jpeg}
-    \caption{Beam-size scan for a cold Gaussian ensemble. Increasing the optical mode size increases the coupling time, although the effect is weaker than in the warm-vapour reference case.}
-    \label{fig:bec_beam_size_scan}
-\end{figure}
-
-In Fig.~\ref{fig:bec_beam_size_scan}, larger beams also increase the coupling time in the cold ensemble. The dependence is weaker than in the warm-vapour reference geometry because rapid thermal diffusion is no longer the dominant limitation. In the warm vapour, transverse beam size directly controls how quickly atoms leave the optical mode. In the cold cloud, the atoms move more slowly, and the decay is less strongly governed by diffusive transit through the beam. The same coherent-overlap model can therefore describe different platforms, while the dominant loss mechanism depends on the motional regime.
-
-\section{Geometric Phase Mismatch from Control-Beam Angle}
-\label{sec:results_control_beam_angle}
-
-A relative angle between the signal and control fields changes the spin-wave wave vector. For the write process, the wave-vector mismatch is~\cite{PsiL-odamIFm_GorshkovEtAl_2007}
 \begin{equation}
-    \Delta\mathbf{k}
+    \sigma_v
     =
-    \mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}
-    -
-    \mathbf{k}_{\mathrm{c}}^{\mathrm{write}},
-    \label{eq:results_delta_k_angle}
+    \sqrt{\frac{k_{\mathrm{B}}T}{m}},
+    \label{eq:cold_atom_thermal_velocity}
 \end{equation}
-where \(\mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}\) and \(\mathbf{k}_{\mathrm{c}}^{\mathrm{write}}\) are the signal and control wave vectors during storage. A nonzero angle introduces a transverse spin-wave phase grating. Atoms moving through this grating acquire position-dependent phases. The shorter the spin-wave period, the smaller the displacement required to produce a significant phase change.
+
+where \(m\) is the atomic mass. The characteristic ballistic displacement accumulated during a storage time \(t\) is consequently $\ell_{\mathrm{th}}(t)=\sigma_v t. $ Where the time required for an atom to move across a characteristic transverse mode size \(w_{\mathrm{eff}}\) scales approximately as
+
+\begin{equation}
+    \tau_{\mathrm{tr}}
+    \sim
+    \frac{w_{\mathrm{eff}}}{\sigma_v}
+    \propto
+    T^{-1/2}.
+    \label{eq:cold_atom_transit_time}
+\end{equation}
+
+Increasing the temperature therefore shortens the time over which the atoms remain within the region of strong signal, control, and collection-mode overlap. Thermal motion can also reduce the collective interference by displacing the atoms through the spin-wave phase pattern. The corresponding motional-dephasing timescale follows the same approximate \(T^{-1/2}\) dependence and becomes more restrictive as the spin-wave wave-vector \(\lvert\Delta\mathbf{k}\rvert\) is increased \cite{JiangEtAl_2016}. For the nearly collinear geometry considered here, \(\lvert\Delta\mathbf{k}\rvert\) is small, and the temperature dependence is expected to arise predominantly from the ballistic expansion of the stored spatial mode.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.72\textwidth]{Figures/control_beam_angle_scan.jpeg}
-    \caption{Control-beam angle scan. Changing the signal-control angle modifies the spin-wave wave vector and changes the sensitivity of the stored coherence to atomic motion.}
-    \label{fig:control_beam_angle_scan}
+    \includegraphics[width=0.72\textwidth]
+        {Figures/cold_atom_temperature_scan.jpeg}
+    \caption{
+        Dependence of the normalized fibre-coupled retrieval on the
+        temperature of the cold Gaussian ensemble. Lower temperatures reduce
+        the thermal velocity and extend the time over which the stored
+        excitation remains spatially and phase matched to the collected
+        retrieval mode. All other ensemble and optical parameters are held
+        fixed.
+    }
+    \label{fig:cold_atom_temperature_scan}
 \end{figure}
 
-The angle scan in Fig.~\ref{fig:control_beam_angle_scan} indicates faster decay when the spin-wave phase varies more rapidly across the ensemble. The mechanism is loss of relative phase rather than loss of atomic coherence. Atoms may still carry ground-state coherence, but the spatial phase pattern no longer overlaps efficiently with the phase-matched readout mode. This behaviour is consistent with the use of nearly co-propagating signal and control fields in warm-vapour EIT, where a small two-photon wave vector reduces motional dephasing~\cite{Apgteitiav_FinkelsteinEtAl_2023}.
+The temperature scan in Fig.~\ref{fig:cold_atom_temperature_scan} displays the expected monotonic dependence. The simulated temperature range extends from
+\(\SI{1}{\micro\kelvin}\) to \(\SI{1}{\milli\kelvin}\), covering three orders of magnitude.
+The scan therefore probes both deeply cooled ensembles and a deliberately warm limiting case in which ballistic transport is expected to dominate the retrieval decay. At \(\SI{1}{\micro\kelvin}\), the small thermal velocity produces only a slow redistribution of the stored excitation, and the fibre-coupled retrieval remains appreciable for the longest storage times considered. As the temperature is increased, the atoms move farther during the same storage interval and the retrieval curve decays more rapidly. At \(\SI{1}{\milli\kelvin}\), ballistic escape from the finite optical modes occurs sufficiently rapidly that the coupling time is strongly reduced.
 
-\section{Magnetic-Gradient Dephasing}
-\label{sec:results_magnetic_gradient}
+This dependence has also been observed experimentally in laser-cooled atomic memories, where atomic motion limits the lifetime through both spin-wave dephasing and expansion of the cloud. For example, Jiang \emph{et al.} operated an ensemble at approximately \(\SI{13}{\micro\kelvin}\) and found that, after suppressing spin-wave dephasing, the remaining storage lifetime was limited by thermal expansion \cite{JiangEtAl_2016}.
 
-Magnetic-field gradients dephase the stored coherence by making the ground-state splitting position dependent. The spatially uniform part of the splitting produces only a common phase and does not reduce retrieval. The relevant quantity is the differential shift \(\Delta\omega_{sg}(\mathbf{r})\), which gives the accumulated phase
+The simulated range should not be interpreted as representing a Bose--Einstein condensate at every temperature. Temperatures between approximately \(\SI{1}{\micro\kelvin}\) and \(\SI{100}{\micro\kelvin}\) are representative of laser-cooled ensembles obtained using sub-Doppler cooling or optical molasses. The \(\SI{1}{\milli\kelvin}\) case provides an upper transport benchmark but would not normally describe a condensed gas. Conversely, reaching the lowest temperatures requires additional cooling stages and may reduce the available atom number, experimental repetition rate, or duty cycle.
+
+The simulation holds the initial density distribution, optical depth, atom number, and beam geometry fixed. It therefore isolates the influence of temperature on ballistic transport rather than predicting the complete temperature dependence of the memory efficiency. In an experiment, the temperature must be selected together with the achievable atom number, optical depth, preparation time, and trapping configuration. The relevant operating point is consequently the highest temperature that still provides the required retrieval lifetime, rather than the lowest temperature achievable irrespective of the experimental cost.
+
+\section{Boundary-Induced Decoherence}
+
+The cell geometry introduces additional constraints that are fixed during fabrication. The transverse dimensions determine the influence of wall interactions, whereas the longitudinal dimension governs the range of motion-induced spin-wave dephasing.
+
+\subsection{Wall Collisions and Surface Coatings}
+
+The previous sections considered retrieval loss arising from atomic motion within the optical interaction region. This description is appropriate when the optical beams occupy only a small fraction of the cell cross-section, since atoms diffuse out of the optical mode before reaching the boundary. In a compact cell, however, the optical mode occupies a substantial fraction of the available transverse area, and atoms carrying the spin-wave coherence encounter the wall on timescales comparable to the memory lifetime. The cell boundary therefore becomes an essential part of the transport problem and must be included in the model.
+
+During the residence time on the surface, the atom is exposed to interactions that are absent during free flight. Happer treats this type of relaxation as arising from fluctuating perturbations to the atomic Hamiltonian, which can include magnetic, electric, and spin-dependent interactions at the surface \cite{OP_Happer_1972}. For alkali atoms on uncoated glass, these perturbations are strong enough that wall collisions have historically been treated as highly depolarizing in optical-pumping experiments \cite{OP_Happer_1972}. The atom may therefore return mechanically to the vapor, but its ground-state coherence can be lost during the surface interaction.
+
+The wall interaction must be separated into two conceptually different processes: mechanical reflection and internal-state survival. Mechanical reflection determines whether the atom remains inside the cell after reaching the boundary. Spin survival determines whether the atom still contributes coherently to the collective ground-state excitation after the collision. Happer describes relaxation in optically pumped vapors using the density matrix and treats many relaxation processes as the result of a weak fluctuating perturbation added to the atomic Hamiltonian. In the case of wall relaxation, this perturbation is not applied continuously during free flight. Instead, it acts primarily when the atom interacts with the cell surface. Thus, an atom may elastically return to the vapor while its electronic or hyperfine coherence has already been randomized.
+
+Upon striking the wall, an atom does not necessarily rebound immediately. It may stick to the surface for a finite dwell time before desorbing back into the vapor \cite{OP_Happer_1972,Aiacoavc_ChiEtAl_2020}. During this residence time, thermal agitation can cause the atom to hop between adsorption sites. While the atom is adsorbed, local magnetic fields, electric-field gradients, spin-orbit interactions, or nuclear spins in the substrate can act as random perturbations \cite{OP_Happer_1972}. These perturbations generate random phase shifts and spin relaxation. For an uncoated glass wall, this interaction is typically strong enough that a wall encounter can be treated, to a good approximation, as a fully depolarizing event for an alkali atom. In the absence of buffer gas, the relaxation time is then closely connected to the average flight time between wall collisions and therefore scales with the characteristic linear dimension of the cell \cite{OP_Happer_1972}. This scaling is precisely why wall effects become increasingly important as the vapor cell is miniaturized.
+
+Anti-relaxation coatings reduce this surface-induced relaxation by separating the alkali atom from the strongly perturbing glass substrate. The coating provides a molecular layer that reduces the perturbation experienced by the atom during adsorption and desorption, thereby decreasing the probability of spin randomization. If the perturbation accumulated during one surface encounter is weak, the spin state is only slightly changed after a single bounce and the atom can survive many wall bounces before losing its polarization. The coating can therefore be characterized by an average number of coherence-preserving collisions, denoted here by \(N_{\text{b}}\). Equivalently, one can describe the coating by a depolarization probability per bounce. This effective description is useful because the full microscopic surface dynamics are complex and material dependent.
+
+
+Following the classification of Chi et al.~\cite{Aiacoavc_ChiEtAl_2020}, anti-relaxation coatings for alkali-vapour cells can be grouped into straight-chain alkanes, alkenes, and organochlorosilanes. Alkane coatings, including paraffin-based films, typically preserve atomic polarization over approximately $N_{\mathrm{b}}\sim10^{3}$--$10^{4}$ wall encounters, but their performance deteriorates at elevated temperatures. Alkene coatings can provide substantially larger collision-survival numbers, in some cases approaching $N_{\mathrm{b}}\sim10^{6}$, although they are also limited by thermal degradation. Organochlorosilanes, particularly octadecyltrichlorosilane (OTS), generally provide lower values of $N_{\mathrm{b}}$, but their chemically anchored structure allows operation at considerably higher temperatures.
+The coating choice therefore involves a trade-off between wall-collision survival and thermal stability. Hydrocarbon coatings are advantageous when maximizing $N_{\mathrm{b}}$ is the main requirement, whereas OTS-type coatings are more appropriate when the cell must be heated strongly to obtain the required atomic density and optical depth. Representative values reported in the literature are summarized in Table~\ref{tab:coating_comparison}. These values should be interpreted as characteristic experimental results rather than universal material constants, since coating performance also depends on fabrication, surface coverage, alkali exposure, cell geometry, and operating conditions. A more detailed discussion of the coating chemistry, relaxation mechanisms, and surface-characterization methods is provided in Appendix~\ref{app:anti_relaxation_coatings}.
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lcc}
+\hline
+\textbf{Compound} & \textbf{$N_{\mathrm{b}}$} & \textbf{Reported temperature} \\
+\hline
+Alpha-olefin fraction C20--24
+& $\sim 10^{6}$
+& $\SI{33}{\degreeCelsius}$ \\
+   1-Nonadecene
+    & $\sim 10^{6}$
+    & $\SIrange{20}{60}{\degreeCelsius}$ \\
+
+    Tetracontane, $\mathrm{C}_{40}\mathrm{H}_{82}$
+    & $\sim 10^{3}$--$10^{4}$
+    & $\SIrange{60}{80}{\degreeCelsius}$ \\
+
+    Octadecyltrichlorosilane (OTS)
+    & $\sim 2.1\times10^{3}$
+    & up to approximately $\SI{170}{\degreeCelsius}$ \\
+    \hline
+\end{tabular}
+\caption{Representative anti-relaxation coatings for alkali-vapour cells. The reported values depend on the alkali species, preparation procedure, cell geometry, and measurement conditions~\cite{Aiacoavc_ChiEtAl_2020}.}
+\label{tab:coating_comparison}
+
+\end{table}
+
+
+
+Temperature makes this trade-off central for warm-vapor quantum memories. Increasing the cell temperature raises the alkali vapor pressure and therefore the optical depth \(d\), which is beneficial for storage and retrieval efficiency. At the same time, a higher temperature increases the thermal velocity \(v_{\mathrm{th}}\), increases the diffusion coefficient and therefore the rate at which atoms sample the cell boundary, and can degrade or modify the coating itself. Temperature therefore plays two opposite roles. It improves the optical interaction by increasing atomic density, but it can reduce the spin-wave lifetime through faster motion and stronger wall-related relaxation. This creates the central optimization problem for the compact cell: the memory should operate at a temperature high enough to provide sufficient optical depth, but not so high that wall-induced relaxation or coating degradation dominates the decay.
+
+The present model does not attempt to resolve adsorption dynamics or microscopic surface interactions. Instead, each wall encounter is represented by a single effective decoherence probability. When an atom reaches the cell boundary the proposed displacement is reflected to account for its continued motion inside the cell. Independently of this mechanical reflection, the atom undergoes a stochastic coherence test. The probability that an atom remains coherent after a wall collision is taken as
+
 \begin{equation}
-    \phi_j(t)
+    p_{\mathrm{coh}}
     =
-    \int_0^t
-    \Delta\omega_{sg}\!\left(\mathbf{r}_j(t')\right)
-    \,dt',
-    \label{eq:results_magnetic_phase}
+    1-\frac{1}{N_{\mathrm b}},
+    \label{eq:coherence_probability}
 \end{equation}
-where \(t'\) is the integration variable and \(\mathbf{r}_j(t')\) is the trajectory of atom \(j\). If \(\Delta\omega_{sg}(\mathbf{r})\) is constant across the ensemble, all atoms acquire the same additional phase. If it varies spatially, different atoms accumulate different phases and the collective readout is reduced.
+
+For each wall encounter, a uniformly distributed random number $(r)$ is generated. If $r>p_{\mathrm{coh}}$, the atom is assumed to lose its coherence and its contribution is removed permanently from the coherent spin-wave sum. Otherwise, the atom remains coherent and continues to contribute normally after the collision.
+
+This stochastic boundary model provides a simple interpretation of the coating dependence shown in Fig.~\ref{fig:coating_bounce_scan}. All curves exhibit a similar initial decrease during the first few tens of microseconds, indicating that the early retrieval loss is dominated by atomic transport and the reduction of optical-mode overlap rather than by wall-induced decoherence. The coating dependence becomes apparent only after a significant fraction of the atoms has reached the cell boundary. For small values of $N_{\mathrm b}$, wall collisions act almost as an absorbing boundary, rapidly removing atoms from the coherent spin-wave sum and causing the retrieval efficiency to decay towards zero. As $N_{\mathrm b}$ increases, more atoms survive each wall encounter and can subsequently diffuse back into the illuminated region while retaining coherence. The retrieval decay therefore becomes progressively slower and approaches a non-zero long-time plateau. The curves converge for $N_{\mathrm b}\gtrsim10^3$, becoming nearly indistinguishable from the idealized limit of $N_{\mathrm b}\rightarrow\infty$. This indicates that, for the present compact-cell geometry, further improvements in coating performance provide little additional benefit because wall-induced depolarization is no longer the dominant loss mechanism. The remaining decay is instead governed primarily by finite-volume atomic transport and the loss of overlap between the evolving spin wave and the readout optical mode.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.72\textwidth]{Figures/magnetic_gradient_scan.jpeg}
-    \caption{Magnetic-gradient-induced decay of the normalized retrieval. A spatially varying ground-state splitting causes different parts of the ensemble to accumulate different phases, reducing constructive retrieval into the target mode.}
-    \label{fig:magnetic_gradient_scan}
-\end{figure}
-
-The magnetic-gradient scan in Fig.~\ref{fig:magnetic_gradient_scan} gives a faster decay as the gradient is increased. This loss channel is distinct from beam-overlap decay. Atoms can remain inside the optical mode and still stop contributing constructively if their internal phases become spatially scrambled. Spatial escape can be mitigated by buffer gas or larger beams, whereas magnetic dephasing requires field homogeneity and magnetic shielding.
-
-\section{Compact-Cell Geometry}
-\label{sec:results_compact_cell_geometry}
-
-The reference cell is much larger than the optical mode in the transverse direction. In that regime, atoms can diffuse out of the beam before wall collisions dominate the retrieval decay. A compact cell changes this balance because the optical mode occupies a substantial fraction of the cell cross-section. The simulated compact geometry has diameter \(\SI{1}{\milli\metre}\) and length \(\SI{10}{\milli\metre}\), with control and signal FWHM diameters of approximately \(\SI{0.8}{\milli\metre}\) and \(\SI{0.3}{\milli\metre}\), respectively.
-
-The compact cell is not simply a scaled-down version of the reference vapour cell. Because the optical mode occupies a substantial fraction of the transverse cross-section, atoms that leave the high-overlap region encounter the wall on comparable timescales. The dominant question therefore changes from how long atoms remain inside the beam to whether they remain coherent after boundary encounters.
-
-In the compact geometry, the wall becomes part of the storage dynamics. An atom carrying spin-wave coherence can reach the boundary on the same timescale over which the retrieval signal decays. The boundary condition must therefore specify both the mechanical trajectory after a wall encounter and the survival of the internal coherence. This distinction becomes central when anti-relaxation coatings are represented as effective wall-survival parameters.
-
-\section{Wall Coatings as an Effective Boundary Condition}
-\label{sec:results_wall_coatings}
-
-A wall encounter affects the atom in two different ways. Mechanical reflection determines whether the atom remains inside the vapour volume. Internal-state relaxation determines whether the atom still carries the ground-state coherence required for spin-wave retrieval. These processes are physically distinct. An atom can return to the vapour after a wall collision while its spin coherence has already been randomized by the surface interaction~\cite{OP_Happer_1972}.
-
-The coating is represented by an effective coherence-survival probability per wall collision. If \(N_{\mathrm{b}}\) is the mean number of wall collisions before depolarization, the survival probability for a single collision is
-\begin{equation}
-    p_{\mathrm{survive}}
-    =
-    1-\frac{1}{N_{\mathrm{b}}},
-    \label{eq:results_wall_survival_probability}
-\end{equation}
-where \(p_{\mathrm{survive}}\) is the probability that the atomic ground-state coherence survives one wall encounter. This phenomenological model does not describe the microscopic atom--surface chemistry of a particular coating. It condenses the surface interaction into a single effective parameter that controls how rapidly wall encounters remove atoms from the coherent spin-wave sum.
-
-Anti-relaxation coatings reduce the probability that a wall collision destroys the atomic spin state. Their performance depends on material, temperature, surface coverage, adsorption dynamics, and morphology~\cite{Aiacoavc_ChiEtAl_2020}. In the compact-cell simulations, these microscopic details are represented by scanning \(N_{\mathrm{b}}\). Small \(N_{\mathrm{b}}\) corresponds to a strongly depolarizing wall, while large \(N_{\mathrm{b}}\) corresponds to coherence preservation over many wall collisions.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.72\textwidth]{Figures/coating_bounce_scan.jpeg}
-    \caption{Compact-cell coating scan. Increasing the mean number of coherence-preserving wall collisions \(N_{\mathrm{b}}\) improves the retrieval decay when wall relaxation is the dominant loss channel.}
+    \includegraphics[width=0.82\textwidth]{Figures/coating_bounce_scan.jpeg}
+    \caption{ Fibre-coupled retrieval efficiency as a function of storage time for different coating qualities, represented by the characteristic coherence-preserving wall-collision number $N_{\mathrm b}$. The simulations correspond to a compact cylindrical Cs vapour cell with dimensions $\SI{1}{\milli\metre}\times\SI{10}{\milli\metre}$, operated at $\SI{75}{\degreeCelsius}$ with $\SI{10}{\Torr}$ of $\mathrm{N_2}$ buffer gas. The control and signal beams have FWHM diameters of $\SI{0.8}{\milli\metre}$ and $\SI{0.3}{\milli\metre}$, respectively.}
     \label{fig:coating_bounce_scan}
 \end{figure}
 
-The compact-cell coating scan in Fig.~\ref{fig:coating_bounce_scan} indicates that increasing \(N_{\mathrm{b}}\) improves the retrieval lifetime when the wall is strongly depolarizing. In this regime, each wall collision has a significant probability of removing the atom from the coherent spin wave, so the wall behaves almost like an absorbing boundary for the retrievable mode. Larger \(N_{\mathrm{b}}\) allows atoms to return to the vapour while retaining coherence, and the fibre-coupled signal decays more slowly.
 
-The improvement saturates once wall-induced depolarization is no longer the dominant limitation. At large \(N_{\mathrm{b}}\), the curves begin to converge because the remaining decay is set mainly by diffusion through the optical mode, finite cell geometry, and imperfect overlap with the readout mode. Beyond that regime, improving the coating alone produces only a limited increase in \(P_{\mathrm{fib}}(t)/P_{\mathrm{tot}}(0)\).
-
-\section{Temperature Dependence in the Compact Cell}
-\label{sec:results_temperature_compact_cell}
-
-Temperature changes several physical quantities at once in a warm-vapour memory. Higher temperature increases the alkali vapour pressure and can increase optical depth, which is favourable for storage and retrieval efficiency. It also increases thermal motion, modifies transport in the buffer gas, and can make wall interactions and coating stability more relevant~\cite{Apgteitiav_FinkelsteinEtAl_2023,Aiacoavc_ChiEtAl_2020}.
-
-The temperature scan considered here isolates the transport and wall-relaxation contribution to the retrievable spin-wave mode. The full temperature dependence of the EIT optical depth is not computed. The curves therefore should not be interpreted as a complete optimization of memory efficiency. They quantify how motion and wall encounters affect the mode that remains available for fibre-coupled retrieval.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.72\textwidth]{Figures/compact_temperature_scan.jpeg}
-    \caption{Temperature dependence of the compact-cell retrieval for different wall-survival parameters. The decay reflects transport and wall-relaxation contributions to the retrievable-mode lifetime.}
-    \label{fig:compact_temperature_scan}
-\end{figure}
-
-The temperature scan in Fig.~\ref{fig:compact_temperature_scan} indicates that the temperature dependence is strongest when wall survival is low. In that regime, the decay is governed by how rapidly atoms reach the boundary and lose coherence. For high wall survival, the curves become less sensitive to \(N_{\mathrm{b}}\). Atoms may survive wall encounters, but retrieval can still decrease because the atoms return with reduced spatial overlap or with a phase pattern that no longer matches the fibre-coupled mode.
-
-\section{Cell Length and Spin-Wave Phase}
+\subsection{Longitudinal Spin-Wave Dephasing}
 \label{sec:results_cell_length_spin_wave}
 
-The compact-cell geometry also changes how much of the spin-wave phase grating is sampled by the ensemble. The stored spin wave contains the phase factor
+The influence of the longitudinal system size is determined by its relation to the axial spin-wave wavelength,
 \begin{equation}
-    e^{i\Delta\mathbf{k}\cdot\mathbf{r}},
-    \label{eq:results_spin_wave_phase_factor}
+    \lambda_{\mathrm{SW},z}
+    =
+    \frac{2\pi}{|\Delta k_z|},
+    \label{eq:results_axial_spin_wave_wavelength}
 \end{equation}
-where \(\Delta\mathbf{k}\) is set by the signal-control geometry. If the cell length is short compared with the spin-wave period, the phase varies only weakly across the ensemble. If the cell spans many spin-wave periods, different longitudinal regions contribute with different phases to the coherent readout.
+where $\Delta k_z$ is the axial component of the spin-wave wave vector. The presence of several spin-wave periods within the system does not itself reduce the retrieval. At the initial time, phase-matched readout converts the complete spatial phase pattern back into the selected optical mode, so contributions from different longitudinal positions interfere constructively. Dephasing is introduced only when atomic motion changes the phase associated with each contribution. An axial displacement $\Delta z_j(t)$ produces the phase change
+\begin{equation}
+    \delta\phi_{j,z}(t)
+    =
+    \Delta k_z\Delta z_j(t)
+    =
+    \frac{2\pi\Delta z_j(t)}
+         {\lambda_{\mathrm{SW},z}}.
+    \label{eq:results_axial_motion_phase}
+\end{equation}
+Different longitudinal displacements therefore generate different phases and reduce the constructive interference in the coherent sum of Eq.~\eqref{eq:array_factor_general}.
+
+In a longitudinally confined system, the range of accessible displacement is restricted by the system boundaries. When the length $L$ is smaller than the axial spin-wave wavelength, the ensemble samples only a limited part of the spin-wave phase pattern. Complete phase averaging is therefore suppressed, and a residual coherent contribution may remain at long times. This produces a plateau in the retrieved coupling when other relaxation mechanisms are absent or weak.
+
+As $L$ becomes comparable to or larger than $\lambda_{\mathrm{SW},z}$, a broader range of spin-wave phases can be sampled. The accumulated phases then cover a larger interval and cancel more effectively in the collective readout. The plateau is consequently reduced as the longitudinal dimension is increased. The relevant mechanism is not the number of spin-wave periods initially contained within the system, but the range of motion-induced phase changes that can be explored during the evolution.
+
+The simulated length dependence is shown in Fig.~\ref{fig:cell_length_plateau}. The calculation corresponds to a cylindrical Cs vapour cell with an internal diameter of $\SI{1}{\milli\metre}$, operated at $\SI{75}{\degreeCelsius}$ with $\SI{10}{\Torr}$ of $\mathrm{N_2}$ buffer gas. The control and signal beams are co-propagating and have FWHM diameters of $\SI{0.8}{\milli\metre}$ and $\SI{0.3}{\milli\metre}$, respectively. Although the beams propagate in the same direction, their frequencies differ by the Cs ground-state hyperfine splitting of approximately $\SI{9.19}{\giga\hertz}$. Neglecting refractive-index corrections, this gives an axial spin-wave wavelength of approximately $\lambda_{\mathrm{SW},z}
+    \simeq
+    \frac{c}{\nu_{\mathrm{hfs}}}
+    \approx
+    \SI{32.6}{\milli\metre}.
+$ 
+All curves exhibit a similar initial decrease, showing that the early retrieval loss is only weakly affected by the cell length and is instead dominated by transverse transport and loss of optical-mode overlap. The long-time behaviour changes systematically with $L$. The shortest cells retain a clear plateau because the allowed axial displacement spans less than one spin-wave wavelength. The plateau is strongly reduced when the cell length approaches $\lambda_{\mathrm{SW},z}$ and becomes negligible for lengths several times larger than this value. The $\SI{320}{\milli\metre}$ cell provides an effectively unconfined longitudinal range on the scale of the spin wave, allowing the motion-induced phases to cancel almost completely.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.72\textwidth]{Figures/cell_length_spin_wave_scan.jpeg}
-    \caption{Cell-length scan relative to the spin-wave phase period. When the cell spans many spin-wave periods, different regions of the ensemble contribute with different phases and the retrievable collective mode is reduced.}
-    \label{fig:cell_length_spin_wave_scan}
+    \includegraphics[width=0.88\textwidth]{Figures/PlateauVsCellLength.png}
+    \caption{Fibre-coupled retrieval efficiency for different vapour-cell lengths. The simulations correspond to a cylindrical Cs cell with an internal diameter of $\SI{1}{\milli\metre}$, operated at $\SI{75}{\degreeCelsius}$ with $\SI{10}{\Torr}$ of $\mathrm{N_2}$ buffer gas. The co-propagating control and signal beams have FWHM diameters of $\SI{0.8}{\milli\metre}$ and $\SI{0.3}{\milli\metre}$, respectively. The axial spin-wave wavelength associated with the Cs ground-state splitting is approximately $\SI{32.6}{\milli\metre}$.}
+    \label{fig:cell_length_plateau}
 \end{figure}
 
-The cell-length scan in Fig.~\ref{fig:cell_length_spin_wave_scan} indicates that the long-time plateau depends on the relation between cell length and spin-wave phase period. This is not only a volume effect. A longer cell contains more atoms, but it also samples a larger portion of the spin-wave phase grating. When the phase varies significantly over the cell, different regions interfere less constructively in the target mode, and the coherent retrieval can decrease.
 
-This effect matters when compact and elongated geometries are compared. Miniaturization changes the wall-collision rate, but it also changes the sampled spin-wave phase structure and its overlap with the readout mode. The cell dimensions therefore affect retrieval through both boundary interactions and collective phase matching.
+%\section{Cell dimensions and wall interactions}
+%\label{sec:results_compact_cell_geometry}
+%
+%The dimensions of the vapour cell determine whether the atomic motion occurs predominantly within the bulk volume or whether interactions with the cell surface become relevant during storage. This distinction depends on the cell dimensions relative to the optical modes and to the characteristic distance travelled by the atoms. In a sufficiently large cell, atoms can diffuse away from the region contributing to retrieval without reaching a boundary. As the cell is miniaturized, the time required to reach the wall decreases and the surface interaction becomes part of the retrieval dynamics.
+%
+%In the reference geometry, the cell diameter is considerably larger than the signal and control beams. The decay of the fibre-coupled retrieval is therefore governed mainly by the redistribution of the stored excitation relative to the optical modes. The compact cell considered here has a diameter of \(\SI{1}{\milli\metre}\) and a length of \(\SI{10}{\milli\metre}\), with control and signal FWHM diameters of approximately \(\SI{0.8}{\milli\metre}\) and \(\SI{0.3}{\milli\metre}\), respectively. The control field consequently occupies a substantial fraction of the transverse cross-section, and the distance between the illuminated region and the cylindrical wall is strongly reduced.
+%
+%From the diffusion relation in Eq.~\eqref{eq:diffusion_msd}, the characteristic time required to cross a transverse distance \(\ell\) scales as \(\ell^{2}/D\). Reducing the cell diameter therefore increases the probability that an atom carrying ground-state coherence reaches the wall during the storage interval. The compact cell cannot consequently be treated as a geometrically scaled version of the reference system. Once the cell radius, beam dimensions, and diffusion length become comparable, the retrieval depends on both transport through the optical mode and the survival of coherence at the boundary.
+%
+%\subsection{Wall coatings}
+%\label{sec:results_wall_coatings}
+%\label{sec:coatings}
+%
+%A collision with the cell wall affects the atomic trajectory and the internal state through physically distinct processes. After a wall collision, the atom can return to the vapour, but the interaction with the surface may destroy its electronic or hyperfine coherence. For uncoated glass, these surface-induced perturbations can make a wall collision strongly depolarizing, particularly when repeated encounters occur during the storage time \cite{OP_Happer_1972}.
+%
+%Anti-relaxation coatings reduce the coupling between the alkali atom and the glass substrate, allowing the atomic spin state to survive multiple wall encounters. Their performance depends on the coating material, surface preparation, morphology, adsorption dynamics, and operating temperature \cite{Aiacoavc_ChiEtAl_2020}. Paraffin and alkene coatings can provide high spin-survival probabilities, but their performance may deteriorate at elevated temperatures. Chemically bonded coatings such as octadecyltrichlorosilane are generally more thermally robust, although the number of coherence-preserving collisions can be lower. The most suitable coating is therefore not necessarily the material with the largest reported collision number, but the one that maintains sufficient spin preservation at the intended operating temperature.
+%
+%The simulations represent the coating through the effective parameter \(N_{\mathrm b}\) introduced in Eq.~\eqref{eq:wall_survival_factor}. This parameter specifies the mean number of wall collisions before the atomic coherence is lost and avoids assigning a microscopic surface model to a particular coating. Small \(N_{\mathrm b}\) describes a strongly depolarizing boundary, whereas large \(N_{\mathrm b}\) describes a surface that preserves the atomic coherence over repeated encounters.
+%
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.72\textwidth]
+%        {Figures/coating_bounce_scan.jpeg}
+%    \caption{
+%        Dependence of the normalized fibre-coupled retrieval on the effective
+%        mean number of coherence-preserving wall collisions \(N_{\mathrm b}\)
+%        in the compact cell. The weak separation between the curves indicates
+%        that wall-induced depolarization is not the dominant loss mechanism
+%        over the simulated range.
+%    }
+%    \label{fig:coating_bounce_scan}
+%\end{figure}
+%
+%Figure~\ref{fig:coating_bounce_scan} compares the retrieval for
+%\(N_{\mathrm b}=10^{2}\), \(10^{5}\), and \(10^{7}\). Increasing \(N_{\mathrm b}\) produces only a small modification of the decay over the simulated storage interval. This weak dependence indicates that the number of wall encounters accumulated during the relevant time is insufficient to distinguish effectively between the larger values of \(N_{\mathrm b}\). Even when the coherence survives a wall collision, the atomic contribution can remain weak because the atom has moved away from the region of strong optical overlap.
+%
+%The result does not imply that anti-relaxation coatings are unnecessary in a compact cell. It shows that, under the simulated pressure, temperature, and geometry, improving the wall-survival probability beyond a moderate value does not substantially extend the fibre-coupled retrieval. The decay is instead limited mainly by the spatial redistribution of the stored excitation. From an experimental perspective, coating selection should therefore also consider thermal stability, compatibility with Cs, fabrication reproducibility, and long-term surface degradation rather than relying only on the largest achievable \(N_{\mathrm b}\).
+%
+%\subsection{Operating-temperature compatibility}
+%\label{sec:results_temperature_compact_cell}
+%
+%Although the coating and cell dimensions are fixed during fabrication, their suitability depends on the intended operating temperature. Increasing the temperature raises the Cs vapour density and can provide a larger optical depth, which is favourable for the complete storage and retrieval efficiency. At the same time, the diffusion coefficient increases according to Eq.~\eqref{eq:diffusion_coefficient}, so the stored excitation is redistributed more rapidly and atoms encounter the cell boundary more frequently.
+%
+%The temperature also constrains the choice of coating. A coating with a high spin-survival probability at moderate temperature may lose its anti-relaxation properties when the cell is heated to obtain the required Cs density. Conversely, a more thermally robust coating may preserve coherence over fewer wall collisions. The cell temperature must therefore be considered together with the surface material rather than being optimized independently \cite{Aiacoavc_ChiEtAl_2020}.
+%
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.72\textwidth]
+%        {Figures/compact_temperature_scan.jpeg}
+%    \caption{
+%        Temperature dependence of the normalized fibre-coupled retrieval in
+%        the compact cell for different wall-survival parameters. The curves
+%        include the temperature dependence of diffusive transport and the
+%        effective loss of coherence at wall encounters. The increase in Cs
+%        density and optical depth with temperature is not included.
+%    }
+%    \label{fig:compact_temperature_scan}
+%\end{figure}
+%
+%The curves in Fig.~\ref{fig:compact_temperature_scan} isolate the transport and wall-relaxation contributions. A faster decay at higher temperature results from the increase in \(D\), which allows the atoms to move farther during the same storage interval and increases the rate at which they sample the finite cell volume. When \(N_{\mathrm b}\) is small, more frequent wall encounters additionally increase the loss of ground-state coherence. At large \(N_{\mathrm b}\), the influence of direct wall depolarization is reduced, but the retrieval can still decrease because the atomic distribution no longer overlaps efficiently with the optical mode.
+%
+%These curves are not a prediction of the complete temperature dependence of the memory efficiency. The model does not include the increase in optical depth produced by the higher Cs density, nor possible temperature-dependent changes in optical pumping, pressure broadening, or coating performance. Experimentally, the appropriate operating temperature must provide sufficient optical depth while remaining compatible with the transport-limited retrieval time and the thermal range of the selected coating.
+%
+%\subsection{Cell length and longitudinal confinement}
+%\label{sec:results_cell_length_spin_wave}
+%\label{sec:results_cell_length}
+%
+%The cell length determines how rapidly atoms can reach the end windows and whether longitudinal reflections occur within the storage interval. In the \(\SI{10}{\milli\metre}\) compact cell, atoms that diffuse away from the interaction region can encounter an end cap and subsequently return to the illuminated volume. If their coherence survives the collision, these returning atoms can contribute to the long-time retrieval and produce a non-exponential tail or plateau.
+%
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.72\textwidth]
+%        {Figures/cell_length_spin_wave_scan.jpeg}
+%    \caption{
+%        Dependence of the normalized fibre-coupled retrieval on the
+%        longitudinal cell dimension. Increasing the cell length reduces the
+%        influence of the end boundaries and suppresses the long-time plateau,
+%        identifying it as a finite-volume transport effect.
+%    }
+%    \label{fig:cell_length_spin_wave_scan}
+%\end{figure}
+%
+%Figure~\ref{fig:cell_length_spin_wave_scan} compares the compact geometry with an extended cell. Increasing the length from \(\SI{10}{\milli\metre}\) to \(\SI{320}{\milli\metre}\) removes the long-time plateau because the end boundaries are no longer reached on the same timescale. The extended geometry is not proposed as a practical compact cell. It is used as a diagnostic to identify the origin of the plateau and shows that the feature arises from longitudinal confinement and the return of atoms from the end caps.
+%
+%The length dependence should not be attributed directly to the number of spin-wave periods contained within the cell. Under the phase-matching condition defined in Eq.~\eqref{eq:results_phase_matching}, the spatial phase of the stored coherence is compensated by the read-control and retrieved-field phases. Increasing the length of a phase-matched ensemble does not by itself cause different longitudinal regions to interfere destructively. A reduction arising from the spin-wave phase would instead require a residual longitudinal phase mismatch.
+%
+%The transverse and longitudinal dimensions therefore control different boundary effects. The diameter determines how rapidly atoms reach the cylindrical wall after leaving the optical mode, whereas the length determines whether encounters with the end windows and subsequent returns occur during storage. A shorter cell favours miniaturization but increases the influence of the boundaries. The final cell geometry must balance the required device size against wall-collision rates, optical-mode dimensions, coating performance, and the desired retrieval time.
+%
+%\section{========}%
+%\label{sec:========}
+%
+%
+%\section{Cell dimensions}
+%\label{sec:results_compact_cell_geometry}
+%
+%The cell dimensions comapared with the beams employed also play a role in the retrieval efficiency. In the transverse direction to the propagation, if the beams are comparable to the cell diameters, we enter into a regime where wall interaction play an effect. When a polarized atoms reaches the edge of the cell, the interaction between them causes the atom to depolireze. To avoid this, recent research has being focus onto coatings. Chi et al, has a study ...
+%
+%
+%The reference cell is much larger than the optical mode in the transverse direction. In that regime, atoms can diffuse out of the beam before wall collisions dominate the retrieval decay. A compact cell changes this balance because the optical mode occupies a substantial fraction of the cell cross-section. The simulated compact geometry has diameter \(\SI{1}{\milli\metre}\) and length \(\SI{10}{\milli\metre}\), with control and signal FWHM diameters of approximately \(\SI{0.8}{\milli\metre}\) and \(\SI{0.3}{\milli\metre}\), respectively.
+%
+%The compact cell is not simply a scaled-down version of the reference vapour cell. Because the optical mode occupies a substantial fraction of the transverse cross-section, atoms that leave the high-overlap region encounter the wall on comparable timescales. The dominant question therefore changes from how long atoms remain inside the beam to whether they remain coherent after boundary encounters.
+%
+%In the compact geometry, the wall becomes part of the storage dynamics. An atom carrying spin-wave coherence can reach the boundary on the same timescale over which the retrieval signal decays. The boundary condition must therefore specify both the mechanical trajectory after a wall encounter and the survival of the internal coherence. This distinction becomes central when anti-relaxation coatings are represented as effective wall-survival parameters.
+%
+%\section{Wall Coatings as an Effective Boundary Condition}
+%\label{sec:results_wall_coatings}
+%
+%A wall encounter affects the atom in two different ways. Mechanical reflection determines whether the atom remains inside the vapour volume. Internal-state relaxation determines whether the atom still carries the ground-state coherence required for spin-wave retrieval. These processes are physically distinct. An atom can return to the vapour after a wall collision while its spin coherence has already been randomized by the surface interaction~\cite{OP_Happer_1972}.
+%
+%The coating is represented by an effective coherence-survival probability per wall collision. If \(N_{\mathrm{b}}\) is the mean number of wall collisions before depolarization, the survival probability for a single collision is
+%\begin{equation}
+%    p_{\mathrm{survive}}
+%    =
+%    1-\frac{1}{N_{\mathrm{b}}},
+%    \label{eq:results_wall_survival_probability}
+%\end{equation}
+%where \(p_{\mathrm{survive}}\) is the probability that the atomic ground-state coherence survives one wall encounter. This phenomenological model does not describe the microscopic atom--surface chemistry of a particular coating. It condenses the surface interaction into a single effective parameter that controls how rapidly wall encounters remove atoms from the coherent spin-wave sum.
+%
+%Anti-relaxation coatings reduce the probability that a wall collision destroys the atomic spin state. Their performance depends on material, temperature, surface coverage, adsorption dynamics, and morphology~\cite{Aiacoavc_ChiEtAl_2020}. In the compact-cell simulations, these microscopic details are represented by scanning \(N_{\mathrm{b}}\). Small \(N_{\mathrm{b}}\) corresponds to a strongly depolarizing wall, while large \(N_{\mathrm{b}}\) corresponds to coherence preservation over many wall collisions.
+%
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.72\textwidth]{Figures/coating_bounce_scan.jpeg}
+%    \caption{Compact-cell coating scan. Increasing the mean number of coherence-preserving wall collisions \(N_{\mathrm{b}}\) improves the retrieval decay when wall relaxation is the dominant loss channel.}
+%    \label{fig:coating_bounce_scan}
+%\end{figure}
+%
+%The compact-cell coating scan in Fig.~\ref{fig:coating_bounce_scan} indicates that increasing \(N_{\mathrm{b}}\) improves the retrieval lifetime when the wall is strongly depolarizing. In this regime, each wall collision has a significant probability of removing the atom from the coherent spin wave, so the wall behaves almost like an absorbing boundary for the retrievable mode. Larger \(N_{\mathrm{b}}\) allows atoms to return to the vapour while retaining coherence, and the fibre-coupled signal decays more slowly.
+%
+%The improvement saturates once wall-induced depolarization is no longer the dominant limitation. At large \(N_{\mathrm{b}}\), the curves begin to converge because the remaining decay is set mainly by diffusion through the optical mode, finite cell geometry, and imperfect overlap with the readout mode. Beyond that regime, improving the coating alone produces only a limited increase in \(P_{\mathrm{fib}}(t)/P_{\mathrm{tot}}(0)\).
+%
+%\section{Temperature Dependence in the Compact Cell}
+%\label{sec:results_temperature_compact_cell}
+%
+%Temperature changes several physical quantities at once in a warm-vapour memory. Higher temperature increases the alkali vapour pressure and can increase optical depth, which is favourable for storage and retrieval efficiency. It also increases thermal motion, modifies transport in the buffer gas, and can make wall interactions and coating stability more relevant~\cite{Apgteitiav_FinkelsteinEtAl_2023,Aiacoavc_ChiEtAl_2020}.
+%
+%The temperature scan considered here isolates the transport and wall-relaxation contribution to the retrievable spin-wave mode. The full temperature dependence of the EIT optical depth is not computed. The curves therefore should not be interpreted as a complete optimization of memory efficiency. They quantify how motion and wall encounters affect the mode that remains available for fibre-coupled retrieval.
+%
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.72\textwidth]{Figures/compact_temperature_scan.jpeg}
+%    \caption{Temperature dependence of the compact-cell retrieval for different wall-survival parameters. The decay reflects transport and wall-relaxation contributions to the retrievable-mode lifetime.}
+%    \label{fig:compact_temperature_scan}
+%\end{figure}
+%
+%The temperature scan in Fig.~\ref{fig:compact_temperature_scan} indicates that the temperature dependence is strongest when wall survival is low. In that regime, the decay is governed by how rapidly atoms reach the boundary and lose coherence. For high wall survival, the curves become less sensitive to \(N_{\mathrm{b}}\). Atoms may survive wall encounters, but retrieval can still decrease because the atoms return with reduced spatial overlap or with a phase pattern that no longer matches the fibre-coupled mode.
+%
+%
+%\section{Cell Length and Spin-Wave Phase}
+%\label{sec:results_cell_length_spin_wave}
+%
+%The compact-cell geometry also changes how much of the spin-wave phase grating is sampled by the ensemble. The stored spin wave contains the phase factor
+%\begin{equation}
+%    e^{i\Delta\mathbf{k}\cdot\mathbf{r}},
+%    \label{eq:results_spin_wave_phase_factor}
+%\end{equation}
+%where \(\Delta\mathbf{k}\) is set by the signal-control geometry. If the cell length is short compared with the spin-wave period, the phase varies only weakly across the ensemble. If the cell spans many spin-wave periods, different longitudinal regions contribute with different phases to the coherent readout.
+%
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.72\textwidth]{Figures/cell_length_spin_wave_scan.jpeg}
+%    \caption{Cell-length scan relative to the spin-wave phase period. When the cell spans many spin-wave periods, different regions of the ensemble contribute with different phases and the retrievable collective mode is reduced.}
+%    \label{fig:cell_length_spin_wave_scan}
+%\end{figure}
+%
+%The cell-length scan in Fig.~\ref{fig:cell_length_spin_wave_scan} indicates that the long-time plateau depends on the relation between cell length and spin-wave phase period. This is not only a volume effect. A longer cell contains more atoms, but it also samples a larger portion of the spin-wave phase grating. When the phase varies significantly over the cell, different regions interfere less constructively in the target mode, and the coherent retrieval can decrease.
+%
+%This effect matters when compact and elongated geometries are compared. Miniaturization changes the wall-collision rate, but it also changes the sampled spin-wave phase structure and its overlap with the readout mode. The cell dimensions therefore affect retrieval through both boundary interactions and collective phase matching.
+%
+%
+%\chapter{System Characterization}
+%\label{chap:simulation_results}
+%
+%
+%
+%\section{Transport Dynamics.}%
+%\label{sec:Transport Dynamics.}
+%
+%AIn this section we ought to characterize the available methods to reduce the motional dephasing in qmemories. For warm vapors we employ the use of buffer gas, most ussually nitrogen ($N_2$) gas at low pressure, the use of \nitrogen is employ for its ability to not produce spin-spin exchahnge colision \cite{}. For Cold atoms we employ the temperature dependence. 
+%
+%\subsection{Atomic difussion vs Buffer-Gas Pressure}
+%\label{sec:results_buffer_gas_pressure}
+%
+%High density cell are complicated to fully spin-polarized due the sponataneous emission of inside the enesemnble, which might produce resonant photons that are reasbsrorbed repeatedly creating radiation trapping, but this effect can be greatly reduce via collision quencghing using buffer gas allowingf high quality spin-polarisation even at high temperatures. \cite{HeRmbsrt_ThomasEtAl_2017} 
+%
+%recalling Section~\ref{sec:EIT} the atomic memory protocols requuire pumping the atomic speciment to the requiere optical state, during this process atoms might fall back to the ground state emitting radiation in random directions that might end up resonant with othere levels and thus pumping atoms to undesire levels, this probability increases with the optical depth of the system as phtons are less likely to leave the cell. This effect is known as radiation trapping and limits the spin-polarisation that can be achieved when the vapour has a sufficiently high optical depth in multiple dimensions. 
+%
+%
+%% paraphrase all next paragprah to avoid plagarism. 
+%In alkali vapour systems, a buffer gas is often added to the vapour to inhibit diffusion of the alkali atoms, and the choice of the species and pressure of the buffer gas plays a vital role in many experiments. To ensure high spin-polarisation, it is crucial that the collisions between the alkali atoms and the buffer gas are spin-preserving and induce very low rates of population transfer between the ground states. The spin-relaxation rate of polarised alkali vapours in different buffer gases has been studied, and is found to be low in inert gases such as the noble gases and molecular nitrogen. 
+%Another important consideration for the choice of buffer gas is the relative trade-off between the diffusion rate versus the induced pressure broadening.
+%
+%%To suppress radiation trapping we introduce a mechanism whereby atoms decay from the excited state without fluorescence resonant with the ∣ 1ñ « ∣ 2ñ transition. If a molecular buffer gas is introduced which has an optical transition close in energy to the atomic transition, alkali atoms in the excited state collide with the molecules and transfer their energy to the molecule. The buffer gas molecules in their excited vibrational state can then decay via a phonon sideband, thereby relaxing to the ground state without emitting photons resonant with the optical alkali transitions. This reduces the number of resonant fluorescent photons produced in the optical pumping process and therefore suppresses radiation trapping, in a process known as collisional quenching.Quenching by introduction of a molecular buffer gas is a common technique used to limit radiation trapping, for example in spin-exchange optical pumping. Quenching has been used previously in studies of electromagnetically induced transparency storage. 
+%
+%
+%
+%Buffer gas modifies the motion of alkali atoms through velocity-changing collisions. In a warm vapour, atoms carrying the stored coherence can leave the high-overlap region defined by the signal and control beams. Once this happens, their contribution to \(P_{\mathrm{fib}}(t)\) is reduced, even if the internal ground-state coherence has not been destroyed.
+%
+%The diffusion model represents this transport through the diffusion coefficient \(D\). Higher buffer-gas pressure reduces \(D\), slows spatial escape from the optical mode, and increases the time over which atoms remain mode matched to the readout field. A slower decay of \(\eta(t)\) is therefore expected when the pressure is increased.
+%
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.72\textwidth]{Figures/pressure_scan_coupling_decay.jpeg}
+%    \caption{Pressure scan of the normalized fibre-coupled retrieval. Increasing the buffer-gas pressure reduces diffusion and extends the time over which atoms remain inside the high-overlap optical mode.}
+%    \label{fig:pressure_scan_coupling_decay}
+%\end{figure}
+%
+%The pressure scan in Fig.~\ref{fig:pressure_scan_coupling_decay} follows this expected trend. At lower pressure, the retrieval decreases more rapidly because atoms diffuse away from the region that overlaps efficiently with the signal, control, and fibre modes. At higher pressure, the motion is slowed and the retrievable collective mode survives for a longer time. The decay should be interpreted as a loss of mode overlap rather than as the immediate destruction of the atoms. Atoms outside the beam can still carry local coherence, but they no longer contribute efficiently to the phase-matched fibre mode.
+%
+%\section{Beam-Size Dependence}
+%\label{sec:results_beam_size}
+%
+%The spatial-overlap mechanism can be isolated by changing the optical beam sizes. A wider beam defines a larger interaction region, so a diffusing atom must travel farther before its coupling to the stored and retrieved modes becomes small. For fixed optical preparation and transport parameters, larger beams should therefore increase the decay time of the retrieved mode.
+%
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.72\textwidth]{Figures/beam_size_scan_coupling_decay.jpeg}
+%    \caption{Beam-size dependence of the normalized retrieval. Larger optical beams increase the spatial region over which atoms remain coupled to the readout mode, producing a slower decay of \(P_{\mathrm{fib}}(t)/P_{\mathrm{tot}}(0)\).}
+%    \label{fig:beam_size_scan}
+%\end{figure}
+%
+%The behaviour in Fig.~\ref{fig:beam_size_scan} is consistent with transit-time intuition in warm-vapour EIT systems~\cite{Apgteitiav_FinkelsteinEtAl_2023}. Enlarging the optical mode reduces the sensitivity of the stored spin wave to short diffusive displacements, and the fibre-coupled retrieval decays more slowly. The result reflects the survival of spatial mode overlap. In an experiment, increasing the beam size may also reduce optical intensity for fixed power, modify the EIT bandwidth, and change the effective optical depth sampled by the mode. These additional optical effects are not included in the present retrieval-only model.
+%
+%\section{Comparison with a Cold Gaussian Ensemble}
+%\label{sec:results_bec_comparison}
+%
+%The same retrieval-overlap formalism was applied to a cold Gaussian ensemble. The simulated cloud contains \(10^8\) atoms with a Gaussian spatial distribution of width approximately \(\SI{1}{\milli\metre}\). The signal and control beams are smaller than the cloud, with dimensions of waist of  $\SI{500}{\micro\meter}$ and $\SI{150}{\micro\meter}$ , so the stored mode is still selected by the optical overlap rather than by the full atomic density distribution.
+%
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.72\textwidth]{Figures/bec_beam_size_scan.jpeg}
+%    \caption{Beam-size scan for a cold Gaussian ensemble. Increasing the optical mode size increases the coupling time, although the effect is weaker than in the warm-vapour reference case.}
+%    \label{fig:bec_beam_size_scan}
+%\end{figure}
+%
+%In Fig.~\ref{fig:bec_beam_size_scan}, larger beams also increase the coupling time in the cold ensemble. The dependence is weaker than in the warm-vapour reference geometry because rapid thermal diffusion is no longer the dominant limitation. In the warm vapour, transverse beam size directly controls how quickly atoms leave the optical mode. In the cold cloud, the atoms move more slowly, and the decay is less strongly governed by diffusive transit through the beam. The same coherent-overlap model can therefore describe different platforms, while the dominant loss mechanism depends on the motional regime.
+%
+%\section{Geometric Phase Mismatch from Control-Beam Angle}
+%\label{sec:results_control_beam_angle}
+%
+%A relative angle between the signal and control fields changes the spin-wave wave vector. For the write process, the wave-vector mismatch is~\cite{PsiL-odamIFm_GorshkovEtAl_2007}
+%\begin{equation}
+%    \Delta\mathbf{k}
+%    =
+%    \mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}
+%    -
+%    \mathbf{k}_{\mathrm{c}}^{\mathrm{write}},
+%    \label{eq:results_delta_k_angle}
+%\end{equation}
+%where \(\mathbf{k}_{\mathrm{sig}}^{\mathrm{write}}\) and \(\mathbf{k}_{\mathrm{c}}^{\mathrm{write}}\) are the signal and control wave vectors during storage. A nonzero angle introduces a transverse spin-wave phase grating. Atoms moving through this grating acquire position-dependent phases. The shorter the spin-wave period, the smaller the displacement required to produce a significant phase change.
+%
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.72\textwidth]{Figures/control_beam_angle_scan.jpeg}
+%    \caption{Control-beam angle scan. Changing the signal-control angle modifies the spin-wave wave vector and changes the sensitivity of the stored coherence to atomic motion.}
+%    \label{fig:control_beam_angle_scan}
+%\end{figure}
+%
+%The angle scan in Fig.~\ref{fig:control_beam_angle_scan} indicates faster decay when the spin-wave phase varies more rapidly across the ensemble. The mechanism is loss of relative phase rather than loss of atomic coherence. Atoms may still carry ground-state coherence, but the spatial phase pattern no longer overlaps efficiently with the phase-matched readout mode. This behaviour is consistent with the use of nearly co-propagating signal and control fields in warm-vapour EIT, where a small two-photon wave vector reduces motional dephasing~\cite{Apgteitiav_FinkelsteinEtAl_2023}.
+%
+
+%\subsection{Temperature Dependence in the Compact Cell}
+%\label{sec:results_temperature_compact_cell}
+%
+%Temperature influences both the optical interaction and atomic transport in a warm-vapour memory. Increasing the temperature raises the cesium vapour pressure and therefore increases the number of atoms available to interact with the signal and control fields. At fixed cell length, this generally increases the resonant optical depth $d$, which strengthens the collective light--matter coupling appearing in Eqs.~\eqref{eq:gorshkov_field}--\eqref{eq:gorshkov_spin_wave}~\cite{PsiL-odamIFm_GorshkovEtAl_2007,Apgteitiav_FinkelsteinEtAl_2023}. A higher temperature can therefore be favourable for the complete storage-and-retrieval efficiency.
+%
+%The same temperature increase changes the transport of atoms through the buffer gas. In the present model, this dependence enters through the diffusion coefficient defined in Eq.~\eqref{eq:diffusion_coefficient},
+%$
+%D\propto\sqrt{T}
+%$
+%at fixed buffer-gas pressure. A larger $D$ increases the transverse diffusion length in Eq.~\eqref{eq:results_transverse_diffusion_length}. Atoms consequently leave the high-overlap region more rapidly and reach the compact-cell wall at earlier storage times.
+%
+%The temperature scan performed here includes this transport dependence but does not recalculate the cesium vapour density, optical depth, EIT bandwidth, spin-exchange rate, or microscopic coating properties. The plotted curves therefore do not represent a complete temperature optimization of the memory. They answer a more restricted question: how does the temperature dependence of diffusion modify the collective mode that remains available for fibre-coupled retrieval when the optical and wall parameters are otherwise held fixed?
+%
+%\begin{figure}[htbp]
+%\centering
+%\includegraphics[width=0.72\textwidth]{Figures/compact_temperature_scan.jpeg}
+%\caption{Temperature dependence of the normalized fibre-coupled retrieval in the compact geometry for different wall-survival parameters. In the simulation, temperature modifies the atomic transport through the diffusion coefficient, while the optical-depth and microscopic coating dependences are not included.}
+%\label{fig:compact_temperature_scan}
+%\end{figure}
+%
+%Figure~\ref{fig:compact_temperature_scan} shows that the temperature dependence is most pronounced when the wall survival is low. In this regime, increasing $D$ causes atoms to reach a depolarizing surface more rapidly. The resulting decay contains two connected steps: diffusion transports the atoms to the boundary, and the boundary interaction reduces their survival factor $\eta_j(t)$. The temperature dependence is consequently stronger than would be expected from spatial escape alone.
+%
+%For large $N_{\mathrm{b}}$, reaching the wall does not immediately remove the atom from the collective excitation. The curves therefore become less sensitive to further improvements in the wall survival. A temperature dependence can nevertheless remain because faster diffusion changes the spatial overlap with the readout field. An atom may preserve its internal coherence through several wall encounters and still contribute weakly if it spends most of the storage interval in a region where $u_{\mathrm{read}}(\mathbf{r})$ is small.
+%
+%The laboratory optimum must balance this motional behaviour against the increase in optical depth obtained at higher temperature. A low temperature can provide a long motional lifetime but insufficient optical depth for efficient EIT storage. A high temperature can provide stronger optical coupling while increasing the rate at which the ensemble explores the cell surface. Coating stability must be included in the same decision because $N_{\mathrm{b}}$ can itself depend strongly on temperature~\cite{Aiacoavc_ChiEtAl_2020}. The operating temperature, buffer-gas pressure, internal diameter, and coating specification should therefore be selected as a coupled set of parameters rather than optimized independently.
+%
+%
