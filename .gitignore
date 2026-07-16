@@ -1,4 +1,5 @@
 Figrues/*
+revion1/*
 main.bbl
 main.log
 main_v1.pdf
@@ -11,5 +12,7 @@ main.fdb_latexmk
 main.aux
 main.fls
 main.toc
+main.dvi
 *.pdf
+.DS_Store
 
