@@ -95,17 +95,42 @@ where $\Delta\mathbf{k}$ is the spin-wave wave vector written during storage, $\
 \end{equation}
 The preferred retrieval direction is therefore fixed by the spatial phase stored in the atomic coherence and by the geometry of the read control field.
 
+This behaviour is illustrated in Fig.~\ref{fig:far_field_time_evolution}, which shows the far-field angular emission profile obtained from the coherent dipole sum at two different times. At the initial retrieval time, shown in Fig.~\ref{fig:far_field_time_evolution}(a), the emission is concentrated in a narrow lobe around the forward phase-matched direction, indicating that the atomic phases remain well aligned and that the ensemble radiates collectively into the selected mode. At a later time, shown in Fig.~\ref{fig:far_field_time_evolution}(b) for $t=\SI{5}{\micro\second}$, the emission profile becomes less concentrated. This broadening reflects the gradual loss of collective phase alignment caused by atomic motion during storage. In the present case, the dominant contribution comes from diffusion, which changes the atomic positions $\mathbf{r}_j(t)$ appearing in Eq.~\eqref{eq:atom_retrieval_phase} and thereby degrades the constructive interference responsible for directional retrieval. The figure therefore provides a direct visual representation of how motion-induced dephasing reduces the ability of the ensemble to emit into the desired far-field mode.
+
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.70\textwidth]{Figures/far_field_angular_emission_profile.jpeg}
-        \caption{Far-field angular emission profile obtained from the coherent dipole sum. The strongest emission is concentrated around the forward phase-matched direction. Simulated an optical ensemble in a cylindrical conficugraion of dimension $1~mm\varnothing \times 75~mm$ line wave beams in the $ \hat z$ direction.} 
-    \label{fig:far_field_angular_emission_profile}
+
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Figures/far_field_angular_emission_profile.jpeg}
+        \vspace{0.3em}
+
+        \textbf{(a)} Initial retrieval time, $t=t_0$
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Figures/farfIeld_emition_TimeEnd.png}
+        \vspace{0.3em}
+
+        \textbf{(b)} Retrieval at $t=\SI{5}{\micro\second}$
+    \end{minipage}
+
+    \caption{
+        Temporal comparison of the far-field angular emission profile calculated from the coherent dipole sum. The simulation considers an ensemble of $^{133}\mathrm{Cs}$ atoms in a cylindrical cell of dimensions $\SI{1}{\milli\metre}\varnothing \times \SI{75}{\milli\metre}$, with both the signal and control fields propagating along $\hat{\mathbf z}$. The signal and control beam diameters are $\SI{120}{\micro\metre}$ and $\SI{300}{\micro\metre}$ FWHM, respectively. Atomic motion is described by diffusion with coefficient $D=\SI{2.4e-5}{\square\milli\metre\per\micro\second}$. Panel (a) shows the initial directional emission concentrated around the phase-matched forward direction, while panel (b) shows the redistribution of the far-field pattern after $\SI{5}{\micro\second}$ of storage due to motion-induced dephasing.}
+    \label{fig:far_field_time_evolution}
 \end{figure}
 
-The simulated far-field distribution in Fig.~\ref{fig:far_field_angular_emission_profile} is peaked around the forward phase-matched direction. This angular concentration supports the interpretation that the retrieved signal is governed by collective interference. Away from the central lobe, residual emission arises from imperfect cancellation into other angular modes, while the dominant contribution remains aligned with Eq.~\eqref{eq:results_phase_matching}. If the spin-wave phases are randomized, the atoms may still emit, but the fields no longer add coherently into the selected mode. Directional emission is therefore a useful diagnostic of the phase structure carried by the stored spin wave.
-
-
-
+\section{===}%
+\label{sec:===}
+%
+%\begin{figure}[htbp]
+%    \centering
+%    \includegraphics[width=0.70\textwidth]{Figures/far_field_angular_emission_profile.jpeg}
+%        \caption{Far-field angular emission profile obtained from the coherent dipole sum. The strongest emission is concentrated around the forward phase-matched direction. Simulated an optical ensemble in a cylindrical conficugraion of dimension $1~mm\varnothing \times 75~mm$ line wave beams in the $ \hat z$ direction.} 
+%    \label{fig:far_field_angular_emission_profile}
+%\end{figure}
+%
 The weights $W_j(t)$ describe the amplitude with which each atom contributes to the selected mode. Uniform weights would be obtained for an ideal ensemble illuminated homogeneously by the relevant optical fields. In a finite memory system with nonuniform optical mode profiles, atoms near the centre of the signal and control beams couple more strongly than atoms in the wings. The stored spin wave therefore carries an amplitude envelope, and the coherent sum in Eq.~\eqref{eq:array_factor_general} must be evaluated as a weighted sum.
 
 For a Gaussian optical mode, the transverse field envelope is taken as
@@ -256,16 +281,14 @@ Wall relaxation and other loss mechanisms are included through a survival factor
 
 where $\eta_j(t)$ is the survival factor of the ground-state coherence of atom $j$, and $u_{\mathrm{read}}(\mathbf{r}_j(t))$ is the spatial envelope associated with the readout mode at the atom position. Ideal coherent motion is recovered by setting $\eta_j(t)=1$. Depolarizing events reduce $\eta_j(t)$ and therefore remove part of the atomic contribution from the coherent sum.
 
-Wall-induced relaxation is represented phenomenologically through the mean number of wall collisions that an atom can undergo before losing its ground-state coherence. This parameter, denoted by $N_{\mathrm{b}}$, does not describe the microscopic atom--surface interaction of a specific coating. It provides an effective way to compare uncoated cells with anti-relaxation coatings by changing the probability that coherence survives repeated wall encounters. If atom $j$ has experienced $n_j(t)$ wall collisions by time $t$, the survival factor is taken to be
+Wall-induced relaxation is represented phenomenologically through the characteristic number of wall encounters associated with coherence loss, denoted by $N_{\mathrm b}$. This parameter does not resolve the microscopic atom--surface interaction of a specific coating, but provides an effective way to compare uncoated and coated cells through the probability that the ground-state coherence is preserved after each collision. The corresponding coherence-retention probability is taken as
 \begin{equation}
-    \eta_j(t)
+    p_{\mathrm{coh}}
     =
-    \left(
-        1-\frac{1}{N_{\mathrm{b}}}
-    \right)^{n_j(t)}.
-    \label{eq:wall_survival_factor}
+    1-\frac{1}{N_{\mathrm b}}.
+    \label{eq:wall_coherence_probability}
 \end{equation}
-This expression assigns the same survival probability to each wall collision and assumes independent relaxation events. The physical interpretation of $N_{\mathrm{b}}$ and its relation to coated warm-vapour cells will be discuss in section~\ref{sec:coatings}
+For every wall encounter, a random number $r\sim\mathcal{U}(0,1)$ is generated. If $r>p_{\mathrm{coh}}$, the atom is assumed to lose its coherence and its contribution is removed permanently from the coherent spin-wave sum. Otherwise, the atom remains coherent and continues to contribute after the collision. Wall encounters are therefore treated as independent stochastic relaxation events. The physical interpretation of $N_{\mathrm b}$ and its relation to anti-relaxation coatings in warm-vapour cells are discussed in Sec.~\ref{sec:coatings}.
 
 The simulated retrieval amplitude in a target direction $\hat{\mathbf n}_{\mathrm{tar}}$ is then
 \begin{equation}
