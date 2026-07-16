@@ -15,4 +15,5 @@ main.toc
 main.dvi
 *.pdf
 .DS_Store
+Figures/.DS_Store
 
