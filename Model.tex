@@ -95,35 +95,64 @@ where $\Delta\mathbf{k}$ is the spin-wave wave vector written during storage, $\
 \end{equation}
 The preferred retrieval direction is therefore fixed by the spatial phase stored in the atomic coherence and by the geometry of the read control field.
 
-This behaviour is illustrated in Fig.~\ref{fig:far_field_time_evolution}, which shows the far-field angular emission profile obtained from the coherent dipole sum at two different times. At the initial retrieval time, shown in Fig.~\ref{fig:far_field_time_evolution}(a), the emission is concentrated in a narrow lobe around the forward phase-matched direction, indicating that the atomic phases remain well aligned and that the ensemble radiates collectively into the selected mode. At a later time, shown in Fig.~\ref{fig:far_field_time_evolution}(b) for $t=\SI{5}{\micro\second}$, the emission profile becomes less concentrated. This broadening reflects the gradual loss of collective phase alignment caused by atomic motion during storage. In the present case, the dominant contribution comes from diffusion, which changes the atomic positions $\mathbf{r}_j(t)$ appearing in Eq.~\eqref{eq:atom_retrieval_phase} and thereby degrades the constructive interference responsible for directional retrieval. The figure therefore provides a direct visual representation of how motion-induced dephasing reduces the ability of the ensemble to emit into the desired far-field mode.
+The temporal evolution of the far-field angular emission profile is
+shown in Fig.~\ref{fig:far_field_time_evolution}. The phase-matched
+lobe remains centred around the same forward direction at
+$t = \SIlist{0;5;20}{\micro\second}$, so no significant change in angular shape is
+observed over this interval. A progressive reduction in the emitted
+intensity is nevertheless seen. This behaviour is consistent with
+motion-induced dephasing during storage. Atomic diffusion modifies the
+positions $\mathbf{r}_j(t)$ entering Eq.~\eqref{eq:atom_retrieval_phase},
+so the phase alignment required for collective emission is gradually
+degraded. The result is a weaker coherent contribution to the
+phase-matched mode, while the overall emission pattern remains
+approximately unchanged.
 
 \begin{figure}[htbp]
     \centering
 
-    \begin{minipage}[t]{0.49\textwidth}
+    \begin{minipage}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{Figures/far_field_angular_emission_profile.jpeg}
+        \includegraphics[width=\linewidth]{Figures/far_field_angular_emission_profile_init_point.png}
         \vspace{0.3em}
 
-        \textbf{(a)} Initial retrieval time, $t=t_0$
+        \textbf{(a)} $t=\SI{0}{\micro\second}$
     \end{minipage}
     \hfill
-    \begin{minipage}[t]{0.49\textwidth}
+    \begin{minipage}[t]{0.32\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{Figures/farfIeld_emition_TimeEnd.png}
+        \includegraphics[width=\linewidth]{Figures/far_field_angular_emission_profile_midSim_point.png}
         \vspace{0.3em}
 
-        \textbf{(b)} Retrieval at $t=\SI{5}{\micro\second}$
+        \textbf{(b)} $t=\SI{5}{\micro\second}$
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Figures/far_field_angular_emission_profile_last_point.png}
+        \vspace{0.3em}
+
+        \textbf{(c)} $t=\SI{20}{\micro\second}$
     \end{minipage}
 
     \caption{
-        Temporal comparison of the far-field angular emission profile calculated from the coherent dipole sum. The simulation considers an ensemble of $^{133}\mathrm{Cs}$ atoms in a cylindrical cell of dimensions $\SI{1}{\milli\metre}\varnothing \times \SI{75}{\milli\metre}$, with both the signal and control fields propagating along $\hat{\mathbf z}$. The signal and control beam diameters are $\SI{120}{\micro\metre}$ and $\SI{300}{\micro\metre}$ FWHM, respectively. Atomic motion is described by diffusion with coefficient $D=\SI{2.4e-5}{\square\milli\metre\per\micro\second}$. Panel (a) shows the initial directional emission concentrated around the phase-matched forward direction, while panel (b) shows the redistribution of the far-field pattern after $\SI{5}{\micro\second}$ of storage due to motion-induced dephasing.}
+        Far-field angular emission profile calculated from the coherent
+        dipole sum at three storage times. The simulation considers an
+        ensemble of $^{133}\mathrm{Cs}$ atoms in a cylindrical cell of
+        dimensions $\SI{1}{\milli\metre}\varnothing \times
+        \SI{75}{\milli\metre}$, with signal and control fields
+        propagating along $\hat{\mathbf z}$. The signal and control beam
+        diameters are $\SIlist{120;300}{\micro\metre}$ at FWHM, respectively. Atomic motion is
+        described by diffusion with coefficient
+        $D=\SI{2.4e-5}{\square\milli\metre\per\micro\second}$. The
+        retrieval direction remains essentially unchanged from
+        $t=\SI{0}{\micro\second}$ to $t=\SI{20}{\micro\second}$, while a
+        reduction in the emitted intensity is observed.
+    }
     \label{fig:far_field_time_evolution}
 \end{figure}
 
-\section{===}%
-\label{sec:===}
-%
+
 %\begin{figure}[htbp]
 %    \centering
 %    \includegraphics[width=0.70\textwidth]{Figures/far_field_angular_emission_profile.jpeg}
@@ -360,7 +389,45 @@ A Monte Carlo calculation consists of \(N_{\mathrm{MC}}\) independent realizatio
     \label{eq:monte_carlo_power_average}
 \end{equation}
 
-This procedure preserves coherent interference within each simulated ensemble while reducing fluctuations associated with the finite numerical sampling.
+This procedure preserves coherent interference within each simulated ensemble while reducing fluctuations associated with the finite numerical sampling.Convergence was assessed by comparing cumulative averages obtained with $N_{\mathrm{MC}}=12$, $30$ and $100$ realizations.
+
+\begin{figure}[htbp]
+    \centering
+
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Figures/mc_convergence_12lines.png}
+        \vspace{0.3em}
+
+        \textbf{(a)} $N_{\mathrm{MC}}=12$
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Figures/mc_convergence_30lines.png}
+        \vspace{0.3em}
+
+        \textbf{(b)} $N_{\mathrm{MC}}=30$
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Figures/mc_convergence_100lines.png}
+        \vspace{0.3em}
+
+        \textbf{(c)} $N_{\mathrm{MC}}=100$
+    \end{minipage}
+
+    \caption{
+        Monte Carlo convergence of the normalized fibre-coupled retrieval
+        for $N_{\mathrm{MC}}=12$, $30$, and $100$ independent
+        realizations. The same overall decay profile is recovered in all
+        cases, while the statistical fluctuations are reduced as
+        $N_{\mathrm{MC}}$ is increased.
+    }
+    \label{fig:monte_carlo_convergence}
+\end{figure}
+
 
 \begin{figure}[htbp]
     \centering
