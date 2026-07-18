@@ -1,0 +1,68 @@
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\definecolor{mplblue}{RGB}{31,119,180}
+\definecolor{mplorange}{RGB}{255,127,14}
+\definecolor{mplgreen}{RGB}{44,160,44}
+\definecolor{mplred}{RGB}{214,39,40}
+
+\pgfplotscreateplotcyclelist{matplotlibcycle}{
+    color=mplblue, solid\\
+    color=mplorange, solid\\
+    color=mplgreen, solid\\
+    color=mplred, solid\\
+}
+\pgfplotsset{
+    thesisplot/.style={
+        width=\linewidth,
+        height=0.52\linewidth,
+        axis background/.style={fill=white},
+        axis lines=box,
+        axis line style={
+            black,
+            line width=0.75pt
+        },
+        xtick pos=both,
+        ytick pos=both,
+        tick align=inside,
+        major tick length=4pt,
+        tick style={
+            black,
+            line width=0.75pt
+        },
+        label style={
+            font=\normalsize
+        },
+        tick label style={
+            font=\small
+        },
+        grid=major,
+        major grid style={
+            draw=black!10,
+            densely dotted,
+            line width=0.35pt
+        },
+        cycle list name=matplotlibcycle,
+        every axis plot/.append style={
+            no marks,
+            line width=1.25pt,
+            line cap=round,
+            line join=round
+        },
+        legend style={
+            at={(0.985,0.985)},
+            anchor=north east,
+            font=\small,
+            draw=black!20,
+            fill=white,
+            fill opacity=0.94,
+            text opacity=1,
+            cells={anchor=west},
+            inner xsep=7pt,
+            inner ysep=5pt,
+            row sep=1.5pt
+        },
+        legend cell align=left,
+        unbounded coords=jump
+    }
+}

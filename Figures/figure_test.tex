@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+    \begin{axis}[
+        thesisplot,
+        xlabel={Time (\si{\micro\second})},
+        ylabel={Normalized retrieval},
+        legend pos=north east
+    ]
+        \addplot
+        table[
+            x=time_us,
+            y=curve_0_096
+        ]{Figures/FigureTest.dat};
+        \addlegendentry{\SI{10}{\milli\meter}}
+        \addplot
+        table[
+            x=time_us,
+            y=curve_0_192
+        ]{Figures/FigureTest.dat};
+        \addlegendentry{\SI{10}{\milli\meter}}
+
+    \end{axis}
+\end{tikzpicture}
