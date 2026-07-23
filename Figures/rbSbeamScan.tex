@@ -1,0 +1,42 @@
+\begin{tikzpicture}
+    \begin{axis}[
+        thesisplot,
+        xlabel={XAXIS},
+        ylabel={YAXIS},
+    ]
+
+        \addlegendimage{empty legend}
+        \addlegendentry{\textbf{LEGEND TITLE}}
+
+        \addplot table[
+            x=time_us,
+            y=curve_nan
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/rbSbeamScan.dat};
+        \addlegendentry{LABEL 1}
+
+        \addplot table[
+            x=time_us,
+            y=curve_nan
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/rbSbeamScan.dat};
+        \addlegendentry{LABEL 2}
+
+        \addplot table[
+            x=time_us,
+            y=curve_nan
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/rbSbeamScan.dat};
+        \addlegendentry{LABEL 3}
+
+        \addplot table[
+            x=time_us,
+            y=curve_nan
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/rbSbeamScan.dat};
+        \addlegendentry{LABEL 4}
+
+        \addplot table[
+            x=time_us,
+            y=curve_nan
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/rbSbeamScan.dat};
+        \addlegendentry{LABEL 5}
+
+    \end{axis}
+\end{tikzpicture}
