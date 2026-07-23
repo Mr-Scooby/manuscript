@@ -1,0 +1,30 @@
+\begin{tikzpicture}
+    \begin{axis}[
+        thesisplot,
+        xlabel={XAXIS},
+        ylabel={YAXIS},
+    ]
+
+        \addlegendimage{empty legend}
+        \addlegendentry{\textbf{LEGEND TITLE}}
+
+        \addplot table[
+            x=time_us,
+            y=curve_0
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/CsBfieldScan.dat};
+        \addlegendentry{LABEL 1}
+
+        \addplot table[
+            x=time_us,
+            y=curve_1e_05
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/CsBfieldScan.dat};
+        \addlegendentry{LABEL 2}
+
+        \addplot table[
+            x=time_us,
+            y=curve_0_0001
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/CsBfieldScan.dat};
+        \addlegendentry{LABEL 3}
+
+    \end{axis}
+\end{tikzpicture}
