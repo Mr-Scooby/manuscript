@@ -1,0 +1,54 @@
+\begin{tikzpicture}
+    \begin{axis}[
+        thesisplot,
+        xlabel={XAXIS},
+        ylabel={YAXIS},
+    ]
+
+        \addlegendimage{empty legend}
+        \addlegendentry{\textbf{LEGEND TITLE}}
+
+        \addplot table[
+            x=time_us,
+            y=curve_1
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/RbTempScan.dat};
+        \addlegendentry{LABEL 1}
+
+        \addplot table[
+            x=time_us,
+            y=curve_5
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/RbTempScan.dat};
+        \addlegendentry{LABEL 2}
+
+        \addplot table[
+            x=time_us,
+            y=curve_10
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/RbTempScan.dat};
+        \addlegendentry{LABEL 3}
+
+        \addplot table[
+            x=time_us,
+            y=curve_30
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/RbTempScan.dat};
+        \addlegendentry{LABEL 4}
+
+        \addplot table[
+            x=time_us,
+            y=curve_70
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/RbTempScan.dat};
+        \addlegendentry{LABEL 5}
+
+        \addplot table[
+            x=time_us,
+            y=curve_100
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/RbTempScan.dat};
+        \addlegendentry{LABEL 6}
+
+        \addplot table[
+            x=time_us,
+            y=curve_1000
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/RbTempScan.dat};
+        \addlegendentry{LABEL 7}
+
+    \end{axis}
+\end{tikzpicture}
