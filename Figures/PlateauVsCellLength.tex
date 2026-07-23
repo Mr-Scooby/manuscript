@@ -1,0 +1,24 @@
+\begin{tikzpicture}
+    \begin{axis}[
+        thesisplot,
+        xlabel={XAXIS},
+        ylabel={YAXIS},
+    ]
+
+        \addlegendimage{empty legend}
+        \addlegendentry{\textbf{LEGEND TITLE}}
+
+        \addplot table[
+            x=time_us,
+            y=curve_320
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/PlateauVsCellLength.dat};
+        \addlegendentry{LABEL 1}
+
+        \addplot table[
+            x=time_us,
+            y=curve_640
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/PlateauVsCellLength.dat};
+        \addlegendentry{LABEL 2}
+
+    \end{axis}
+\end{tikzpicture}
