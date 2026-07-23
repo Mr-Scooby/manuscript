@@ -1,0 +1,36 @@
+\begin{tikzpicture}
+    \begin{axis}[
+        thesisplot,
+        xlabel={XAXIS},
+        ylabel={YAXIS},
+    ]
+
+        \addlegendimage{empty legend}
+        \addlegendentry{\textbf{LEGEND TITLE}}
+
+        \addplot table[
+            x=time_us,
+            y=curve_0
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/CsCbeamAngleScan.dat};
+        \addlegendentry{LABEL 1}
+
+        \addplot table[
+            x=time_us,
+            y=curve_0_5
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/CsCbeamAngleScan.dat};
+        \addlegendentry{LABEL 2}
+
+        \addplot table[
+            x=time_us,
+            y=curve_1
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/CsCbeamAngleScan.dat};
+        \addlegendentry{LABEL 3}
+
+        \addplot table[
+            x=time_us,
+            y=curve_5
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/CsCbeamAngleScan.dat};
+        \addlegendentry{LABEL 4}
+
+    \end{axis}
+\end{tikzpicture}
