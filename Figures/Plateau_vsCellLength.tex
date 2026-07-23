@@ -1,0 +1,60 @@
+\begin{tikzpicture}
+    \begin{axis}[
+        thesisplot,
+        xlabel={XAXIS},
+        ylabel={YAXIS},
+    ]
+
+        \addlegendimage{empty legend}
+        \addlegendentry{\textbf{LEGEND TITLE}}
+
+        \addplot table[
+            x=time_us,
+            y=curve_3_3
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/Plateau_vsCellLength.dat};
+        \addlegendentry{LABEL 1}
+
+        \addplot table[
+            x=time_us,
+            y=curve_8_25
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/Plateau_vsCellLength.dat};
+        \addlegendentry{LABEL 2}
+
+        \addplot table[
+            x=time_us,
+            y=curve_16_5
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/Plateau_vsCellLength.dat};
+        \addlegendentry{LABEL 3}
+
+        \addplot table[
+            x=time_us,
+            y=curve_24_75
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/Plateau_vsCellLength.dat};
+        \addlegendentry{LABEL 4}
+
+        \addplot table[
+            x=time_us,
+            y=curve_33
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/Plateau_vsCellLength.dat};
+        \addlegendentry{LABEL 5}
+
+        \addplot table[
+            x=time_us,
+            y=curve_66
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/Plateau_vsCellLength.dat};
+        \addlegendentry{LABEL 6}
+
+        \addplot table[
+            x=time_us,
+            y=curve_165
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/Plateau_vsCellLength.dat};
+        \addlegendentry{LABEL 7}
+
+        \addplot table[
+            x=time_us,
+            y=curve_330
+        ]{D:/radek/Figures/manuscript_figures_push/Figures/Plateau_vsCellLength.dat};
+        \addlegendentry{LABEL 8}
+
+    \end{axis}
+\end{tikzpicture}
